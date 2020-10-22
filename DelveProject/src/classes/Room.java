@@ -278,7 +278,7 @@ public class Room {
 				if (tileGrid[row][col].elements.size() == 0) {
 					if (random == numTilesAccessed) {
 						//TODO change this to make the enemy scale somehow. 
-						tileGrid[row][col].elements.add(new Enemy());
+						tileGrid[row][col].elements.add(new Enemy(GameController.getCurrentLevel()));
 					}
 					numTilesAccessed++;			
 				}

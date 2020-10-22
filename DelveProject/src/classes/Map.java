@@ -1,12 +1,13 @@
 package classes;
 
+import javax.swing.text.Position;
 import java.awt.Point;
 import java.util.ArrayList;
 
 public class Map {
 
-	public Room[][] roomArray;
-	public Tile[][] tileArray;
+	private Room[][] roomArray;
+	private Tile[][] tileArray;
 	
 	public Map(int currentLevel) {
 		
@@ -306,5 +307,36 @@ public class Map {
 			System.out.println();
 		}
 	}
-	
+
+	public ObjectPosition getPlayerPosition()
+	{
+		ObjectPosition playerPosition = null;
+		for (int row = 0; row < tileArray.length; row++) {
+			for (int col = 0; col < tileArray.length; col++) {
+				if ((tileArray[row][col].containsObjectOfType("Player")))
+					playerPosition = ObjectPosition.of(col, row, this);
+			}
+		}
+		return playerPosition;
+	}
+
+	public ArrayList<ObjectPosition> getEnemiesPosition()
+	{
+		ArrayList<ObjectPosition> enemiesPosition = new ArrayList<>();
+		for (int row = 0; row < tileArray.length; row++) {
+			for (int col = 0; col < tileArray.length; col++) {
+				if ((tileArray[row][col].containsObjectOfType("Enemy")))
+					enemiesPosition.add(ObjectPosition.of(col,row,this));
+			}
+		}
+		return enemiesPosition;
+	}
+
+	public Room[][] getRoomArray() {
+		return roomArray;
+	}
+
+	public Tile[][] getTileArray() {
+		return tileArray;
+	}
 }
