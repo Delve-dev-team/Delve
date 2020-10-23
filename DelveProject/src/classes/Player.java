@@ -2,37 +2,34 @@ package classes;
 
 public class Player {
     
-    int HP;
+    private int HP;
 
-    int MP;
+    private int MP;
 
-    int attackDamage;
+    private int attackDamage;
 
-    int attackSpeed;
+    private int movementSpeed;
 
-    int movementSpeed;
+    private int attackRange;
 
-    int attackRange;
+    private int gold;
 
-    int gold;
+    private boolean headSlot;
 
-    boolean headSlot;
+    private boolean chestSlot;
 
-    boolean chestSlot;
+    private boolean armSlot;
 
-    boolean armSlot;
+    private boolean legSlot;
 
-    boolean legSlot;
+    private boolean feetSlot;
 
-    boolean feetSlot;
-
-    boolean handSlot;
+    private boolean handSlot;
 
     public Player() {
         HP = 1000;
         MP = 1000;
         attackDamage = 100;
-        attackSpeed = 10;
         movementSpeed = 10;
         attackRange = 10;
         gold = 0;
@@ -63,23 +60,60 @@ public class Player {
     // }
 
     public void Attack(Enemy enemy) {
-        enemy.setHP(enemy.getHP() - (this.attackDamage * this.attackSpeed));
+        enemy.setHP(enemy.getHP() - (this.attackDamage));
     }
 
-    public int getHP() {
-        return this.HP;
-    }
 
+    //public setters
     public void setHP(int hp) {
         this.HP = hp;
+    }
+
+    public void setGold(int gold) {
+        this.gold = gold;
+    }
+
+    public void setAttackDamage(int attackDamage) {
+        this.attackDamage = attackDamage;
+    }
+
+    public void setMovementSpeed(int movementSpeed) {
+        this.movementSpeed = movementSpeed;
+    }
+
+    public void setAttackRange(int attackRange) {
+        this.attackRange = attackRange;
+    }
+
+    public void setMP(int MP) {
+        this.MP = MP;
+    }
+
+
+    //public getters
+    public int getHP() {
+        return this.HP;
     }
 
     public int getGold() {
         return this.gold;
     }
 
-    public void setGold(int gold) {
-        this.gold = gold;
+    public int getMP() {
+        return MP;
     }
+
+    public int getAttackDamage() {
+        return attackDamage;
+    }
+
+    public int getAttackRange() {
+        return attackRange;
+    }
+
+    public int getMovementSpeed() {
+        return movementSpeed;
+    }
+
 
 }

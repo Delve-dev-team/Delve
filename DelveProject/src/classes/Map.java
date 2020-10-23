@@ -2,7 +2,7 @@ package classes;
 
 import javax.swing.text.Position;
 import java.awt.Point;
-import java.util.ArrayList;
+import java.util.*;
 
 public class Map {
 
@@ -338,5 +338,48 @@ public class Map {
 
 	public Tile[][] getTileArray() {
 		return tileArray;
+	}
+
+	//a depth first search method that determine the shortest distance between Player and Enemy
+	public static int shortestPath(Tile[][] map, ObjectPosition startingPosition, ObjectPosition endPosition) {
+		int startingRow = startingPosition.getRowPosition();
+		int StartingColumn = startingPosition.getColumnPosition();
+		int distance = 0;
+		Queue<int[]> nextToVisit = new LinkedList<>();
+		nextToVisit.offer(new int[] {startingRow, StartingColumn});
+		Queue<int[]> temp = new LinkedList<>();
+
+		while (!nextToVisit.isEmpty()) {
+			//first read the starting position row and column
+			int[] position = nextToVisit.poll();
+			int row = position[0];
+			int col = position[1];
+
+			//check if the position is already the ending position
+			if (row == endPosition.getRowPosition() && col == endPosition.getColumnPosition())
+				return distance;
+			//check if going up is a option
+			if (row > 0 && !map[row - 1][col].containsObjectOfType("Wall"))
+				temp.offer(new int[] {row - 1, col});
+			//check if going down is a option
+			if (row < map.length - 1 && !map[row + 1][col].containsObjectOfType("Wall"))
+				temp.offer(new int[] {row + 1, col});
+			//check if going left is a option
+			if (col > 0 && !map[row][col - 1].containsObjectOfType("Wall"))
+				temp.offer(new int[] {row, col - 1});
+			//check if going right is a option
+			if (col < map[0].length - 1 && !map[row][col + 1].containsObjectOfType("Wall"))
+				temp.offer(new int[] {row, col + 1});
+
+			//if there are no where to go next and the there are temp options, what to go next become temp options, refresh the temp and iterate distance
+			if (nextToVisit.isEmpty() && !temp.isEmpty())
+			{
+				nextToVisit = temp;
+				temp = new LinkedList<>();
+				distance++;
+			}
+
+		}
+		return distance;
 	}
 }
