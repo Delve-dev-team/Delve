@@ -312,21 +312,21 @@ public class Map {
 	{
 		ObjectPosition playerPosition = null;
 		for (int row = 0; row < tileArray.length; row++) {
-			for (int col = 0; col < tileArray.length; col++) {
+			for (int col = 0; col < tileArray[0].length; col++) {
 				if ((tileArray[row][col].containsObjectOfType("Player")))
-					playerPosition = ObjectPosition.of(col, row, this);
+					playerPosition = ObjectPosition.of(row, col, this);
 			}
 		}
 		return playerPosition;
 	}
 
-	public ArrayList<ObjectPosition> getEnemiesPosition()
+	public ArrayList<ObjectPosition> getEnemiesPositions()
 	{
 		ArrayList<ObjectPosition> enemiesPosition = new ArrayList<>();
 		for (int row = 0; row < tileArray.length; row++) {
-			for (int col = 0; col < tileArray.length; col++) {
+			for (int col = 0; col < tileArray[0].length; col++) {
 				if ((tileArray[row][col].containsObjectOfType("Enemy")))
-					enemiesPosition.add(ObjectPosition.of(col,row,this));
+					enemiesPosition.add(ObjectPosition.of(row,col,this));
 			}
 		}
 		return enemiesPosition;
@@ -351,41 +351,47 @@ public class Map {
 		int distance = 0;
 
 		//set the list for possible paths
-		Queue<int[]> nextToVisit = new LinkedList<>();
-		nextToVisit.offer(new int[]{startingRow,startingColumn});
-		Queue<int[]> temp = new LinkedList<>();
+		Queue<ObjectPosition> nextToVisit = new LinkedList<>();
+		nextToVisit.offer(ObjectPosition.of(startingRow,startingColumn,this));
+		Queue<ObjectPosition> temp = new LinkedList<>();
 
 		//set the boolean map
 		boolean[][] visited = new boolean[map.length][map[0].length];
 		visited[startingRow][startingColumn] = true;
 
-		//start looping
+		//for debugging
+		int loopcount = 0;
+
 		while (!nextToVisit.isEmpty()) {
 			//first read the starting position row and column
-			int[] position = nextToVisit.poll();
-			int row = position[0];
-			int col = position[1];
+			ObjectPosition position = nextToVisit.poll();
+			int row = position.getRowPosition();
+			int col = position.getColumnPosition();
 
 			//check if the position is already the ending position
-			if (row == endPosition.getRowPosition() && col == endPosition.getColumnPosition() && !visited[row][col]) {
+			if (position.equals(endPosition)) {
 				visited[row][col] = true;
 				return distance;
 			}
 			//check if going up is a option
 			if (row > 0 && !map[row - 1][col].containsObjectOfType("Wall") && !visited[row - 1][col]) {
-				temp.offer(new int[]{row - 1, col});
+				temp.offer(ObjectPosition.of(row - 1,col,this));
+				visited[row - 1][col] = true;
 			}
 			//check if going down is a option
 			if (row < map.length - 1 && !map[row + 1][col].containsObjectOfType("Wall")&& !visited[row + 1][col]) {
-				temp.offer(new int[]{row + 1, col});
+				temp.offer(ObjectPosition.of(row + 1,col,this));
+				visited[row + 1][col] = true;
 			}
 			//check if going left is a option
 			if (col > 0 && !map[row][col - 1].containsObjectOfType("Wall")  && !visited[row][col - 1]) {
-				temp.offer(new int[]{row, col - 1});
+				temp.offer(ObjectPosition.of(row ,col - 1,this));
+				visited[row][col - 1] = true;
 			}
 			//check if going right is a option
 			if (col < map[0].length - 1 && !map[row][col + 1].containsObjectOfType("Wall") && !visited[row][col + 1]) {
-				temp.offer(new int[]{row, col + 1});
+				temp.offer(ObjectPosition.of(row ,col + 1,this));
+				visited[row][col + 1] = true;
 			}
 
 			//if there are no where to go next and the there are temp options, what to go next become temp options, refresh the temp and iterate distance
@@ -399,11 +405,9 @@ public class Map {
 		}
 		//if the end position is visited return the distance, if it is not, means there's no path to the end position, return -1
 		if (visited[endPosition.getRowPosition()][endPosition.getColumnPosition()]) {
-			System.out.println(distance);
 			return distance;
 		}
 		else {
-			System.out.println(-1);
 			return -1;
 		}
 	}

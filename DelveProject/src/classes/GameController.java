@@ -43,9 +43,12 @@ public class GameController {
     public ArrayList<ObjectPosition> AvailableTargets()
     {
         ArrayList<ObjectPosition> validTargets = new ArrayList<>();
-        for (ObjectPosition position: map.getEnemiesPosition())
+        for (ObjectPosition position: map.getEnemiesPositions())
         {
+            System.out.println("Player position: " + "row " + map.getPlayerPosition().getRowPosition() + "column " + map.getPlayerPosition().getColumnPosition());
+            System.out.println("enemy positions: " + "row " + position.getRowPosition() + "column " + position.getColumnPosition());
             int distance = map.shortestPath(map.getTileArray(),map.getPlayerPosition(),position);
+            System.out.println("distance from player: " + distance);
             if (player.getAttackRange() >= distance && distance != -1)
                 validTargets.add(position);
         }
@@ -57,7 +60,7 @@ public class GameController {
     public int amountOfAttacksFromMonster()
     {
         int count = 0;
-        for (ObjectPosition position: map.getEnemiesPosition())
+        for (ObjectPosition position: map.getEnemiesPositions())
         {
             int distance = map.shortestPath(map.getTileArray(),position,map.getPlayerPosition());
             if (enemy.getAttackRange() >= distance && distance != -1)

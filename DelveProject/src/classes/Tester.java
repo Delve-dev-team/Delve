@@ -15,7 +15,7 @@ public class Tester {
 		gameController.enterNextLevel();
 		for (ObjectPosition position: gameController.AvailableTargets())
 		{
-			System.out.println(position.getRowPosition() + " " + position.getColumnPosition());
+			System.out.println("target at: " + position.getRowPosition() + " " + position.getColumnPosition());
 		}
 
 		gameController.getMap().printTileGrid();

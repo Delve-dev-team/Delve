@@ -6,22 +6,22 @@ import java.util.Objects;
 public class ObjectPosition
 {
     //private fields
-    private int columnPosition;
     private int rowPosition;
+    private int columnPosition;
     private Map map;
 
-    public static ObjectPosition of(int columnPosition, int rowPosition, Map map)
+    public static ObjectPosition of( int rowPosition, int columnPosition, Map map)
     {
         //some code the see if these inputs are valid
 
         //create the Position
-        return new ObjectPosition(columnPosition,rowPosition,map);
+        return new ObjectPosition(rowPosition, columnPosition, map);
     }
 
-    private ObjectPosition(int columnPosition, int rowPosition, Map map)
+    private ObjectPosition( int rowPosition, int columnPosition, Map map)
     {
-        this.columnPosition = columnPosition;
         this.rowPosition = rowPosition;
+        this.columnPosition = columnPosition;
         this.map = map;
     }
 
