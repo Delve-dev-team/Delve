@@ -45,7 +45,8 @@ public class GameController {
         ArrayList<ObjectPosition> validTargets = new ArrayList<>();
         for (ObjectPosition position: map.getEnemiesPosition())
         {
-            if (player.getAttackRange() >= map.shortestPath(map.getTileArray(),map.getPlayerPosition(),position))
+            int distance = map.shortestPath(map.getTileArray(),map.getPlayerPosition(),position);
+            if (player.getAttackRange() >= distance && distance != -1)
                 validTargets.add(position);
         }
 
@@ -58,7 +59,8 @@ public class GameController {
         int count = 0;
         for (ObjectPosition position: map.getEnemiesPosition())
         {
-            if (enemy.getAttackRange() >= map.shortestPath(map.getTileArray(),position,map.getPlayerPosition()))
+            int distance = map.shortestPath(map.getTileArray(),position,map.getPlayerPosition());
+            if (enemy.getAttackRange() >= distance && distance != -1)
                 count ++;
         }
         return count;
@@ -73,6 +75,18 @@ public class GameController {
     //getter methods
     public static int getCurrentLevel() {
         return currentLevel;
+    }
+
+    public Map getMap() {
+        return map;
+    }
+
+    public Player getPlayer() {
+        return player;
+    }
+
+    public Enemy getEnemy() {
+        return enemy;
     }
 }
 

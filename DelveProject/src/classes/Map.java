@@ -199,7 +199,7 @@ public class Map {
 		}
 	}
 	
-	private ExitDir[] GenerateRandomExits(Point currentRoomLoc, int newRoomsPossible) {
+	private ExitDir[] GenerateRandomExits(Point currentRoomLoc, int newRoomsPossible){
 		//first search neighbors to see what exits have to exist
 		ArrayList<ExitDir> possibleExits = new ArrayList<ExitDir>();
 		possibleExits.add(ExitDir.UP);
@@ -341,14 +341,25 @@ public class Map {
 	}
 
 	//a depth first search method that determine the shortest distance between Player and Enemy
-	public static int shortestPath(Tile[][] map, ObjectPosition startingPosition, ObjectPosition endPosition) {
+	public int shortestPath(Tile[][] map, ObjectPosition startingPosition, ObjectPosition endPosition) {
+
+		//setting the start positions
 		int startingRow = startingPosition.getRowPosition();
-		int StartingColumn = startingPosition.getColumnPosition();
+		int startingColumn = startingPosition.getColumnPosition();
+
+		//set the distance
 		int distance = 0;
+
+		//set the list for possible paths
 		Queue<int[]> nextToVisit = new LinkedList<>();
-		nextToVisit.offer(new int[] {startingRow, StartingColumn});
+		nextToVisit.offer(new int[]{startingRow,startingColumn});
 		Queue<int[]> temp = new LinkedList<>();
 
+		//set the boolean map
+		boolean[][] visited = new boolean[map.length][map[0].length];
+		visited[startingRow][startingColumn] = true;
+
+		//start looping
 		while (!nextToVisit.isEmpty()) {
 			//first read the starting position row and column
 			int[] position = nextToVisit.poll();
@@ -356,20 +367,26 @@ public class Map {
 			int col = position[1];
 
 			//check if the position is already the ending position
-			if (row == endPosition.getRowPosition() && col == endPosition.getColumnPosition())
+			if (row == endPosition.getRowPosition() && col == endPosition.getColumnPosition() && !visited[row][col]) {
+				visited[row][col] = true;
 				return distance;
+			}
 			//check if going up is a option
-			if (row > 0 && !map[row - 1][col].containsObjectOfType("Wall"))
-				temp.offer(new int[] {row - 1, col});
+			if (row > 0 && !map[row - 1][col].containsObjectOfType("Wall") && !visited[row - 1][col]) {
+				temp.offer(new int[]{row - 1, col});
+			}
 			//check if going down is a option
-			if (row < map.length - 1 && !map[row + 1][col].containsObjectOfType("Wall"))
-				temp.offer(new int[] {row + 1, col});
+			if (row < map.length - 1 && !map[row + 1][col].containsObjectOfType("Wall")&& !visited[row + 1][col]) {
+				temp.offer(new int[]{row + 1, col});
+			}
 			//check if going left is a option
-			if (col > 0 && !map[row][col - 1].containsObjectOfType("Wall"))
-				temp.offer(new int[] {row, col - 1});
+			if (col > 0 && !map[row][col - 1].containsObjectOfType("Wall")  && !visited[row][col - 1]) {
+				temp.offer(new int[]{row, col - 1});
+			}
 			//check if going right is a option
-			if (col < map[0].length - 1 && !map[row][col + 1].containsObjectOfType("Wall"))
-				temp.offer(new int[] {row, col + 1});
+			if (col < map[0].length - 1 && !map[row][col + 1].containsObjectOfType("Wall") && !visited[row][col + 1]) {
+				temp.offer(new int[]{row, col + 1});
+			}
 
 			//if there are no where to go next and the there are temp options, what to go next become temp options, refresh the temp and iterate distance
 			if (nextToVisit.isEmpty() && !temp.isEmpty())
@@ -380,6 +397,17 @@ public class Map {
 			}
 
 		}
-		return distance;
+		//if the end position is visited return the distance, if it is not, means there's no path to the end position, return -1
+		if (visited[endPosition.getRowPosition()][endPosition.getColumnPosition()]) {
+			System.out.println(distance);
+			return distance;
+		}
+		else {
+			System.out.println(-1);
+			return -1;
+		}
 	}
+
+
+
 }

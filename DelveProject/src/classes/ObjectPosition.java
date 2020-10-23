@@ -1,4 +1,7 @@
 package classes;
+
+import java.util.Objects;
+
 // this class is simply a class that holds the x,y position of a object on the map
 public class ObjectPosition
 {
@@ -20,6 +23,18 @@ public class ObjectPosition
         this.columnPosition = columnPosition;
         this.rowPosition = rowPosition;
         this.map = map;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
+        ObjectPosition that = (ObjectPosition) o;
+        return columnPosition == that.columnPosition &&
+                rowPosition == that.rowPosition &&
+                map.equals(that.map);
     }
 
     public int getColumnPosition()
