@@ -2,7 +2,7 @@ package classes;
 
 public class Enemy {
 
-	private int HP;
+    private int HP;
     private int MP;
     private int attackDamage;
     private int movementSpeed;
