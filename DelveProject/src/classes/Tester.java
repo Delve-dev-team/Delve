@@ -8,8 +8,10 @@ public class Tester {
 		room.printRoom();
 		
 
-		Map map = new Map(25);
-		map.printTileGrid();*/
+		Map map = new Map(1);
+		map.printTileGrid();
+		map.printRoomArray();*/
+
 		GameController gameController = new GameController();
 
 		gameController.enterNextLevel();
@@ -18,8 +20,11 @@ public class Tester {
 			System.out.println("target at: " + position.getRowPosition() + " " + position.getColumnPosition());
 		}
 
+		System.out.println("there are " + gameController.amountOfAttacksFromMonster() + " monsters that will attack you!");
+
 		gameController.getMap().printTileGrid();
-		
+
+
 	}
 	
 }

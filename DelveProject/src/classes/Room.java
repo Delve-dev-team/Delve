@@ -1,5 +1,7 @@
 package classes;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.ArrayList;
 
 public class Room {
@@ -85,28 +87,22 @@ public class Room {
 				for (int col = 0; col < 10; col++) {	
 					
 					if (row == 4 && col == 4) {
-						Tile tile = new Tile();
-						tileGrid[row][col] = tile;
-
+						tileGrid[row][col] = new Tile(false);
 					}
 					else if (row == 4 && col == 5) {
-						Tile tile = new Tile();
-						tileGrid[row][col] = tile;
+						tileGrid[row][col] = new Tile(false);
 
 					}
 					else if (row == 5 && col == 4) {
-						Tile tile = new Tile();
-						tileGrid[row][col] = tile;
+						tileGrid[row][col] = new Tile(false);
 
 					}
 					else if (row == 5 && col == 5) {
-						Tile tile = new Tile();
-						tileGrid[row][col] = tile;
+						tileGrid[row][col] = new Tile(false);
 
 					}
 					else {
-						Tile tile = new Tile(new Wall());
-						tileGrid[row][col] = tile;
+						tileGrid[row][col] = new Tile(true);
 					}
 				}
 			}
@@ -117,10 +113,10 @@ public class Room {
 				for (int col = 0; col < 10; col++) {
 
 					if (Math.sqrt((row - 4.5) * (row - 4.5) + (col - 4.5) * (col - 4.5)) < 5) {
-						Tile tile = new Tile();
+						Tile tile = new Tile(false);
 						tileGrid[row][col] = tile;
 					} else {
-						Tile tile = new Tile(new Wall());
+						Tile tile = new Tile(true);
 						tileGrid[row][col] = tile;
 					}
 
@@ -134,10 +130,10 @@ public class Room {
 
 					double distance = Math.sqrt((row - 4.5) * (row - 4.5) + (col - 4.5) * (col - 4.5));
 					if (distance > 3 & distance < 5) {
-						Tile tile = new Tile();
+						Tile tile = new Tile(false);
 						tileGrid[row][col] = tile;
 					} else {
-						Tile tile = new Tile(new Wall());
+						Tile tile = new Tile(true);
 						tileGrid[row][col] = tile;
 					}
 
@@ -150,10 +146,10 @@ public class Room {
 				for (int col = 0; col < 10; col++) {
 
 					if (2 <= row && row <= 7 && 2 <= col && col <= 7) {
-						Tile tile = new Tile();
+						Tile tile = new Tile(false);
 						tileGrid[row][col] = tile;
 					} else {
-						Tile tile = new Tile(new Wall());
+						Tile tile = new Tile(true);
 						tileGrid[row][col] = tile;
 					}
 
@@ -166,15 +162,15 @@ public class Room {
 		for (int row = 0; row < 10; row++) {
 			for (int col = 0; col < 10; col++) {
 				
-				if ((tileGrid[row][col].containsObjectOfType("Wall")))
+				if ((tileGrid[row][col].isWallHere()))
 					System.out.print("w");
-				else if ((tileGrid[row][col].containsObjectOfType("Shop")))
+				else if ((tileGrid[row][col].isShopHere()))
 					System.out.print("S");
-				else if ((tileGrid[row][col].containsObjectOfType("Enemy")))
+				else if ((tileGrid[row][col].isEnemyHere()))
 					System.out.print("E");
-				else if ((tileGrid[row][col].containsObjectOfType("Player")))
+				else if ((tileGrid[row][col].isPlayerHere()))
 					System.out.print("P");
-				else if ((tileGrid[row][col].containsObjectOfType("Exit")))
+				else if ((tileGrid[row][col].isExitHere()))
 					System.out.print("X");
 				else
 					System.out.print(" ");
@@ -191,7 +187,7 @@ public class Room {
 		if (exitDirections.contains(ExitDir.LEFT)) {
 			int col = 0; 
 			int row = 4;
-			while (!tileGrid[row][col].elements.isEmpty()) {
+			while (!tileGrid[row][col].isEmpty()) {
 				tileGrid[row][col].removeAll();
 				col++;
 			}
@@ -199,7 +195,7 @@ public class Room {
 			col = 0;
 			row = 5;
 			
-			while (!tileGrid[row][col].elements.isEmpty()) {
+			while (!tileGrid[row][col].isEmpty()) {
 				tileGrid[row][col].removeAll();
 				col++;
 			}
@@ -208,7 +204,7 @@ public class Room {
 		if (exitDirections.contains(ExitDir.RIGHT)) {
 			int col = 9; 
 			int row = 4;
-			while (!tileGrid[row][col].elements.isEmpty()) {
+			while (!tileGrid[row][col].isEmpty()) {
 				tileGrid[row][col].removeAll();
 				col--;
 			}
@@ -216,7 +212,7 @@ public class Room {
 			col = 9;
 			row = 5;
 			
-			while (!tileGrid[row][col].elements.isEmpty()) {
+			while (!tileGrid[row][col].isEmpty()) {
 				tileGrid[row][col].removeAll();
 				col--;
 			}
@@ -225,7 +221,7 @@ public class Room {
 		if (exitDirections.contains(ExitDir.DOWN)) {
 			int col = 4; 
 			int row = 9;
-			while (!tileGrid[row][col].elements.isEmpty()) {
+			while (!tileGrid[row][col].isEmpty()) {
 				tileGrid[row][col].removeAll();
 				row--;
 			}
@@ -233,7 +229,7 @@ public class Room {
 			col = 5;
 			row = 9;
 			
-			while (!tileGrid[row][col].elements.isEmpty()) {
+			while (!tileGrid[row][col].isEmpty()) {
 				tileGrid[row][col].removeAll();
 				row--;
 			}
@@ -242,7 +238,7 @@ public class Room {
 		if (exitDirections.contains(ExitDir.UP)) {
 			int col = 4; 
 			int row = 0;
-			while (!tileGrid[row][col].elements.isEmpty()) {
+			while (row < tileGrid[row].length && !tileGrid[row][col].isEmpty()) {
 				tileGrid[row][col].removeAll();
 				row++;
 			}
@@ -250,7 +246,7 @@ public class Room {
 			col = 5;
 			row = 0;
 			
-			while (!tileGrid[row][col].elements.isEmpty()) {
+			while ((row < tileGrid[row].length && !tileGrid[row][col].isEmpty())) {
 				tileGrid[row][col].removeAll();
 				row++;
 			}
@@ -265,7 +261,7 @@ public class Room {
 		int numEmptyTiles = 0; 
 		for(int row = 0; row < 10; row++) {
 			for (int col = 0; col < 10; col++) {
-				if (tileGrid[row][col].elements.size() == 0)
+				if (tileGrid[row][col].isEmpty())
 					numEmptyTiles++;
 			}
 		}
@@ -275,10 +271,10 @@ public class Room {
 		for (int row = 0; row < 10; row++) {
 			for (int col = 0; col < 10; col++) {
 				
-				if (tileGrid[row][col].elements.size() == 0) {
+				if (tileGrid[row][col].isEmpty()) {
 					if (random == numTilesAccessed) {
 						//TODO change this to make the enemy scale somehow. 
-						tileGrid[row][col].elements.add(new Enemy(GameController.getCurrentLevel()));
+						tileGrid[row][col].addEnemy(new Enemy(GameController.getCurrentLevel()));
 					}
 					numTilesAccessed++;			
 				}
@@ -294,7 +290,7 @@ public class Room {
 		int numEmptyTiles = 0;
 		for (int row = 0; row < 10; row++) {
 			for (int col = 0; col < 10; col++) {
-				if (tileGrid[row][col].elements.size() == 0)
+				if (tileGrid[row][col].isEmpty())
 					numEmptyTiles++;
 			}
 		}
@@ -304,10 +300,10 @@ public class Room {
 		for (int row = 0; row < 10; row++) {
 			for (int col = 0; col < 10; col++) {
 
-				if (tileGrid[row][col].elements.size() == 0) {
+				if (tileGrid[row][col].isEmpty()) {
 					if (random == numTilesAccessed) {
 						// TODO change this to make the shop change somehow.
-						tileGrid[row][col].elements.add(new Shop());
+						tileGrid[row][col].addShop();
 					}
 					numTilesAccessed++;
 				}
@@ -321,7 +317,7 @@ public class Room {
 		int numEmptyTiles = 0;
 		for (int row = 0; row < 10; row++) {
 			for (int col = 0; col < 10; col++) {
-				if (tileGrid[row][col].elements.size() == 0)
+				if (tileGrid[row][col].isEmpty())
 					numEmptyTiles++;
 			}
 		}
@@ -331,9 +327,9 @@ public class Room {
 		for (int row = 0; row < 10; row++) {
 			for (int col = 0; col < 10; col++) {
 
-				if (tileGrid[row][col].elements.size() == 0) {
+				if (tileGrid[row][col].isEmpty()) {
 					if (random == numTilesAccessed) {
-						tileGrid[row][col].elements.add(new Player());
+						tileGrid[row][col].addPlayer();
 					}
 					numTilesAccessed++;
 				}
@@ -347,7 +343,7 @@ public class Room {
 		int numEmptyTiles = 0;
 		for (int row = 0; row < 10; row++) {
 			for (int col = 0; col < 10; col++) {
-				if (tileGrid[row][col].elements.size() == 0)
+				if (tileGrid[row][col].isEmpty())
 					numEmptyTiles++;
 			}
 		}
@@ -357,9 +353,9 @@ public class Room {
 		for (int row = 0; row < 10; row++) {
 			for (int col = 0; col < 10; col++) {
 
-				if (tileGrid[row][col].elements.size() == 0) {
+				if (tileGrid[row][col].isEmpty()) {
 					if (random == numTilesAccessed) {
-						tileGrid[row][col].elements.add(new Exit());
+						tileGrid[row][col].addExit();
 					}
 					numTilesAccessed++;
 				}

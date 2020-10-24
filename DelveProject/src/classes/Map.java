@@ -14,7 +14,7 @@ public class Map {
 		
 		//this is only a vague guide for the number of rooms to generated
 		//the actual number of rooms will probably be a bit higher.
-		int numRooms = (int)(currentLevel / 2) + 3;
+		int numRooms = (int)(currentLevel / 2) + 5;
 		roomArray = new Room[numRooms * 2][numRooms * 2];
 		//numRooms also acts as a center of sorts for the map to start at.
 		int centerIndex = numRooms;
@@ -165,8 +165,7 @@ public class Map {
 				int roomRow = (row - (row % 10)) / 10;
 				int roomCol = (col - (col % 10)) / 10; 
 				if (roomArray[roomRow][roomCol] == null) {
-					tileArray[row][col] = new Tile();
-					tileArray[row][col].add(new Wall());
+					tileArray[row][col] = new Tile(true);
 				}
 				else { //not null
 					Tile[][] miniGrid = roomArray[roomRow][roomCol].tileGrid;
@@ -180,16 +179,16 @@ public class Map {
 	public void printTileGrid() {
 		for (int row = 0; row < tileArray.length; row++) {
 			for (int col = 0; col < tileArray.length; col++) {
-				
-				if ((tileArray[row][col].containsObjectOfType("Wall")))
+
+				if (tileArray[row][col].isWallHere())
 					System.out.print("w");
-				else if ((tileArray[row][col].containsObjectOfType("Shop")))
+				else if (tileArray[row][col].isShopHere())
 					System.out.print("S");
-				else if ((tileArray[row][col].containsObjectOfType("Enemy")))
+				else if (tileArray[row][col].isEnemyHere())
 					System.out.print("E");
-				else if ((tileArray[row][col].containsObjectOfType("Player")))
+				else if (tileArray[row][col].isPlayerHere())
 					System.out.print("P");
-				else if ((tileArray[row][col].containsObjectOfType("Exit")))
+				else if (tileArray[row][col].isExitHere())
 					System.out.print("X");
 				else
 					System.out.print(" ");
@@ -313,7 +312,7 @@ public class Map {
 		ObjectPosition playerPosition = null;
 		for (int row = 0; row < tileArray.length; row++) {
 			for (int col = 0; col < tileArray[0].length; col++) {
-				if ((tileArray[row][col].containsObjectOfType("Player")))
+				if ((tileArray[row][col].isPlayerHere()))
 					playerPosition = ObjectPosition.of(row, col, this);
 			}
 		}
@@ -325,7 +324,7 @@ public class Map {
 		ArrayList<ObjectPosition> enemiesPosition = new ArrayList<>();
 		for (int row = 0; row < tileArray.length; row++) {
 			for (int col = 0; col < tileArray[0].length; col++) {
-				if ((tileArray[row][col].containsObjectOfType("Enemy")))
+				if ((tileArray[row][col].isEnemyHere()))
 					enemiesPosition.add(ObjectPosition.of(row,col,this));
 			}
 		}
@@ -374,22 +373,22 @@ public class Map {
 				return distance;
 			}
 			//check if going up is a option
-			if (row > 0 && !map[row - 1][col].containsObjectOfType("Wall") && !visited[row - 1][col]) {
+			if (row > 0 && !map[row - 1][col].isWallHere() && !visited[row - 1][col]) {
 				temp.offer(ObjectPosition.of(row - 1,col,this));
 				visited[row - 1][col] = true;
 			}
 			//check if going down is a option
-			if (row < map.length - 1 && !map[row + 1][col].containsObjectOfType("Wall")&& !visited[row + 1][col]) {
+			if (row < map.length - 1 && !map[row + 1][col].isWallHere()&& !visited[row + 1][col]) {
 				temp.offer(ObjectPosition.of(row + 1,col,this));
 				visited[row + 1][col] = true;
 			}
 			//check if going left is a option
-			if (col > 0 && !map[row][col - 1].containsObjectOfType("Wall")  && !visited[row][col - 1]) {
+			if (col > 0 && !map[row][col - 1].isWallHere()  && !visited[row][col - 1]) {
 				temp.offer(ObjectPosition.of(row ,col - 1,this));
 				visited[row][col - 1] = true;
 			}
 			//check if going right is a option
-			if (col < map[0].length - 1 && !map[row][col + 1].containsObjectOfType("Wall") && !visited[row][col + 1]) {
+			if (col < map[0].length - 1 && !map[row][col + 1].isWallHere() && !visited[row][col + 1]) {
 				temp.offer(ObjectPosition.of(row ,col + 1,this));
 				visited[row][col + 1] = true;
 			}
@@ -411,7 +410,6 @@ public class Map {
 			return -1;
 		}
 	}
-
 
 
 }

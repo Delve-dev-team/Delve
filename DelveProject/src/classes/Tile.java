@@ -1,60 +1,105 @@
 package classes;
  
 import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Queue;
 
 public class Tile {
 
-	public ArrayList<Object> elements;
-	
-	public Tile() {
-		this.elements = new ArrayList<Object>();
+	private boolean exit = false;
+	private boolean player = false;
+	private boolean shop = false;
+	private boolean wall = false;
+	private Queue<Enemy> enemies;
+	public Tile(boolean isTileWalled) {
+		enemies = new LinkedList<>();
+		wall = isTileWalled;
 	}
 	
-	public Tile(Object input) {
-		this.elements = new ArrayList<Object>();
-		
-		elements.add(input);
+	public Tile(Enemy enemy) {
+		enemies = new LinkedList<>();
+		enemies.add(enemy);
 	}
-	
-	public Tile(Object[] input) {
-		this.elements = new ArrayList<Object>();
-		
-		for (int i = 0; i < input.length; i++) {
-			elements.add(input[i]);
-		}
+	public void removePlayer()
+	{
+		if (!wall)
+			player = false;
 	}
-	
-	
-	
-	public void add(Object obj) {
-		elements.add(obj);
+	public void addPlayer()
+	{
+		if (!wall)
+			player = true;
 	}
-	
-	public void remove(Object obj) {
-		elements.remove(obj);
+	public void removeShop()
+	{
+		if (!wall)
+			shop = false;
 	}
-	
-	public void removeAll() {
-		elements.removeAll(elements);
+	public void addShop()
+	{
+		if (!wall)
+			shop = true;
 	}
-	
-	public boolean containsObjectOfType(String type) {
-		for (int i = 0; i < elements.size(); i++) {
-			if(elements.get(i).getClass().getName().contains(type)) {
-				return true; 
-			}
-		}
-		return false;
+	public void removeExit()
+	{
+		if (!wall)
+			shop = false;
 	}
-	
-	//This assumes there's only 1 object of the desired type on the tile.
-	public Object getObjectOfType(String type) {
-		for (int i = 0; i < elements.size(); i++) {
-			if(elements.get(i).getClass().getName().contains(type)) {
-				return elements.get(i);
-			}
-		}
-		return null;
+	public void removeWall()
+	{
+		wall = false;
+	}
+	public void addExit()
+	{
+		if (!wall)
+			shop = true;
+	}
+	public void addEnemy(Enemy enemy)
+	{
+		if (!wall)
+			enemies.add(enemy);
+	}
+	public Enemy removeOneEnemy()
+	{
+		if (!wall)
+			return enemies.poll();
+		else
+			return null;
+	}
+	public void removeAll()
+	{
+		if (!wall)
+			removeExit();
+			removePlayer();
+			removeShop();
+			removeWall();
+			enemies.clear();
+	}
+
+	public boolean isPlayerHere()
+	{
+		return player;
+	}
+	public boolean isShopHere()
+	{
+		return shop;
+	}
+	public boolean isWallHere()
+	{
+		return wall;
+	}
+	public boolean isEnemyHere()
+	{
+		return !enemies.isEmpty();
+	}
+	public boolean isExitHere()
+	{
+		return exit;
+	}
+	public boolean isEmpty()
+	{
+		return (!isEnemyHere() && !isPlayerHere() && !isShopHere() && !isExitHere() && !isWallHere());
 	}
 
 	public Player getPlayer() {

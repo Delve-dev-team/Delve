@@ -25,12 +25,12 @@ public class GameController {
 
     public boolean isExitReach()  //shows if the Player reaches the exit of that level
     {
-        return (map.getTileArray()[map.getPlayerPosition().getRowPosition()][map.getPlayerPosition().getColumnPosition()].containsObjectOfType("Exit"));
+        return (map.getTileArray()[map.getPlayerPosition().getRowPosition()][map.getPlayerPosition().getColumnPosition()].isExitHere());
     }
 
     public boolean isShopReach()  //shows if the Player reaches the exit of that level
     {
-        return (map.getTileArray()[map.getPlayerPosition().getRowPosition()][map.getPlayerPosition().getColumnPosition()].containsObjectOfType("Shop"));
+        return (map.getTileArray()[map.getPlayerPosition().getRowPosition()][map.getPlayerPosition().getColumnPosition()].isShopHere());
     }
 
     public boolean isThereAvailableTarget()
