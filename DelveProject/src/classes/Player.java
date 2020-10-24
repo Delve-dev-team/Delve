@@ -172,6 +172,6 @@ public class Player {
     public int getMovementSpeed() {
         return movementSpeed;
     }
-
+ 
 
 }
