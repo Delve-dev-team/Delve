@@ -1,5 +1,7 @@
 package classes;
 
+import java.util.ArrayList;
+
 public class Enemy {
 
 	private int HP;
@@ -7,8 +9,10 @@ public class Enemy {
     private int attackDamage;
     private int movementSpeed;
     private int attackRange;
+    private int level;
 
     public Enemy(int level) {
+        this.level = level;
         HP = 50 * level;
         MP = 50 * level;
         attackDamage = 5 * level;
@@ -22,11 +26,15 @@ public class Enemy {
 
     public void die(Player player) {
         this.HP = 0;
-        player.setGold(player.getGold() + 5);
+        player.setGold(player.getGold() + 5 * level);
     }
 
     public void takeTurn(Map map) {
-
+        for (ObjectPosition enemyPosition : map.getEnemiesPositions()) {
+            if(map.getTileArray()[enemyPosition.getRowPosition()][enemyPosition.getColumnPosition()].containsObjectOfType("Player")) {
+               attack(map.getTileArray()[enemyPosition.getRowPosition()][enemyPosition.getColumnPosition()].getPlayer()); 
+            }
+        }
     }
 
     public void move(Map map) {
