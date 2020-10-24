@@ -58,14 +58,14 @@ public class Tile {
 	public Player removePlayer()
 	{
 		if (!wall)
-			return player.poll();
+			return player.remove();
 		else
 			return null;
 	}
 	public Enemy removeEnemy()
 	{
 		if (!wall)
-			return enemy.poll();
+			return enemy.remove();
 		else
 			return null;
 	}

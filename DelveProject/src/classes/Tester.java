@@ -26,6 +26,9 @@ public class Tester {
 
 		gameController.getMap().moveEnemies();
 
+		gameController.getMap().movePlayer(Direction.UP);
+		gameController.getMap().movePlayer(Direction.LEFT);
+
 		gameController.getMap().printTileGrid();
 
 

@@ -43,32 +43,32 @@ public class Player {
 
     public String EquipItem(Player player, Item item) {
 
-        if (item.getSlot() == "headSlot") {
+        if (item.getSlot().equals("headSlot")) {
             if (player.headSlot == null) {
                 player.headSlot = item;
                 return item.getName() + " has been equipped.";
             }
-        } else if (item.getSlot() == "chestSlot") {
+        } else if (item.getSlot().equals("chestSlot")) {
             if (player.chestSlot == null) {
                 player.chestSlot = item;
                 return item.getName() + " has been equipped.";
             }
-        } else if (item.getSlot() == "armSlot") {
+        } else if (item.getSlot().equals("armSlot")) {
             if (player.armSlot == null) {
                 player.armSlot = item;
                 return item.getName() + " has been equipped.";
             }
-        } else if (item.getSlot() == "legSlot") {
+        } else if (item.getSlot().equals("legSlot")) {
             if (player.legSlot == null) {
                 player.legSlot = item;
                 return item.getName() + " has been equipped.";
             }
-        } else if (item.getSlot() == "feetSlot") {
+        } else if (item.getSlot().equals("feetSlot")) {
             if (player.feetSlot == null) {
                 player.feetSlot = item;
                 return item.getName() + " has been equipped.";
             }
-        } else if (item.getSlot() == "handSlot") {
+        } else if (item.getSlot().equals("handSlot")) {
             if (player.handSlot == null) {
                 player.handSlot = item;
                 return item.getName() + " has been equipped.";
@@ -91,22 +91,22 @@ public class Player {
                 this.chestSlot = null;
                 return this.chestSlot.getName() + " has been unequipped.";
             }
-        } else if (slot == "armSlot") {
+        } else if (slot.equals("armSlot")) {
             if (this.armSlot != null) {
                 this.armSlot = null;
                 return this.armSlot.getName() + " has been unequipped.";
             }
-        } else if (slot == "legSlot") {
+        } else if (slot.equals("legSlot")) {
             if (this.legSlot != null) {
                 this.legSlot = null;
                 return this.legSlot.getName() + " has been unequipped.";
             }
-        } else if (slot == "feetSlot") {
+        } else if (slot.equals("feetSlot")) {
             if (this.feetSlot != null) {
                 this.feetSlot = null;
                 return this.feetSlot.getName() + " has been unequipped.";
             }
-        } else if (slot == "handSlot") {
+        } else if (slot.equals("handSlot")) {
             if (this.handSlot != null) {
                 this.handSlot = null;
                 return this.handSlot.getName() + " has been unequipped.";
@@ -172,6 +172,8 @@ public class Player {
     public int getMovementSpeed() {
         return movementSpeed;
     }
+
+
  
 
 }

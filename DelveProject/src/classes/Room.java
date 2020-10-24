@@ -3,6 +3,7 @@ package classes;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class Room {
 
@@ -13,9 +14,7 @@ public class Room {
 	
 	public Room(ExitDir[] exitsToGenerate, int numEnemies, boolean includeShop) {
 		exitDirections = new ArrayList<ExitDir>();
-		for (int i = 0; i < exitsToGenerate.length; i++) {
-			exitDirections.add(exitsToGenerate[i]);
-		}
+		exitDirections.addAll(Arrays.asList(exitsToGenerate));
 		
 		assignTileGrid();
 		generateExits();
@@ -32,9 +31,7 @@ public class Room {
 	
 	public Room(ExitDir[] exitsToGenerate, int numEnemies, boolean includeShop, boolean includePlayer) {
 		exitDirections = new ArrayList<ExitDir>();
-		for (int i = 0; i < exitsToGenerate.length; i++) {
-			exitDirections.add(exitsToGenerate[i]);
-		}
+		exitDirections.addAll(Arrays.asList(exitsToGenerate));
 		
 		assignTileGrid();
 		generateExits();
@@ -55,9 +52,7 @@ public class Room {
 	
 	public Room(ExitDir[] exitsToGenerate, int numEnemies, boolean includeShop, boolean includePlayer, boolean includeExit) {
 		exitDirections = new ArrayList<ExitDir>();
-		for (int i = 0; i < exitsToGenerate.length; i++) {
-			exitDirections.add(exitsToGenerate[i]);
-		}
+		exitDirections.addAll(Arrays.asList(exitsToGenerate));
 		
 		assignTileGrid();
 		generateExits();

@@ -1,6 +1,5 @@
 package classes;
 
-import javax.swing.text.Position;
 import java.awt.Point;
 import java.util.*;
 
@@ -431,40 +430,36 @@ public class Map {
 				{
 					//going up
 					case 0:
-						if (isLegalToGO(row - 1,col))
+						if (isLegalForEnemies(row - 1,col))
 						{
 							getTileArray()[row - 1][col].addEnemy(getTileArray()[row][col].removeEnemy());
-							getTileArray()[row][col].removeEnemy();
 							readyToGO = true;
 						}
 					break;
 
 						//going down
 					case 1:
-						if (isLegalToGO(row + 1,col))
+						if (isLegalForEnemies(row + 1,col))
 						{
 							getTileArray()[row + 1][col].addEnemy(getTileArray()[row][col].removeEnemy());
-							getTileArray()[row][col].removeEnemy();
 							readyToGO = true;
 						}
 						break;
 
 						//going left
 					case 2:
-						if (isLegalToGO(row, col - 1))
+						if (isLegalForEnemies(row, col - 1))
 						{
-							getTileArray()[row][col - 1].addEnemy(getTileArray()[row][col - 1].removeEnemy());
-							getTileArray()[row][col].removeEnemy();
+							getTileArray()[row][col - 1].addEnemy(getTileArray()[row][col].removeEnemy());
 							readyToGO = true;
 						}
 						break;
 
 						//going right
 					case 3:
-						if (isLegalToGO(row, col + 1))
+						if (isLegalForEnemies(row, col + 1))
 						{
-							getTileArray()[row][col + 1].addEnemy(getTileArray()[row][col + 1].removeEnemy());
-							getTileArray()[row][col].removeEnemy();
+							getTileArray()[row][col + 1].addEnemy(getTileArray()[row][col].removeEnemy());
 							readyToGO = true;
 						}
 						break;
@@ -475,8 +470,52 @@ public class Map {
 
 	}
 
-	private boolean isLegalToGO(int row, int col){
-		return !getTileArray()[row][col].isEnemyHere() && !getTileArray()[row][col].isPlayerHere() &&!getTileArray()[row][col].isWallHere();
+	public void movePlayer(Direction direction)
+	{
+		int row = getPlayerPosition().getRowPosition();
+		int col = getPlayerPosition().getColumnPosition();
+		switch (direction)
+		{
+			//going up
+			case UP:
+				if (isLegalForPlayer(row - 1, col))
+					getTileArray()[row - 1][col].addPlayer(getTileArray()[row][col].removePlayer());
+				else
+					System.out.println("can not go up");
+				break;
+
+			//going down
+			case DOWN:
+				if (isLegalForPlayer(row + 1, col))
+					getTileArray()[row + 1][col].addPlayer(getTileArray()[row][col].removePlayer());
+				else
+					System.out.println("can not go down");
+				break;
+
+			//going left
+			case LEFT:
+				if (isLegalForPlayer(row, col - 1))
+					getTileArray()[row][col - 1].addPlayer(getTileArray()[row][col].removePlayer());
+				else
+					System.out.println("can not go left");
+				break;
+
+			//going right
+			case RIGHT:
+				if (isLegalForPlayer(row, col + 1))
+					getTileArray()[row][col + 1].addPlayer(getTileArray()[row][col].removePlayer());
+				else
+					System.out.println("can not go right");
+				break;
+		}
+	}
+
+	private boolean isLegalForEnemies(int row, int col){
+		return getTileArray()[row][col].isEmpty();
+	}
+
+	private boolean isLegalForPlayer(int row, int col) {
+		return !getTileArray()[row][col].isEnemyHere() && !getTileArray()[row][col].isWallHere() && !getTileArray()[row][col].isPlayerHere();
 	}
 
 	public Player getPlayer()
