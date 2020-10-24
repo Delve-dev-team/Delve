@@ -101,16 +101,6 @@ public class Tile {
 	{
 		return (!isEnemyHere() && !isPlayerHere() && !isShopHere() && !isExitHere() && !isWallHere());
 	}
-
-	public Player getPlayer() {
-		for (int i = 0; i < elements.size(); i++) {
-			if(elements.get(i).getClass().getName().contains("Player")) {
-				return (Player) elements.get(i);
-			}
-		}
-		return null;
-	}
-	
 	
 	
 }
