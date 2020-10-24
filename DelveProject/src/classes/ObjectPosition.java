@@ -4,7 +4,7 @@ import java.util.Objects;
 
 // this class is simply a class that holds the x,y position of a object on the map
 public class ObjectPosition
-{
+{ 
     //private fields
     private int rowPosition;
     private int columnPosition;
