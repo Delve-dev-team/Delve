@@ -303,7 +303,7 @@ public class Room {
 				if (tileGrid[row][col].isEmpty()) {
 					if (random == numTilesAccessed) {
 						// TODO change this to make the shop change somehow.
-						tileGrid[row][col].addShop();
+						tileGrid[row][col].addShop(new Shop());
 					}
 					numTilesAccessed++;
 				}
@@ -329,7 +329,7 @@ public class Room {
 
 				if (tileGrid[row][col].isEmpty()) {
 					if (random == numTilesAccessed) {
-						tileGrid[row][col].addPlayer();
+						tileGrid[row][col].addPlayer(new Player());
 					}
 					numTilesAccessed++;
 				}

@@ -319,18 +319,25 @@ public class Map {
 		return playerPosition;
 	}
 
+
 	public ArrayList<ObjectPosition> getEnemiesPositions()
 	{
 		ArrayList<ObjectPosition> enemiesPosition = new ArrayList<>();
 		for (int row = 0; row < tileArray.length; row++) {
 			for (int col = 0; col < tileArray[0].length; col++) {
 				if ((tileArray[row][col].isEnemyHere()))
-					enemiesPosition.add(ObjectPosition.of(row,col,this));
+					while (tileArray[row][col].isEnemyHere())
+					{
+						enemiesPosition.add(ObjectPosition.of(row, col, this));
+					}
 			}
 		}
 		return enemiesPosition;
 	}
-
+	public int numberOfEnemies()
+	{
+		return this.getEnemiesPositions().size();
+	}
 	public Room[][] getRoomArray() {
 		return roomArray;
 	}
@@ -409,6 +416,17 @@ public class Map {
 		else {
 			return -1;
 		}
+	}
+
+	public Player getPlayer()
+	{
+		for (int row = 0; row < tileArray.length; row++) {
+			for (int col = 0; col < tileArray[0].length; col++) {
+				if ((tileArray[row][col].isPlayerHere()))
+					return tileArray[row][col].getPlayer();
+			}
+		}
+		return null;
 	}
 
 

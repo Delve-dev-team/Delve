@@ -20,21 +20,13 @@ public class Enemy {
         attackRange = 10;
     }
 
-    public void attack(Player player) {
-        player.setHP(player.getHP() - (this.attackDamage));
+    public void attack(Map map) {
+        map.getPlayer().setHP(map.getPlayer().getHP() - (this.getAttackRange()));
     }
 
     public void die(Player player) {
         this.HP = 0;
         player.setGold(player.getGold() + 5 * level);
-    }
-
-    public void takeTurn(Map map) {
-        for (ObjectPosition enemyPosition : map.getEnemiesPositions()) {
-            if(map.getTileArray()[enemyPosition.getRowPosition()][enemyPosition.getColumnPosition()].containsObjectOfType("Player")) {
-               attack(map.getTileArray()[enemyPosition.getRowPosition()][enemyPosition.getColumnPosition()].getPlayer()); 
-            }
-        }
     }
 
     public void move(Map map) {

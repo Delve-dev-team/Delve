@@ -41,36 +41,36 @@ public class Player {
         handSlot = null;
     }
 
-    public String EquipItem (Item item) {
+    public String EquipItem(Player player, Item item) {
 
         if (item.getSlot() == "headSlot") {
-            if (this.headSlot == null) {
-                this.headSlot = item;
+            if (player.headSlot == null) {
+                player.headSlot = item;
                 return item.getName() + " has been equipped.";
             }
         } else if (item.getSlot() == "chestSlot") {
-            if (this.chestSlot == null) {
-                this.chestSlot = item;
+            if (player.chestSlot == null) {
+                player.chestSlot = item;
                 return item.getName() + " has been equipped.";
             }
         } else if (item.getSlot() == "armSlot") {
-            if (this.armSlot == null) {
-                this.armSlot = item;
+            if (player.armSlot == null) {
+                player.armSlot = item;
                 return item.getName() + " has been equipped.";
             }
         } else if (item.getSlot() == "legSlot") {
-            if (this.legSlot == null) {
-                this.legSlot = item;
+            if (player.legSlot == null) {
+                player.legSlot = item;
                 return item.getName() + " has been equipped.";
             }
         } else if (item.getSlot() == "feetSlot") {
-            if (this.feetSlot == null) {
-                this.feetSlot = item;
+            if (player.feetSlot == null) {
+                player.feetSlot = item;
                 return item.getName() + " has been equipped.";
             }
         } else if (item.getSlot() == "handSlot") {
-            if (this.handSlot == null) {
-                this.handSlot = item;
+            if (player.handSlot == null) {
+                player.handSlot = item;
                 return item.getName() + " has been equipped.";
             }
         } else {

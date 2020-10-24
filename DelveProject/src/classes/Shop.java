@@ -1,10 +1,11 @@
 package classes;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Shop {
 
-	public ArrayList<Item> itemList;
+	public List<Item> itemList = new ArrayList<>();
 
 	public Shop() {
 		itemList.add(new Item("Leather Helmet", "headSlot", 10, "+ 100 HP", 0));
