@@ -29,10 +29,6 @@ public class Enemy {
         player.setGold(player.getGold() + 5 * level);
     }
 
-    public void move(Map map) {
-        
-    }
-
     //public getters
     public int getHP() {
         return this.HP;

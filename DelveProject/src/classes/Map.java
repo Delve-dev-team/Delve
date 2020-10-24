@@ -326,10 +326,7 @@ public class Map {
 		for (int row = 0; row < tileArray.length; row++) {
 			for (int col = 0; col < tileArray[0].length; col++) {
 				if ((tileArray[row][col].isEnemyHere()))
-					while (tileArray[row][col].isEnemyHere())
-					{
 						enemiesPosition.add(ObjectPosition.of(row, col, this));
-					}
 			}
 		}
 		return enemiesPosition;
@@ -418,15 +415,90 @@ public class Map {
 		}
 	}
 
+	//move enemies one block into a random direction
+	public void moveEnemies() {
+		for (ObjectPosition position: this.getEnemiesPositions())
+		{
+			Random random = new Random();
+			boolean readyToGO = false;
+			int row = position.getRowPosition();
+			int col = position.getColumnPosition();
+			int direction;
+			while (!readyToGO)
+			{
+				direction = random.nextInt(4);
+				switch (direction)
+				{
+					//going up
+					case 0:
+						if (isLegalToGO(row - 1,col))
+						{
+							getTileArray()[row - 1][col].addEnemy(getTileArray()[row][col].removeEnemy());
+							getTileArray()[row][col].removeEnemy();
+							readyToGO = true;
+						}
+					break;
+
+						//going down
+					case 1:
+						if (isLegalToGO(row + 1,col))
+						{
+							getTileArray()[row + 1][col].addEnemy(getTileArray()[row][col].removeEnemy());
+							getTileArray()[row][col].removeEnemy();
+							readyToGO = true;
+						}
+						break;
+
+						//going left
+					case 2:
+						if (isLegalToGO(row, col - 1))
+						{
+							getTileArray()[row][col - 1].addEnemy(getTileArray()[row][col - 1].removeEnemy());
+							getTileArray()[row][col].removeEnemy();
+							readyToGO = true;
+						}
+						break;
+
+						//going right
+					case 3:
+						if (isLegalToGO(row, col + 1))
+						{
+							getTileArray()[row][col + 1].addEnemy(getTileArray()[row][col + 1].removeEnemy());
+							getTileArray()[row][col].removeEnemy();
+							readyToGO = true;
+						}
+						break;
+				}
+			}
+
+		}
+
+	}
+
+	private boolean isLegalToGO(int row, int col){
+		return !getTileArray()[row][col].isEnemyHere() && !getTileArray()[row][col].isPlayerHere() &&!getTileArray()[row][col].isWallHere();
+	}
+
 	public Player getPlayer()
 	{
-		for (int row = 0; row < tileArray.length; row++) {
+		for (Tile[] tiles : tileArray) {
 			for (int col = 0; col < tileArray[0].length; col++) {
-				if ((tileArray[row][col].isPlayerHere()))
-					return tileArray[row][col].getPlayer();
+				if ((tiles[col].isPlayerHere()))
+					return tiles[col].getPlayer();
 			}
 		}
 		return null;
+	}
+
+	public List<Enemy> getEnemies(){
+		List<Enemy> enemies = new ArrayList<>();
+		for (Tile[] tiles : tileArray) {
+			for (int col = 0; col < tileArray[0].length; col++) {
+				if ((tiles[col].isPlayerHere()))
+						enemies.add(tiles[col].getEnemy());
+			}
+		}
+		return enemies;
 	}
 
 

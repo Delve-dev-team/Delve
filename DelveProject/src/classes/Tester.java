@@ -3,16 +3,16 @@ package classes;
 public class Tester {
 
 	public static void main(String[] args) {
-		ExitDir[] exits = {ExitDir.LEFT, ExitDir.RIGHT};
+		/*ExitDir[] exits = {ExitDir.LEFT, ExitDir.RIGHT};
 		Room room = new Room(exits, 2, true);
 		room.printRoom();
 		
 
 		Map map = new Map(1);
 		map.printTileGrid();
-		map.printRoomArray();
+		map.printRoomArray();*/
 
-		/*GameController gameController = new GameController();
+		GameController gameController = new GameController();
 
 		gameController.enterNextLevel();
 		for (ObjectPosition position: gameController.AvailableTargets())
@@ -22,7 +22,11 @@ public class Tester {
 
 		System.out.println("there are " + gameController.amountOfAttacksFromMonster(gameController.getMap()) + " monsters that will attack you!");
 
-		gameController.getMap().printTileGrid();*/
+		gameController.getMap().printTileGrid();
+
+		gameController.getMap().moveEnemies();
+
+		gameController.getMap().printTileGrid();
 
 
 	}
