@@ -1,31 +1,24 @@
 package classes;
  
-import java.util.ArrayList;
 import java.util.LinkedList;
-import java.util.List;
 import java.util.Queue;
 
 public class Tile {
 
 	private boolean exit = false;
-	private List<Player> player;
+	private Queue<Player> player;
 	private Shop shop;
 	private boolean wall = false;
-	private Queue<Enemy> enemies;
+	private Queue<Enemy> enemy;
 	public Tile(boolean isTileWalled) {
-		enemies = new LinkedList<>();
+		enemy = new LinkedList<>();
 		player = new LinkedList<>();
 		wall = isTileWalled;
 	}
 	
 	public Tile(Enemy enemy) {
-		enemies = new LinkedList<>();
-		enemies.add(enemy);
-	}
-	public void removePlayer()
-	{
-		if (!wall)
-			player.clear();
+		this.enemy = new LinkedList<>();
+		this.enemy.add(enemy);
 	}
 	public void addPlayer(Player player)
 	{
@@ -60,12 +53,19 @@ public class Tile {
 	public void addEnemy(Enemy enemy)
 	{
 		if (!wall)
-			enemies.add(enemy);
+			this.enemy.add(enemy);
 	}
-	public Enemy removeOneEnemy()
+	public Player removePlayer()
 	{
 		if (!wall)
-			return enemies.poll();
+			return player.poll();
+		else
+			return null;
+	}
+	public Enemy removeEnemy()
+	{
+		if (!wall)
+			return enemy.poll();
 		else
 			return null;
 	}
@@ -76,7 +76,7 @@ public class Tile {
 			removePlayer();
 			removeShop();
 			removeWall();
-			enemies.clear();
+			enemy.clear();
 	}
 
 	public boolean isPlayerHere()
@@ -93,7 +93,7 @@ public class Tile {
 	}
 	public boolean isEnemyHere()
 	{
-		return !enemies.isEmpty();
+		return !enemy.isEmpty();
 	}
 	public boolean isExitHere()
 	{
@@ -104,12 +104,12 @@ public class Tile {
 		return (!isEnemyHere() && !isPlayerHere() && !isShopHere() && !isExitHere() && !isWallHere());
 	}
 
-	public Queue<Enemy> getEnemies() {
-		return enemies;
-	}
-
 	public Player getPlayer() {
-		return player.get(0);
+		return player.peek();
+	}
+	public Enemy getEnemy()
+	{
+		return enemy.peek();
 	}
 
 	public Shop getShop() {
