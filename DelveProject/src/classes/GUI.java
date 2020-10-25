@@ -36,7 +36,7 @@ public class GUI extends Application
 
         //StartScreen scene
         //elements of startScreen:
-        Label startLabel = new Label("this is StartScreen");
+        Label startLabel = new Label("Welcome to Delve");
         Button startButton = new Button("Start Game!");
 
         startButton.setOnAction(e -> primaryStage.setScene(mapScreen));
@@ -90,19 +90,56 @@ public class GUI extends Application
         mapLayout.getChildren().addAll(mapLabel, statsOfPlayer, abilityButton, inventoryButton, gameMap);
         mapScreen = new Scene(mapLayout, map.getTileArray().length * 10, map.getTileArray().length * 10);
 
+        //Inventory Screen:
+        
+        VBox inventoryMenu = new VBox(10);
+        Label inventoryLabel = new Label("Inventory");
+        Label blankLabel = new Label();
+        Label gold = new Label("Gold: " + String.valueOf(goldValue));
 
-        //inventoryScreen scene
-        //elements of inventoryScreen:
-        Label inventoryLabel = new Label("this is inventory Screen");
-        Button inventoryToMapButton = new Button("back to mapScreen");
+        HBox head = new HBox();
+        Label headLabel = new Label("Head:");
+        Label headEquiped = new Label("Helmet"); //player.getHeadSlot();
+        head.getChildren().addAll(headLabel, headEquiped);
+        head.setAlignment(Pos.CENTER);
 
-        inventoryToMapButton.setOnAction(e -> primaryStage.setScene(mapScreen));
-        VBox inventoryLayout = new VBox(20);
+        HBox chest = new HBox();
+        Label chestLabel = new Label("Chest:");
+        Label chestEquiped = new Label("Breastplate"); //player.getChestSlot();
+        chest.getChildren().addAll(chestLabel, chestEquiped);
+        chest.setAlignment(Pos.CENTER);
 
-        inventoryLayout.getChildren().addAll(inventoryLabel, inventoryToMapButton);
-        inventoryScreen = new Scene(inventoryLayout, 300, 250);
+        HBox arms = new HBox();
+        Label armsLabel = new Label("Arms:");
+        Label armsEquiped = new Label("Nothing"); //player.getArmSlot();
+        arms.getChildren().addAll(armsLabel, armsEquiped);
+        arms.setAlignment(Pos.CENTER);
 
+        HBox legs = new HBox();
+        Label legsLabel = new Label("Legs:");
+        Label legsEquiped = new Label("Leggins"); //player.getLegSlot();
+        legs.getChildren().addAll(legsLabel, legsEquiped);
+        legs.setAlignment(Pos.CENTER);
 
+        HBox feet = new HBox();
+        Label feetLabel = new Label("Feet:");
+        Label feetEquiped = new Label("Chickens"); //player.getFeetSlot();
+        feet.getChildren().addAll(feetLabel, feetEquiped);
+        feet.setAlignment(Pos.CENTER);
+        
+        HBox hands = new HBox();
+        Label handLabel = new Label("Hands:");
+        Label handEquiped = new Label("Jesus takes the wheel"); //player.armSlot();
+        hands.getChildren().addAll(handLabel, handEquiped);
+        hands.setAlignment(Pos.CENTER);
+
+        //Inventory Back Button
+        back = new Button("Back to mapScreen");
+        back.setOnAction(e -> primaryStage.setScene(mapScreen));
+
+        inventoryMenu.getChildren().addAll(inventoryLabel, gold, head, chest, arms, legs, hands, feet, back);
+        inventoryMenu.setAlignment(Pos.CENTER);
+        
         primaryStage.setScene(startScreen);
         primaryStage.show();
     }
