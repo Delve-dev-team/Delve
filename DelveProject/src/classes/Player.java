@@ -173,7 +173,29 @@ public class Player {
         return movementSpeed;
     }
 
+    public String getHeadSlot() {
+        return headSlot.getName();
+    }
 
+    public String getChestlot() {
+        return chestSlot.getName();
+    }
+
+    public String getArmSlot() {
+        return armSlot.getName();
+    }
+
+    public String getLegSlot() {
+        return legSlot.getName();
+    }
+
+    public String getFeetSlot() {
+        return feetSlot.getName();
+    }
+
+    public String getHandSlot() {
+        return handSlot.getName();
+    }
  
 
 }
