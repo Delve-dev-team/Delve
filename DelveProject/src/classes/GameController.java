@@ -38,39 +38,41 @@ public class GameController {
         return (map.getTileArray()[map.getPlayerPosition().getRowPosition()][map.getPlayerPosition().getColumnPosition()].isShopHere());
     }
 
-    public boolean isThereAvailableTarget()
-    {
-        return !AvailableTargets().isEmpty();
-    }
+//    public boolean isThereAvailableTarget()
+//    {
+//        return !AvailableTargets().isEmpty();
+//    }
 
     //action methods
     //this method returns a list of positions of the targets that the player can attack, GUI can use these position to show where those available targets are.
-    public ArrayList<ObjectPosition> AvailableTargets()
-    {
-        ArrayList<ObjectPosition> validTargets = new ArrayList<>();
-        for (ObjectPosition position: map.getEnemiesPositions())
-        {
-            System.out.println("Player position: " + "row " + map.getPlayerPosition().getRowPosition() + "column " + map.getPlayerPosition().getColumnPosition());
-            System.out.println("enemy positions: " + "row " + position.getRowPosition() + "column " + position.getColumnPosition());
-            int distance = map.shortestPath(map.getTileArray(),map.getPlayerPosition(),position);
-            System.out.println("distance from player: " + distance);
-            if (getMap().getPlayer().getAttackRange() >= distance && distance != -1)
-                validTargets.add(position);
-        }
-
-        return validTargets;
-    }
-    public int amountOfAttacksFromMonster(Map map)
-    {
-        int count = 0;
-        for (ObjectPosition position: map.getEnemiesPositions())
-        {
-            int distance = map.shortestPath(map.getTileArray(),position,map.getPlayerPosition());
-            if (10 >= distance && distance != -1)
-                count ++;
-        }
-        return count;
-    }
+//    public ArrayList<ObjectPosition> AvailableTargets()
+//    {
+//        ArrayList<ObjectPosition> validTargets = new ArrayList<>();
+//        for (ObjectPosition position: map.getEnemiesPositions())
+//        {
+//            System.out.println("Player position: " + "row " + map.getPlayerPosition().getRowPosition() + "column " + map.getPlayerPosition().getColumnPosition());
+//            System.out.println("enemy positions: " + "row " + position.getRowPosition() + "column " + position.getColumnPosition());
+//            int distance = map.shortestPath(map.getTileArray(),map.getPlayerPosition(),position);
+//            System.out.println("distance from player: " + distance);
+//            if (getMap().getPlayer().getAttackRange() >= distance && distance != -1)
+//                validTargets.add(position);
+//        }
+//
+//        return validTargets;
+//    }
+    
+//    public int amountOfAttacksFromMonster(Map map)
+//    {
+//        int count = 0;
+//        for (ObjectPosition position: map.getEnemiesPositions())
+//        {
+//            int distance = map.shortestPath(map.getTileArray(),position,map.getPlayerPosition());
+//            if (10 >= distance && distance != -1)
+//                count ++;
+//        }
+//        return count;
+//    }
+    
     public void enterNextLevel()
     {
         currentLevel ++;
