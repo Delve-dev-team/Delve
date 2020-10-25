@@ -104,6 +104,11 @@ public class Tile {
 		return (!isEnemyHere() && !isPlayerHere() && !isShopHere() && !isExitHere() && !isWallHere());
 	}
 
+	public boolean isInDoor()
+	{
+		return isEnemyHere() || isPlayerHere() || isExitHere() || isShopHere() || isEmpty();
+	}
+
 	public Player getPlayer() {
 		return player.peek();
 	}

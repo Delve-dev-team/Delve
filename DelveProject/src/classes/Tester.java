@@ -20,16 +20,11 @@ public class Tester {
 			System.out.println("target at: " + position.getRowPosition() + " " + position.getColumnPosition());
 		}
 
-		System.out.println("there are " + gameController.amountOfAttacksFromMonster(gameController.getMap()) + " monsters that will attack you!");
+		System.out.println("there are " + gameController.amountOfAttacksFromMonster(GameController.getMap()) + " monsters that will attack you!");
 
-		gameController.getMap().printTileGrid();
+		System.out.print(GameController.getMap().guiMap());
 
-		gameController.getMap().moveEnemies();
-
-		gameController.getMap().movePlayer(Direction.UP);
-		gameController.getMap().movePlayer(Direction.LEFT);
-
-		gameController.getMap().printTileGrid();
+		System.out.println("width: " + GameController.getMap().guiMapLineNum());
 
 
 	}

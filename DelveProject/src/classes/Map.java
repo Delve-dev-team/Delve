@@ -197,27 +197,71 @@ public class Map {
 		}
 	}
 
-	public String gridsOnGui()
-	{
-		String result = "";
-		for (Tile[] tiles : tileArray) {
+	private ArrayList<Integer> guiMapBoundaries() {
+		//get the location we want to show on the map
+		int startingRow = Integer.MAX_VALUE;
+		int startingColumn = Integer.MAX_VALUE;
+		int endingRow = Integer.MIN_VALUE;
+		int endingColumn = Integer.MIN_VALUE;
+		//this is the expand distance just to give the sense of boundaries
+		final int EXPAND_DISTANCE = 5;
+		for (int row = 0; row < tileArray.length; row++) {
 			for (int col = 0; col < tileArray.length; col++) {
+				if (tileArray[row][col].isInDoor() && row <= startingRow)
+					startingRow = row;
+				if (tileArray[row][col].isInDoor() && col <= startingColumn)
+					startingColumn = col;
+				if (tileArray[row][col].isInDoor() && row >= endingRow)
+					endingRow = row;
+				if (tileArray[row][col].isInDoor() && col >= endingColumn)
+					endingColumn = col;
+			}
+		}
 
-				if (tiles[col].isWallHere())
+		startingRow -= EXPAND_DISTANCE;
+		startingColumn -= EXPAND_DISTANCE;
+		endingRow += EXPAND_DISTANCE;
+		endingColumn += EXPAND_DISTANCE;
+
+		System.out.println("starting row: " + startingRow);
+		System.out.println("starting column: " + startingColumn);
+		System.out.println("ending row: " + endingRow);
+		System.out.println("ending column: " + endingColumn);
+		ArrayList<Integer> result = new ArrayList<>(Arrays.asList(startingRow, startingColumn, endingRow, endingColumn));
+
+		return result;
+	}
+
+	public int guiMapLineNum()
+	{
+		return Math.abs(guiMapBoundaries().get(2) - guiMapBoundaries().get(0));
+	}
+
+	public String guiMap()
+	{
+		//start printing the result we want
+
+		//count is for debugging
+		int count = 0;
+		//result is the string we return for the map
+		String result = "";
+		for (int row = guiMapBoundaries().get(0); row < guiMapBoundaries().get(2); row ++) {
+			for (int col = guiMapBoundaries().get(1); col < guiMapBoundaries().get(3); col++) {
+				if (tileArray[row][col].isWallHere())
 					result = result.concat("W");
-				else if (tiles[col].isShopHere())
+				else if (tileArray[row][col].isShopHere())
 					result = result.concat("S");
-				else if (tiles[col].isEnemyHere())
+				else if (tileArray[row][col].isEnemyHere())
 					result = result.concat("E");
-				else if (tiles[col].isPlayerHere())
+				else if (tileArray[row][col].isPlayerHere())
 					result = result.concat("P");
-				else if (tiles[col].isExitHere())
+				else if (tileArray[row][col].isExitHere())
 					result = result.concat("X");
 				else
 					result = result.concat(" ");
-
 			}
 			result = result.concat("\n");
+
 		}
 		return result;
 	}

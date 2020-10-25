@@ -7,7 +7,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.Font;
+import javafx.scene.text.Text;
+import javafx.scene.text.TextFlow;
 import javafx.stage.Stage;
 
 import static javafx.application.Application.launch;
@@ -73,6 +74,7 @@ public class GUI extends Application
         Button inventoryButton = new Button("go to inventory Screen");
         abilityButton.setOnAction(e -> primaryStage.setScene(abilityScreen));
         inventoryButton.setOnAction(e -> primaryStage.setScene(inventoryScreen));
+
         //VBOX that holds stats of the player
         VBox statsOfPlayer = new VBox(10);
         Label health = new Label("Health: " + String.valueOf(healthValue));
@@ -80,22 +82,23 @@ public class GUI extends Application
         Label gold = new Label("Gold: " + String.valueOf(goldValue));
         statsOfPlayer.getChildren().addAll(health, mana, gold);
         statsOfPlayer.setAlignment(Pos.TOP_RIGHT);
-        //map of the game
-        String mapString = map.gridsOnGui(); //map.Print();
-        Label gameMap = new Label(mapString);
-        gameMap.setFont(new Font("Arial", 5));
-        //VBOX that holds everything on this scene
-        VBox mapLayout = new VBox(20);
 
-        mapLayout.getChildren().addAll(mapLabel, statsOfPlayer, abilityButton, inventoryButton, gameMap);
-        mapScreen = new Scene(mapLayout, map.getTileArray().length * 10, map.getTileArray().length * 10);
+        //map
+        Text gameMap = new Text(map.guiMap());
+        gameMap.applyCss();
+        double width = (gameMap.getLayoutBounds().getWidth() / map.guiMapLineNum());
+        gameMap.setWrappingWidth(width);
+        TextFlow mapHolder = new TextFlow();
+
+        mapHolder.getChildren().add(gameMap);
+        mapScreen = new Scene(mapHolder, map.getTileArray().length * 13, map.getTileArray().length * 13);
 
         //Inventory Screen:
         
         VBox inventoryMenu = new VBox(10);
         Label inventoryLabel = new Label("Inventory");
         Label blankLabel = new Label();
-        Label gold = new Label("Gold: " + String.valueOf(goldValue));
+        Label inventory_gold = new Label("Gold: " + String.valueOf(goldValue));
 
         HBox head = new HBox();
         Label headLabel = new Label("Head:");
@@ -134,10 +137,10 @@ public class GUI extends Application
         hands.setAlignment(Pos.CENTER);
 
         //Inventory Back Button
-        back = new Button("Back to mapScreen");
+        Button back = new Button("Back to mapScreen");
         back.setOnAction(e -> primaryStage.setScene(mapScreen));
 
-        inventoryMenu.getChildren().addAll(inventoryLabel, gold, head, chest, arms, legs, hands, feet, back);
+        inventoryMenu.getChildren().addAll(inventoryLabel, inventory_gold, head, chest, arms, legs, hands, feet, back);
         inventoryMenu.setAlignment(Pos.CENTER);
         
         primaryStage.setScene(startScreen);
