@@ -51,6 +51,7 @@ public class GUI extends Application
         //button going to Inventory Screen
         Button toInventory = new Button("Inventory");
         toInventory.setOnAction(e -> primaryStage.setScene(inventoryScreen));
+        toInventory.setAlignment(Pos.TOP_RIGHT);
 
         //mapScreen scene
         //elements of mapScreen
@@ -60,7 +61,8 @@ public class GUI extends Application
         GridPane guiMap = generateGuiMap(map);
 
         //Abilities Bar:
-        Label abilityLabel = new Label("Abilities");
+        Label abilityLabel = new Label("Abilities:");
+        abilityLabel.setAlignment(Pos.CENTER);
 
         HBox abilityMenu = new HBox(5);
         Label health = new Label("Health: " + String.valueOf(healthValue));
