@@ -45,9 +45,16 @@ class MapTests {
 	}
 	
 	@Test
-	void testIfMapIsConnected() {
+	void testPrintMap() {
+		System.out.println("Map 1:");
+		Map map1 = new Map(1);
+		map1.printRoomArray();
+		map1.printTileGrid();
 		
-		
+		System.out.println("\nMap 2:");
+		Map map2 = new Map(15);
+		map2.printRoomArray();
+		map2.printTileGrid();
 	}
 	
 }

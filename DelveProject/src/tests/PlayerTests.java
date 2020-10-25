@@ -24,14 +24,5 @@ class PlayerTests {
 		b.die(a);
 		assertEquals(5, a.getGold());
 	}
-
-    @Test
-	void playerItemTest() {
-        Player a = new Player();
-        a.equipItem(a, new Item("hat", "headSlot", 1, "ordinary hat", 1));
-        assertEquals("hat", a.getHeadSlot());
-        a.unequipItem("headSlot");
-		assertEquals(null, a.getHeadSlot());
-	}
 	
 }
