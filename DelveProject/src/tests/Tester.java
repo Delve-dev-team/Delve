@@ -25,9 +25,6 @@ public class Tester {
 
 		System.out.println("there are " + gameController.amountOfAttacksFromMonster(GameController.getMap()) + " monsters that will attack you!");
 
-		System.out.print(GameController.getMap().guiMap());
-
-		System.out.println("width: " + GameController.getMap().guiMapLineNum());
 
 
 	}

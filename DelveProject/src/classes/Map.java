@@ -197,7 +197,7 @@ public class Map {
 		}
 	}
 
-	private ArrayList<Integer> guiMapBoundaries() {
+	public ArrayList<Integer> guiMapBoundaries() {
 		//get the location we want to show on the map
 		int startingRow = Integer.MAX_VALUE;
 		int startingColumn = Integer.MAX_VALUE;
@@ -229,40 +229,6 @@ public class Map {
 		System.out.println("ending column: " + endingColumn);
 		ArrayList<Integer> result = new ArrayList<>(Arrays.asList(startingRow, startingColumn, endingRow, endingColumn));
 
-		return result;
-	}
-
-	public int guiMapLineNum()
-	{
-		return Math.abs(guiMapBoundaries().get(2) - guiMapBoundaries().get(0));
-	}
-
-	public String guiMap()
-	{
-		//start printing the result we want
-
-		//count is for debugging
-		int count = 0;
-		//result is the string we return for the map
-		String result = "";
-		for (int row = guiMapBoundaries().get(0); row < guiMapBoundaries().get(2); row ++) {
-			for (int col = guiMapBoundaries().get(1); col < guiMapBoundaries().get(3); col++) {
-				if (tileArray[row][col].isWallHere())
-					result = result.concat("W");
-				else if (tileArray[row][col].isShopHere())
-					result = result.concat("S");
-				else if (tileArray[row][col].isEnemyHere())
-					result = result.concat("E");
-				else if (tileArray[row][col].isPlayerHere())
-					result = result.concat("P");
-				else if (tileArray[row][col].isExitHere())
-					result = result.concat("X");
-				else
-					result = result.concat(" ");
-			}
-			result = result.concat("\n");
-
-		}
 		return result;
 	}
 	

@@ -5,9 +5,11 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
+import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 
 import static javafx.application.Application.launch;
@@ -55,9 +57,7 @@ public class GUI extends Application
         Label mapLabel = new Label("This is the Map:");
 
         //Map of the Game
-        String mapString = map.guiMap(); //map.Print();
-        Label gameMap = new Label(mapString);
-        gameMap.setFont(new Font("Arial", 10));
+        GridPane guiMap = generateGuiMap(map);
 
         //Abilities Bar:
         Label abilityLabel = new Label("Abilities");
@@ -75,7 +75,7 @@ public class GUI extends Application
 
         //VBOX that holds everything on this scene
         VBox gameScreenLayout = new VBox(20);
-        gameScreenLayout.getChildren().addAll(mapLabel, toInventory,gameMap, abilityLabel, abilityMenu);
+        gameScreenLayout.getChildren().addAll(mapLabel, toInventory, guiMap, abilityLabel, abilityMenu);
         gameScreen = new Scene(gameScreenLayout, map.getTileArray().length * 10, map.getTileArray().length * 10);
 
         //Inventory Screen:
@@ -134,6 +134,29 @@ public class GUI extends Application
 
         primaryStage.setScene(startScreen);
         primaryStage.show();
+    }
+
+    private GridPane generateGuiMap(Map map)
+    {
+        GridPane result = new GridPane();
+        result.setHgap(10);
+        for (int row = map.guiMapBoundaries().get(0); row < map.guiMapBoundaries().get(2); row ++) {
+            for (int col = map.guiMapBoundaries().get(1); col < map.guiMapBoundaries().get(3); col++) {
+                if (map.getTileArray()[row][col].isWallHere())
+                    result.add(new Label("W"), row, col);
+                else if (map.getTileArray()[row][col].isShopHere())
+                    result.add(new Label("S"), row, col);
+                else if (map.getTileArray()[row][col].isEnemyHere())
+                    result.add(new Label("E"), row, col);
+                else if (map.getTileArray()[row][col].isPlayerHere())
+                    result.add(new Label("P"), row, col);
+                else if (map.getTileArray()[row][col].isExitHere())
+                    result.add(new Label("X"), row, col);
+                else
+                    result.add(new Label(" "), row, col);
+            }
+        }
+        return result;
     }
 
     public static void main(String[] args) {
