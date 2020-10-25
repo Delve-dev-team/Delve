@@ -6,17 +6,15 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.Text;
-import javafx.scene.text.TextFlow;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 import static javafx.application.Application.launch;
 
 public class GUI extends Application
 {
-    Scene startScreen, abilityScreen, gameScreen, endScreen;
+    Scene startScreen, InventoryScreen, gameScreen, endScreen;
     GameController gameController = new GameController();
     Map map;
     Player player;
@@ -41,7 +39,7 @@ public class GUI extends Application
         Label startLabel = new Label("Welcome to Delve");
         Button startButton = new Button("Start Game!");
 
-        startButton.setOnAction(e -> primaryStage.setScene(mapScreen));
+        startButton.setOnAction(e -> primaryStage.setScene(gameScreen));
         VBox startLayout = new VBox(20);
 
         startLayout.getChildren().addAll(startLabel, startButton);
@@ -49,18 +47,13 @@ public class GUI extends Application
         
         //GameScreen
 
-        //To Inventory:
-        Button inventoryButton = new Button("Inventory");
-        inventoryButton.setOnAction(e -> primaryStage.setScene(inventoryScreen));
-
 
         //mapScreen scene
         //elements of mapScreen
         Label mapLabel = new Label("This is the Map:");
 
-
         //Map of the Game
-        String mapString = map.gridsOnGui(); //map.Print();
+        String mapString = map.guiMap(); //map.Print();
         Label gameMap = new Label(mapString);
         gameMap.setFont(new Font("Arial", 5));
 
@@ -80,12 +73,10 @@ public class GUI extends Application
 
         //VBOX that holds everything on this scene
         VBox gameScreenLayout = new VBox(20);
-        gameScreenLayout.getChildren().addAll(inventoryButton, mapLabel, gameMap, abilityLabel, abilityMenu);
-
+        gameScreenLayout.getChildren().addAll(mapLabel, gameMap, abilityLabel, abilityMenu);
         gameScreen = new Scene(gameScreenLayout, map.getTileArray().length * 10, map.getTileArray().length * 10);
 
         //Inventory Screen:
-        
         VBox inventoryMenu = new VBox(10);
         Label inventoryLabel = new Label("Inventory");
         Label blankLabel = new Label();
@@ -93,43 +84,43 @@ public class GUI extends Application
 
         HBox head = new HBox();
         Label headLabel = new Label("Head:");
-        Label headEquiped = new Label(player.getHeadSlot());
+        Label headEquiped = new Label("player.getHeadSlot()");
         head.getChildren().addAll(headLabel, headEquiped);
         head.setAlignment(Pos.CENTER);
 
         HBox chest = new HBox();
         Label chestLabel = new Label("Chest:");
-        Label chestEquiped = new Label(player.getChestlot()); 
+        Label chestEquiped = new Label("player.getChestlot()");
         chest.getChildren().addAll(chestLabel, chestEquiped);
         chest.setAlignment(Pos.CENTER);
 
         HBox arms = new HBox();
         Label armsLabel = new Label("Arms:");
-        Label armsEquiped = new Label(player.getArmSlot()); 
+        Label armsEquiped = new Label("player.getArmSlot()");
         arms.getChildren().addAll(armsLabel, armsEquiped);
         arms.setAlignment(Pos.CENTER);
 
         HBox legs = new HBox();
         Label legsLabel = new Label("Legs:");
-        Label legsEquiped = new Label(player.getLegSlot()); 
+        Label legsEquiped = new Label("player.getLegSlot()");
         legs.getChildren().addAll(legsLabel, legsEquiped);
         legs.setAlignment(Pos.CENTER);
 
         HBox feet = new HBox();
         Label feetLabel = new Label("Feet:");
-        Label feetEquiped = new Label(player.getFeetSlot()); 
+        Label feetEquiped = new Label("player.getFeetSlot()");
         feet.getChildren().addAll(feetLabel, feetEquiped);
         feet.setAlignment(Pos.CENTER);
         
         HBox hands = new HBox();
         Label handLabel = new Label("Hands:");
-        Label handEquiped = new Label(player.getHandSlot()); 
+        Label handEquiped = new Label("player.getHandSlot()");
         hands.getChildren().addAll(handLabel, handEquiped);
         hands.setAlignment(Pos.CENTER);
 
         //Inventory Back Button
         Button back = new Button("Back to mapScreen");
-        back.setOnAction(e -> primaryStage.setScene(mapScreen));
+        back.setOnAction(e -> primaryStage.setScene(gameScreen));
 
         inventoryMenu.getChildren().addAll(inventoryLabel, inventory_gold, head, chest, arms, legs, hands, feet, back);
         inventoryMenu.setAlignment(Pos.CENTER);
