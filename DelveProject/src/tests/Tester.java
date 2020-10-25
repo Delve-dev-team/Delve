@@ -1,4 +1,7 @@
-package classes;
+package tests;
+
+import classes.GameController;
+import classes.ObjectPosition;
 
 public class Tester {
 
