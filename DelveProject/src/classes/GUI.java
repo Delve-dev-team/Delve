@@ -16,7 +16,7 @@ import static javafx.application.Application.launch;
 
 public class GUI extends Application
 {
-    Scene startScreen, abilityScreen, mapScreen, inventoryScreen, endScreen;
+    Scene startScreen, abilityScreen, gameScreen, endScreen;
     GameController gameController = new GameController();
     Map map;
     Player player;
@@ -46,53 +46,43 @@ public class GUI extends Application
 
         startLayout.getChildren().addAll(startLabel, startButton);
         startScreen = new Scene(startLayout, 300, 250);
+        
+        //GameScreen
 
-
-        //abilityScreen scene
-        //elements of AbilityScreen:
-        Label abilityLabel = new Label("this is abilityScreen");
-        Button abilityToMapButton = new Button("back to mapScreen");
-
-        HBox abilityMenu = new HBox(5);
-        Button abilityOne = new Button();
-        Button abilityTwo = new Button();
-        Button abilityThree = new Button();
-        Button abilityFour = new Button();
-        Button abilityFive = new Button();
-        abilityMenu.getChildren().addAll(abilityOne, abilityTwo, abilityThree, abilityFour, abilityFive);
-
-        abilityToMapButton.setOnAction(e -> primaryStage.setScene(mapScreen));
-        VBox abilityLayout = new VBox(20);
-
-        abilityLayout.getChildren().addAll(abilityLabel, abilityToMapButton, abilityMenu);
-        abilityScreen = new Scene(abilityLayout, 300, 250);
+        //To Inventory:
+        Button inventoryButton = new Button("Inventory");
+        inventoryButton.setOnAction(e -> primaryStage.setScene(inventoryScreen));
 
 
         //mapScreen scene
         //elements of mapScreen
-        Label mapLabel = new Label("this is mapScreen");
-        Button abilityButton = new Button("go to ability Screen");
-        Button inventoryButton = new Button("go to inventory Screen");
-        abilityButton.setOnAction(e -> primaryStage.setScene(abilityScreen));
-        inventoryButton.setOnAction(e -> primaryStage.setScene(inventoryScreen));
+        Label mapLabel = new Label("This is the Map:");
 
-        //VBOX that holds stats of the player
-        VBox statsOfPlayer = new VBox(10);
+
+        //Map of the Game
+        String mapString = map.gridsOnGui(); //map.Print();
+        Label gameMap = new Label(mapString);
+        gameMap.setFont(new Font("Arial", 5));
+
+        //Abilities Bar:
+        Label abilityLabel = new Label("Abilities");
+
+        HBox abilityMenu = new HBox(5);
         Label health = new Label("Health: " + String.valueOf(healthValue));
+        Button abilityOne = new Button("Ability 1");
+        Button abilityTwo = new Button("Ability 2");
+        Button abilityThree = new Button("Ability 3");
+        Button abilityFour = new Button("Ability 4");
+        Button abilityFive = new Button("Ability 5");
         Label mana = new Label("Mana: " + String.valueOf(manaValue));
-        Label gold = new Label("Gold: " + String.valueOf(goldValue));
-        statsOfPlayer.getChildren().addAll(health, mana, gold);
-        statsOfPlayer.setAlignment(Pos.TOP_RIGHT);
+        abilityMenu.getChildren().addAll(health, abilityOne, abilityTwo, abilityThree, abilityFour, abilityFive, mana);
+        abilityMenu.setAlignment(Pos.BOTTOM_CENTER);
 
-        //map
-        TextFlow mapHolder = new TextFlow();
-        Text gameMap = new Text(map.guiMap());
-        mapHolder.getChildren().add(gameMap);
+        //VBOX that holds everything on this scene
+        VBox gameScreenLayout = new VBox(20);
+        gameScreenLayout.getChildren().addAll(inventoryButton, mapLabel, gameMap, abilityLabel, abilityMenu);
 
-        //screen layout
-        Pane mapLayout = new Pane();
-        mapLayout.getChildren().addAll(mapLabel, abilityButton, inventoryButton, statsOfPlayer, mapHolder);
-        mapScreen = new Scene(mapLayout, map.getTileArray().length * 13, map.getTileArray().length * 13);
+        gameScreen = new Scene(gameScreenLayout, map.getTileArray().length * 10, map.getTileArray().length * 10);
 
         //Inventory Screen:
         
