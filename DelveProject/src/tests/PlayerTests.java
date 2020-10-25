@@ -7,7 +7,7 @@ import classes.Enemy;
 import classes.Item;
 import classes.Player;
 
-class Playertests {
+class PlayerTests {
 
     @Test
 	void playerAttackTest() {
