@@ -10,7 +10,6 @@ public class Map {
 	
 	public Map(int currentLevel) {
 		
-		
 		//this is only a vague guide for the number of rooms to generated
 		//the actual number of rooms will probably be a bit higher.
 		int numRooms = (int)(currentLevel / 2) + 5;
@@ -58,18 +57,6 @@ public class Map {
 			}
 			
 			//generate exit in last room generated
-			
-			
-			
-			
-			//debugging
-			System.out.println("\nNew Iteration");
-			System.out.print("Point (" + currentPoint.x  + ", " + currentPoint.y + ") ");
-			for (int k = 0; k < exits.length; k++) {
-				System.out.print(exits[k]);
-			}
-			System.out.println();
-			
 			//add the rooms that must be attached to be generated			
 			for (int i = 0; i < exits.length; i++) {
 				if (exits[i] == ExitDir.DOWN && roomArray[currentPoint.x + 1][currentPoint.y] == null) {
