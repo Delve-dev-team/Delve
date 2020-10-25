@@ -14,7 +14,7 @@ import static javafx.application.Application.launch;
 
 public class GUI extends Application
 {
-    Scene startScreen, InventoryScreen, gameScreen, endScreen;
+    Scene startScreen, inventoryScreen, gameScreen, endScreen;
     GameController gameController = new GameController();
     Map map;
     Player player;
@@ -46,7 +46,9 @@ public class GUI extends Application
         startScreen = new Scene(startLayout, 300, 250);
         
         //GameScreen
-
+        //button going to Inventory Screen
+        Button toInventory = new Button("Inventory");
+        toInventory.setOnAction(e -> primaryStage.setScene(inventoryScreen));
 
         //mapScreen scene
         //elements of mapScreen
@@ -55,7 +57,7 @@ public class GUI extends Application
         //Map of the Game
         String mapString = map.guiMap(); //map.Print();
         Label gameMap = new Label(mapString);
-        gameMap.setFont(new Font("Arial", 5));
+        gameMap.setFont(new Font("Arial", 10));
 
         //Abilities Bar:
         Label abilityLabel = new Label("Abilities");
@@ -73,7 +75,7 @@ public class GUI extends Application
 
         //VBOX that holds everything on this scene
         VBox gameScreenLayout = new VBox(20);
-        gameScreenLayout.getChildren().addAll(mapLabel, gameMap, abilityLabel, abilityMenu);
+        gameScreenLayout.getChildren().addAll(mapLabel, toInventory,gameMap, abilityLabel, abilityMenu);
         gameScreen = new Scene(gameScreenLayout, map.getTileArray().length * 10, map.getTileArray().length * 10);
 
         //Inventory Screen:
@@ -119,12 +121,17 @@ public class GUI extends Application
         hands.setAlignment(Pos.CENTER);
 
         //Inventory Back Button
-        Button back = new Button("Back to mapScreen");
-        back.setOnAction(e -> primaryStage.setScene(gameScreen));
+        Button toGameScreen = new Button("Back to mapScreen");
+        toGameScreen.setOnAction(e -> primaryStage.setScene(gameScreen));
 
-        inventoryMenu.getChildren().addAll(inventoryLabel, inventory_gold, head, chest, arms, legs, hands, feet, back);
+        inventoryMenu.getChildren().addAll(inventoryLabel, inventory_gold, head, chest, arms, legs, hands, feet, toGameScreen);
         inventoryMenu.setAlignment(Pos.CENTER);
-        
+        //VBOX that holds everything on this scene
+        //VBOX that holds everything on this scene
+        VBox inventoryScreenLayout = new VBox(20);
+        inventoryScreenLayout.getChildren().addAll(inventoryMenu);
+        inventoryScreen = new Scene(inventoryScreenLayout, map.getTileArray().length * 10, map.getTileArray().length * 10);
+
         primaryStage.setScene(startScreen);
         primaryStage.show();
     }
