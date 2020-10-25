@@ -15,6 +15,10 @@ public class GameController {
         this.map = new Map(currentLevel);
         //Create and Assign enemyClasses
     }
+    public static void main(String[] args)
+    {
+
+    }
     //boolean method(methods that returns a boolean value)
     public boolean isGameOver()
     {
