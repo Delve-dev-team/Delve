@@ -22,6 +22,7 @@ public class Map {
 		
 		//first, generate the rooms: use an ArrayList to keep track of rooms to be generated
 		ArrayList<Point> roomsToGenerate = new ArrayList<Point>();
+		ArrayList<Point> alreadyGenerated = new ArrayList<Point>();
 		
 		int roomsCompleted = 0;
 		roomsToGenerate.add(new Point(centerIndex, centerIndex));
@@ -32,6 +33,7 @@ public class Map {
 			
 			
 			//make a new room
+			
 			Point currentPoint = roomsToGenerate.get(0);
 			roomsToGenerate.remove(0);
 			ExitDir[] exits = GenerateRandomExits(currentPoint, numRooms - roomsCompleted);
@@ -47,9 +49,9 @@ public class Map {
 			
 			//if This is the first room completed, generate player. 
 			if (roomsCompleted == 1) {
-				roomArray[currentPoint.x][currentPoint.y] = new Room(exits, enemiesToPlace, shouldGenerateShop, true);
+				roomArray[currentPoint.x][currentPoint.y] = new Room(exits, 0, shouldGenerateShop, true);
 			}
-			else if (roomsCompleted >= numRooms && roomsToGenerate.isEmpty()) {
+			else if (roomsCompleted >= numRooms && roomsToGenerate.size() <= 1) {
 				roomArray[currentPoint.x][currentPoint.y] = new Room(exits, enemiesToPlace, shouldGenerateShop, false, true);
 			}
 			else {
@@ -75,52 +77,56 @@ public class Map {
 				if (exits[i] == ExitDir.DOWN && roomArray[currentPoint.x + 1][currentPoint.y] == null) {
 					
 					boolean isInArray = false;
-					for (int p = 0; p < roomsToGenerate.size(); p++) {
-						if ((currentPoint.x + 1 == roomsToGenerate.get(p).x && currentPoint.y == roomsToGenerate.get(p).y)) {
+					for (int p = 0; p < alreadyGenerated.size(); p++) {
+						if ((currentPoint.x + 1 == alreadyGenerated.get(p).x && currentPoint.y == alreadyGenerated.get(p).y)) {
 							isInArray = true;
 						}
 					}
 					if (!isInArray) {
 						roomsToGenerate.add(new Point(currentPoint.x + 1, currentPoint.y));
+						alreadyGenerated.add(new Point(currentPoint.x + 1, currentPoint.y));
 					}
 
 				}
 				else if (exits[i] == ExitDir.UP && roomArray[currentPoint.x - 1][currentPoint.y] == null) {
 					
 					boolean isInArray = false;
-					for (int p = 0; p < roomsToGenerate.size(); p++) {
-						if ((currentPoint.x - 1 == roomsToGenerate.get(p).x && currentPoint.y == roomsToGenerate.get(p).y)) {
+					for (int p = 0; p < alreadyGenerated.size(); p++) {
+						if ((currentPoint.x - 1 == alreadyGenerated.get(p).x && currentPoint.y == alreadyGenerated.get(p).y)) {
 							isInArray = true;
 						}
 					}
 					if (!isInArray) {
 						roomsToGenerate.add(new Point(currentPoint.x - 1, currentPoint.y));
+						alreadyGenerated.add(new Point(currentPoint.x - 1, currentPoint.y));
 					}
 					
 				}
 				else if (exits[i] == ExitDir.LEFT && roomArray[currentPoint.x][currentPoint.y - 1] == null) {
 					
 					boolean isInArray = false;
-					for (int p = 0; p < roomsToGenerate.size(); p++) {
-						if ((currentPoint.x == roomsToGenerate.get(p).x && currentPoint.y == roomsToGenerate.get(p).y - 1)) {
+					for (int p = 0; p < alreadyGenerated.size(); p++) {
+						if ((currentPoint.x == alreadyGenerated.get(p).x && currentPoint.y == alreadyGenerated.get(p).y - 1)) {
 							isInArray = true;
 						}
 					}		
 					if (!isInArray) {
 						roomsToGenerate.add(new Point(currentPoint.x, currentPoint.y - 1));
+						alreadyGenerated.add(new Point(currentPoint.x, currentPoint.y - 1));
 					}
 				}
 				else if (exits[i] == ExitDir.RIGHT && roomArray[currentPoint.x][currentPoint.y + 1] == null) {
 					
 					boolean isInArray = false;
 
-					for (int p = 0; p < roomsToGenerate.size(); p++) {
-						if ((currentPoint.x == roomsToGenerate.get(p).x && currentPoint.y == roomsToGenerate.get(p).y + 1)) {
+					for (int p = 0; p < alreadyGenerated.size(); p++) {
+						if ((currentPoint.x == alreadyGenerated.get(p).x && currentPoint.y == alreadyGenerated.get(p).y + 1)) {
 							isInArray = true; 
 						}
-					}	
+					}
 					if (!isInArray) {
 						roomsToGenerate.add(new Point(currentPoint.x, currentPoint.y + 1));
+						alreadyGenerated.add(new Point(currentPoint.x, currentPoint.y + 1));
 					}
 				}
 			}
@@ -133,29 +139,29 @@ public class Map {
 	
 	public void constructTileArray() {
 		
-		int leftIndex = roomArray.length;
-		int rightIndex = 0;
-		int topIndex = roomArray.length;
-		int bottomIndex = 0; 
-		
-		//fetches rightmost and leftmost indices of room array
-		//this can be used later to make the map look prettier (and more efficient)
-		for (int row = 0; row < roomArray.length; row++) {
-			for (int col = 0; col < roomArray.length; col++) {
-				if (roomArray[row][col] != null) {
-					if (row < topIndex)
-						topIndex = row;
-					if (row > bottomIndex)
-						bottomIndex = row;
-					if (col < leftIndex)
-						leftIndex = col;
-					if (col > rightIndex)
-						rightIndex = col;
-				} 	
-			}
-		}
-		//unused code above
-		
+//		int leftIndex = roomArray.length;
+//		int rightIndex = 0;
+//		int topIndex = roomArray.length;
+//		int bottomIndex = 0; 
+//		
+//		//fetches rightmost and leftmost indices of room array
+//		//this can be used later to make the map look prettier (and more efficient)
+//		for (int row = 0; row < roomArray.length; row++) {
+//			for (int col = 0; col < roomArray.length; col++) {
+//				if (roomArray[row][col] != null) {
+//					if (row < topIndex)
+//						topIndex = row;
+//					if (row > bottomIndex)
+//						bottomIndex = row;
+//					if (col < leftIndex)
+//						leftIndex = col;
+//					if (col > rightIndex)
+//						rightIndex = col;
+//				} 	
+//			}
+//		}
+//		//unused code above
+//		
 		
 		tileArray = new Tile[roomArray.length * 10][roomArray.length * 10];
 		
@@ -176,94 +182,25 @@ public class Map {
 	}
 	
 	public void printTileGrid() {
-		for (Tile[] tiles : tileArray) {
+		for (int row = 0; row < tileArray.length; row++) {
 			for (int col = 0; col < tileArray.length; col++) {
 
-				if (tiles[col].isWallHere())
+				if (tileArray[row][col].isWallHere())
 					System.out.print("w");
-				else if (tiles[col].isShopHere())
+				else if (tileArray[row][col].isShopHere())
 					System.out.print("S");
-				else if (tiles[col].isEnemyHere())
+				else if (tileArray[row][col].isEnemyHere())
 					System.out.print("E");
-				else if (tiles[col].isPlayerHere())
+				else if (tileArray[row][col].isPlayerHere())
 					System.out.print("P");
-				else if (tiles[col].isExitHere())
+				else if (tileArray[row][col].isExitHere())
 					System.out.print("X");
 				else
 					System.out.print(" ");
-
+				
 			}
 			System.out.println();
 		}
-	}
-
-	private ArrayList<Integer> guiMapBoundaries() {
-		//get the location we want to show on the map
-		int startingRow = Integer.MAX_VALUE;
-		int startingColumn = Integer.MAX_VALUE;
-		int endingRow = Integer.MIN_VALUE;
-		int endingColumn = Integer.MIN_VALUE;
-		//this is the expand distance just to give the sense of boundaries
-		final int EXPAND_DISTANCE = 5;
-		for (int row = 0; row < tileArray.length; row++) {
-			for (int col = 0; col < tileArray.length; col++) {
-				if (tileArray[row][col].isInDoor() && row <= startingRow)
-					startingRow = row;
-				if (tileArray[row][col].isInDoor() && col <= startingColumn)
-					startingColumn = col;
-				if (tileArray[row][col].isInDoor() && row >= endingRow)
-					endingRow = row;
-				if (tileArray[row][col].isInDoor() && col >= endingColumn)
-					endingColumn = col;
-			}
-		}
-
-		startingRow -= EXPAND_DISTANCE;
-		startingColumn -= EXPAND_DISTANCE;
-		endingRow += EXPAND_DISTANCE;
-		endingColumn += EXPAND_DISTANCE;
-
-		System.out.println("starting row: " + startingRow);
-		System.out.println("starting column: " + startingColumn);
-		System.out.println("ending row: " + endingRow);
-		System.out.println("ending column: " + endingColumn);
-		ArrayList<Integer> result = new ArrayList<>(Arrays.asList(startingRow, startingColumn, endingRow, endingColumn));
-
-		return result;
-	}
-
-	public int guiMapLineNum()
-	{
-		return Math.abs(guiMapBoundaries().get(2) - guiMapBoundaries().get(0));
-	}
-
-	public String guiMap()
-	{
-		//start printing the result we want
-
-		//count is for debugging
-		int count = 0;
-		//result is the string we return for the map
-		String result = "";
-		for (int row = guiMapBoundaries().get(0); row < guiMapBoundaries().get(2); row ++) {
-			for (int col = guiMapBoundaries().get(1); col < guiMapBoundaries().get(3); col++) {
-				if (tileArray[row][col].isWallHere())
-					result = result.concat("W");
-				else if (tileArray[row][col].isShopHere())
-					result = result.concat("S");
-				else if (tileArray[row][col].isEnemyHere())
-					result = result.concat("E");
-				else if (tileArray[row][col].isPlayerHere())
-					result = result.concat("P");
-				else if (tileArray[row][col].isExitHere())
-					result = result.concat("X");
-				else
-					result = result.concat(" ");
-			}
-			result = result.concat("\n");
-
-		}
-		return result;
 	}
 	
 	private ExitDir[] GenerateRandomExits(Point currentRoomLoc, int newRoomsPossible){
