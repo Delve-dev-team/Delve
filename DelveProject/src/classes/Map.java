@@ -348,10 +348,10 @@ public class Map {
 //		}
 //		return enemiesPosition;
 //	}
-	public int numberOfEnemies()
-	{
-		return this.getEnemiesPositions().size();
-	}
+//	public int numberOfEnemies()
+//	{
+//		return this.getEnemiesPositions().size();
+//	}
 	public Room[][] getRoomArray() {
 		return roomArray;
 	}
