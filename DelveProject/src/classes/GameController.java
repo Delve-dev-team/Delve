@@ -28,15 +28,15 @@ public class GameController {
         return getMap().getPlayer().getHP() <= 0;
     }
 
-    public boolean isExitReach()  //shows if the Player reaches the exit of that level
-    {
-        return (map.getTileArray()[map.getPlayerPosition().getRowPosition()][map.getPlayerPosition().getColumnPosition()].isExitHere());
-    }
-
-    public boolean isShopReach()  //shows if the Player reaches the exit of that level
-    {
-        return (map.getTileArray()[map.getPlayerPosition().getRowPosition()][map.getPlayerPosition().getColumnPosition()].isShopHere());
-    }
+//    public boolean isExitReach()  //shows if the Player reaches the exit of that level
+//    {
+//        return (map.getTileArray()[map.getPlayerPosition().getRowPosition()][map.getPlayerPosition().getColumnPosition()].isExitHere());
+//    }
+//
+//    public boolean isShopReach()  //shows if the Player reaches the exit of that level
+//    {
+//        return (map.getTileArray()[map.getPlayerPosition().getRowPosition()][map.getPlayerPosition().getColumnPosition()].isShopHere());
+//    }
 
 //    public boolean isThereAvailableTarget()
 //    {

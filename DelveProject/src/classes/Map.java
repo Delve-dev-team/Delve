@@ -324,34 +324,34 @@ public class Map {
 		}
 	}
 
-	public ObjectPosition getPlayerPosition()
-	{
-		ObjectPosition playerPosition = null;
-		for (int row = 0; row < tileArray.length; row++) {
-			for (int col = 0; col < tileArray[0].length; col++) {
-				if ((tileArray[row][col].isPlayerHere()))
-					playerPosition = ObjectPosition.of(row, col, this);
-			}
-		}
-		return playerPosition;
-	}
-
-
-	public ArrayList<ObjectPosition> getEnemiesPositions()
-	{
-		ArrayList<ObjectPosition> enemiesPosition = new ArrayList<>();
-		for (int row = 0; row < tileArray.length; row++) {
-			for (int col = 0; col < tileArray[0].length; col++) {
-				if ((tileArray[row][col].isEnemyHere()))
-						enemiesPosition.add(ObjectPosition.of(row, col, this));
-			}
-		}
-		return enemiesPosition;
-	}
-	public int numberOfEnemies()
-	{
-		return this.getEnemiesPositions().size();
-	}
+//	public ObjectPosition getPlayerPosition()
+//	{
+//		ObjectPosition playerPosition = null;
+//		for (int row = 0; row < tileArray.length; row++) {
+//			for (int col = 0; col < tileArray[0].length; col++) {
+//				if ((tileArray[row][col].isPlayerHere()))
+//					playerPosition = ObjectPosition.of(row, col, this);
+//			}
+//		}
+//		return playerPosition;
+//	}
+//
+//
+//	public ArrayList<ObjectPosition> getEnemiesPositions()
+//	{
+//		ArrayList<ObjectPosition> enemiesPosition = new ArrayList<>();
+//		for (int row = 0; row < tileArray.length; row++) {
+//			for (int col = 0; col < tileArray[0].length; col++) {
+//				if ((tileArray[row][col].isEnemyHere()))
+//						enemiesPosition.add(ObjectPosition.of(row, col, this));
+//			}
+//		}
+//		return enemiesPosition;
+//	}
+//	public int numberOfEnemies()
+//	{
+//		return this.getEnemiesPositions().size();
+//	}
 	public Room[][] getRoomArray() {
 		return roomArray;
 	}
