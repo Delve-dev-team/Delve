@@ -2,11 +2,11 @@ package classes;
 
 public class Item {
     
-    private String name;
+    private String name = "";
 
-    private String slot;
+    private String slot = "";
 
-    private String effect;
+    private String effect = "";
 
     private int cooldown;
 

@@ -6,6 +6,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
@@ -46,19 +47,18 @@ public class GUI extends Application
         startLayout.getChildren().addAll(startLabel, startButton);
         startScreen = new Scene(startLayout, 300, 250);
 
-        //GameScreen
+
         //abilityScreen scene
         //elements of AbilityScreen:
-       
-        Label abilityLabel = new Label("Abilities");
+        Label abilityLabel = new Label("this is abilityScreen");
         Button abilityToMapButton = new Button("back to mapScreen");
 
         HBox abilityMenu = new HBox(5);
-        Button abilityOne = new Button("Ability 1");
-        Button abilityTwo = new Button("Ability 2");
-        Button abilityThree = new Button("Ability 3");
-        Button abilityFour = new Button("Ability 4");
-        Button abilityFive = new Button("Ability 5");
+        Button abilityOne = new Button();
+        Button abilityTwo = new Button();
+        Button abilityThree = new Button();
+        Button abilityFour = new Button();
+        Button abilityFive = new Button();
         abilityMenu.getChildren().addAll(abilityOne, abilityTwo, abilityThree, abilityFour, abilityFive);
 
         abilityToMapButton.setOnAction(e -> primaryStage.setScene(mapScreen));
@@ -85,14 +85,14 @@ public class GUI extends Application
         statsOfPlayer.setAlignment(Pos.TOP_RIGHT);
 
         //map
-        Text gameMap = new Text(map.guiMap());
-        gameMap.applyCss();
-        double width = (gameMap.getLayoutBounds().getWidth() / map.guiMapLineNum());
-        gameMap.setWrappingWidth(width);
         TextFlow mapHolder = new TextFlow();
-
+        Text gameMap = new Text(map.guiMap());
         mapHolder.getChildren().add(gameMap);
-        mapScreen = new Scene(mapHolder, map.getTileArray().length * 13, map.getTileArray().length * 13);
+
+        //screen layout
+        Pane mapLayout = new Pane();
+        mapLayout.getChildren().addAll(mapLabel, abilityButton, inventoryButton, statsOfPlayer, mapHolder);
+        mapScreen = new Scene(mapLayout, map.getTileArray().length * 13, map.getTileArray().length * 13);
 
         //Inventory Screen:
         
@@ -103,7 +103,7 @@ public class GUI extends Application
 
         HBox head = new HBox();
         Label headLabel = new Label("Head:");
-        Label headEquiped = new Label(player.getHeadSlot); 
+        Label headEquiped = new Label(player.getHeadSlot());
         head.getChildren().addAll(headLabel, headEquiped);
         head.setAlignment(Pos.CENTER);
 
