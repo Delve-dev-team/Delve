@@ -78,7 +78,7 @@ public class GUI extends Application
         //VBOX that holds everything on this scene
         VBox gameScreenLayout = new VBox(20);
         gameScreenLayout.getChildren().addAll(mapLabel, toInventory, guiMap, abilityLabel, abilityMenu);
-        gameScreen = new Scene(gameScreenLayout, map.getTileArray().length * 10, map.getTileArray().length * 10);
+        gameScreen = new Scene(gameScreenLayout, guiMap.getWidth() * 10, guiMap.getHeight() * 10);
 
         //Inventory Screen:
         VBox inventoryMenu = new VBox(10);
