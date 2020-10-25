@@ -30,8 +30,15 @@ class Playertests {
         Player a = new Player();
         a.equipItem(a, new Item("hat", "headSlot", 1, "ordinary hat", 1));
         assertEquals("hat", a.getHeadSlot());
-        a.unequipItem("headSlot");
-		assertEquals(null, a.getHeadSlot());
 	}
+
+	@Test
+	void playerUnequipTest(){
+    	Player a = new Player();
+		a.equipItem(a, new Item("hat", "headSlot", 1, "ordinary hat", 1));
+		assertEquals("None has been unequipped.", a.unequipItem("headSlot"));
+	}
+
+
 	
 }

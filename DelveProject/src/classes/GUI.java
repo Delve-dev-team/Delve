@@ -83,7 +83,6 @@ public class GUI extends Application
         //Inventory Screen:
         VBox inventoryMenu = new VBox(10);
         Label inventoryLabel = new Label("Inventory");
-        Label blankLabel = new Label();
         Label inventory_gold = new Label("Gold: " + String.valueOf(goldValue));
 
         HBox head = new HBox();
@@ -128,7 +127,7 @@ public class GUI extends Application
 
         inventoryMenu.getChildren().addAll(inventoryLabel, inventory_gold, head, chest, arms, legs, hands, feet, toGameScreen);
         inventoryMenu.setAlignment(Pos.CENTER);
-        //VBOX that holds everything on this scene
+
         //VBOX that holds everything on this scene
         VBox inventoryScreenLayout = new VBox(20);
         inventoryScreenLayout.getChildren().addAll(inventoryMenu);
