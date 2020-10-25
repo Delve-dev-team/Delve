@@ -18,7 +18,7 @@ public class Tester {
 		GameController gameController = new GameController();
 
 		gameController.enterNextLevel();
-		for (ObjectPosition position: gameController.AvailableTargets())
+		for (ObjectPosition position: gameController.availableTargets())
 		{
 			System.out.println("target at: " + position.getRowPosition() + " " + position.getColumnPosition());
 		}

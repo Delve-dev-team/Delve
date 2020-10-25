@@ -1,5 +1,7 @@
 package classes;
  
+import sun.awt.image.ImageWatched;
+
 import java.util.LinkedList;
 import java.util.Queue;
 
@@ -7,12 +9,13 @@ public class Tile {
 
 	private boolean exit = false;
 	private Queue<Player> player;
-	private Shop shop;
+	private Queue<Shop> shop;
 	private boolean wall = false;
 	private Queue<Enemy> enemy;
 	public Tile(boolean isTileWalled) {
 		enemy = new LinkedList<>();
 		player = new LinkedList<>();
+		shop = new LinkedList<>();
 		wall = isTileWalled;
 	}
 	
@@ -25,17 +28,18 @@ public class Tile {
 		if (!wall)
 			this.player.add(player);
 	}
-	public void removeShop()
+	public Shop removeShop()
 	{
 		if (!wall)
-			shop = null;
+			return shop.remove();
+		else
+			return null;
 	}
 	public void addShop(Shop shop)
 	{
 		if (!wall)
-			this.shop = shop;
+			this.shop.add(shop);
 	}
-
 	public void removeWall()
 	{
 		wall = false;
@@ -85,25 +89,24 @@ public class Tile {
 	}
 	public boolean isShopHere()
 	{
-		return this.shop != null;
+		return !shop.isEmpty();
 	}
 	public boolean isWallHere()
 	{
 		return wall;
 	}
+
 	public boolean isEnemyHere()
 	{
 		return !enemy.isEmpty();
 	}
-	public boolean isExitHere()
-	{
+
+	public boolean isExitHere() {
 		return exit;
 	}
-	public boolean isEmpty()
-	{
+	public boolean isEmpty() {
 		return (!isEnemyHere() && !isPlayerHere() && !isShopHere() && !isExitHere() && !isWallHere());
 	}
-
 	public boolean isInDoor()
 	{
 		return isEnemyHere() || isPlayerHere() || isExitHere() || isShopHere() || isEmpty();
@@ -112,12 +115,13 @@ public class Tile {
 	public Player getPlayer() {
 		return player.peek();
 	}
+
 	public Enemy getEnemy()
 	{
 		return enemy.peek();
 	}
 
 	public Shop getShop() {
-		return shop;
+		return shop.peek();
 	}
 }

@@ -3,7 +3,6 @@ package classes;
 import javafx.application.Application;
 
 import java.util.ArrayList;
-import java.util.List;
 
 //this class provides the basic logic for the main method in GUI class to properly function
 public class GameController {
@@ -20,7 +19,6 @@ public class GameController {
     public static void main(String[] args)
     {
         Application.launch(GUI.class);
-
     }
     //boolean method(methods that returns a boolean value)
     public boolean isGameOver()
@@ -40,12 +38,12 @@ public class GameController {
 
     public boolean isThereAvailableTarget()
     {
-        return !AvailableTargets().isEmpty();
+        return !availableTargets().isEmpty();
     }
 
     //action methods
     //this method returns a list of positions of the targets that the player can attack, GUI can use these position to show where those available targets are.
-    public ArrayList<ObjectPosition> AvailableTargets()
+    public ArrayList<ObjectPosition> availableTargets()
     {
         ArrayList<ObjectPosition> validTargets = new ArrayList<>();
         for (ObjectPosition position: map.getEnemiesPositions())

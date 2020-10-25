@@ -7,9 +7,8 @@ public class Map {
 
 	private Room[][] roomArray;
 	private Tile[][] tileArray;
-	
 	public Map(int currentLevel) {
-		
+
 		//this is only a vague guide for the number of rooms to generated
 		//the actual number of rooms will probably be a bit higher.
 		int numRooms = (int)(currentLevel / 2) + 5;
@@ -17,8 +16,6 @@ public class Map {
 		//numRooms also acts as a center of sorts for the map to start at.
 		int centerIndex = numRooms;
 
-		
-		
 		//first, generate the rooms: use an ArrayList to keep track of rooms to be generated
 		ArrayList<Point> roomsToGenerate = new ArrayList<Point>();
 		
@@ -210,10 +207,6 @@ public class Map {
 		endingRow += EXPAND_DISTANCE;
 		endingColumn += EXPAND_DISTANCE;
 
-		System.out.println("starting row: " + startingRow);
-		System.out.println("starting column: " + startingColumn);
-		System.out.println("ending row: " + endingRow);
-		System.out.println("ending column: " + endingColumn);
 		ArrayList<Integer> result = new ArrayList<>(Arrays.asList(startingRow, startingColumn, endingRow, endingColumn));
 
 		return result;
@@ -555,12 +548,11 @@ public class Map {
 		List<Enemy> enemies = new ArrayList<>();
 		for (Tile[] tiles : tileArray) {
 			for (int col = 0; col < tileArray[0].length; col++) {
-				if ((tiles[col].isPlayerHere()))
+				if ((tiles[col].isEnemyHere()))
 						enemies.add(tiles[col].getEnemy());
 			}
 		}
 		return enemies;
 	}
-
 
 }
