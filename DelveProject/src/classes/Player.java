@@ -174,28 +174,40 @@ public class Player {
    }
 
    public String getHeadSlot() {
+
+        if (headSlot == null)
+            return "None";
        return headSlot.getName();
    }
 
    public String getChestlot() {
-       return chestSlot.getName();
+        if(chestSlot == null)
+            return "None";
+        return chestSlot.getName();
    }
 
    public String getArmSlot() {
-       return armSlot.getName();
+        if (armSlot == null)
+            return "None";
+        return armSlot.getName();
    }
 
    public String getLegSlot() {
-       return legSlot.getName();
+        if(legSlot == null)
+           return "None";
+        return legSlot.getName();
    }
 
    public String getFeetSlot() {
+       if(chestSlot == null)
+           return "None";
        return feetSlot.getName();
    }
 
    public String getHandSlot() {
-       return handSlot.getName();
+        if(chestSlot == null)
+           return "None";
+        return handSlot.getName();
    }
- 
 
 }
