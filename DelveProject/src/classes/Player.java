@@ -41,7 +41,7 @@ public class Player {
         handSlot = null;
     }
 
-    public String EquipItem(Player player, Item item) {
+    public String equipItem(Player player, Item item) {
 
         if (item.getSlot().equals("headSlot")) {
             if (player.headSlot == null) {
@@ -79,7 +79,7 @@ public class Player {
         return "error";
     }
 
-    public String UnequipItem (String slot) {
+    public String unequipItem (String slot) {
 
         if (slot == "headSlot") {
             if (this.headSlot != null) {
