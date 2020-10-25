@@ -176,25 +176,50 @@ public class Map {
 	}
 	
 	public void printTileGrid() {
-		for (int row = 0; row < tileArray.length; row++) {
+		for (Tile[] tiles : tileArray) {
 			for (int col = 0; col < tileArray.length; col++) {
 
-				if (tileArray[row][col].isWallHere())
+				if (tiles[col].isWallHere())
 					System.out.print("w");
-				else if (tileArray[row][col].isShopHere())
+				else if (tiles[col].isShopHere())
 					System.out.print("S");
-				else if (tileArray[row][col].isEnemyHere())
+				else if (tiles[col].isEnemyHere())
 					System.out.print("E");
-				else if (tileArray[row][col].isPlayerHere())
+				else if (tiles[col].isPlayerHere())
 					System.out.print("P");
-				else if (tileArray[row][col].isExitHere())
+				else if (tiles[col].isExitHere())
 					System.out.print("X");
 				else
 					System.out.print(" ");
-				
+
 			}
 			System.out.println();
 		}
+	}
+
+	public String gridsOnGui()
+	{
+		String result = "";
+		for (Tile[] tiles : tileArray) {
+			for (int col = 0; col < tileArray.length; col++) {
+
+				if (tiles[col].isWallHere())
+					result = result.concat("W");
+				else if (tiles[col].isShopHere())
+					result = result.concat("S");
+				else if (tiles[col].isEnemyHere())
+					result = result.concat("E");
+				else if (tiles[col].isPlayerHere())
+					result = result.concat("P");
+				else if (tiles[col].isExitHere())
+					result = result.concat("X");
+				else
+					result = result.concat(" ");
+
+			}
+			result = result.concat("\n");
+		}
+		return result;
 	}
 	
 	private ExitDir[] GenerateRandomExits(Point currentRoomLoc, int newRoomsPossible){

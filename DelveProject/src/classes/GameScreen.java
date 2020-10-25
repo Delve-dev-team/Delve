@@ -32,7 +32,7 @@ public class GameScreen extends Application implements EventHandler<ActionEvent>
         inventory.setText("Inventory");
         inventory.setOnAction(e -> window.setScene(scene2));
 
-        HBox abilityMenu = new HBox(10);
+        HBox abilityMenu = new HBox(5);
         Button abilityOne = new Button();
         Button abilityTwo = new Button();
         Button abilityThree = new Button();
