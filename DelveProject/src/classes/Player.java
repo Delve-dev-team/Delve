@@ -209,6 +209,5 @@ public class Player {
            return "None";
         return handSlot.getName();
    }
- 
 
 }
