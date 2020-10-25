@@ -45,18 +45,19 @@ public class GUI extends Application
         startLayout.getChildren().addAll(startLabel, startButton);
         startScreen = new Scene(startLayout, 300, 250);
 
-
+        //GameScreen
         //abilityScreen scene
         //elements of AbilityScreen:
-        Label abilityLabel = new Label("this is abilityScreen");
+       
+        Label abilityLabel = new Label("Abilities");
         Button abilityToMapButton = new Button("back to mapScreen");
 
         HBox abilityMenu = new HBox(5);
-        Button abilityOne = new Button();
-        Button abilityTwo = new Button();
-        Button abilityThree = new Button();
-        Button abilityFour = new Button();
-        Button abilityFive = new Button();
+        Button abilityOne = new Button("Ability 1");
+        Button abilityTwo = new Button("Ability 2");
+        Button abilityThree = new Button("Ability 3");
+        Button abilityFour = new Button("Ability 4");
+        Button abilityFive = new Button("Ability 5");
         abilityMenu.getChildren().addAll(abilityOne, abilityTwo, abilityThree, abilityFour, abilityFive);
 
         abilityToMapButton.setOnAction(e -> primaryStage.setScene(mapScreen));
@@ -99,37 +100,37 @@ public class GUI extends Application
 
         HBox head = new HBox();
         Label headLabel = new Label("Head:");
-        Label headEquiped = new Label("Helmet"); //player.getHeadSlot();
+        Label headEquiped = new Label(player.getHeadSlot); 
         head.getChildren().addAll(headLabel, headEquiped);
         head.setAlignment(Pos.CENTER);
 
         HBox chest = new HBox();
         Label chestLabel = new Label("Chest:");
-        Label chestEquiped = new Label("Breastplate"); //player.getChestSlot();
+        Label chestEquiped = new Label(player.getChestlot()); 
         chest.getChildren().addAll(chestLabel, chestEquiped);
         chest.setAlignment(Pos.CENTER);
 
         HBox arms = new HBox();
         Label armsLabel = new Label("Arms:");
-        Label armsEquiped = new Label("Nothing"); //player.getArmSlot();
+        Label armsEquiped = new Label(player.getArmSlot()); 
         arms.getChildren().addAll(armsLabel, armsEquiped);
         arms.setAlignment(Pos.CENTER);
 
         HBox legs = new HBox();
         Label legsLabel = new Label("Legs:");
-        Label legsEquiped = new Label("Leggins"); //player.getLegSlot();
+        Label legsEquiped = new Label(player.getLegSlot()); 
         legs.getChildren().addAll(legsLabel, legsEquiped);
         legs.setAlignment(Pos.CENTER);
 
         HBox feet = new HBox();
         Label feetLabel = new Label("Feet:");
-        Label feetEquiped = new Label("Chickens"); //player.getFeetSlot();
+        Label feetEquiped = new Label(player.getFeetSlot()); 
         feet.getChildren().addAll(feetLabel, feetEquiped);
         feet.setAlignment(Pos.CENTER);
         
         HBox hands = new HBox();
         Label handLabel = new Label("Hands:");
-        Label handEquiped = new Label("Jesus takes the wheel"); //player.armSlot();
+        Label handEquiped = new Label(player.getHandSlot()); 
         hands.getChildren().addAll(handLabel, handEquiped);
         hands.setAlignment(Pos.CENTER);
 
