@@ -29,7 +29,7 @@ public class Player {
     public Player() {
         HP = 1000;
         MP = 1000;
-        attackDamage = 100;
+        attackDamage = 10;
         movementSpeed = 10;
         attackRange = 10;
         gold = 0;
