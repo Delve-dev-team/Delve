@@ -8,7 +8,7 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
-//Application.launch(GameScreen.class, args);
+//Application.launch(StartScreen.class, args);
 
 public class StartScreen extends Application implements EventHandler<ActionEvent> {
     Button startButton = new Button();
