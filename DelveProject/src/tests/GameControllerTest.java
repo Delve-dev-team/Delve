@@ -1,11 +1,12 @@
 package tests;
 
-import classes.GameController;
-import classes.Map;
-import classes.ObjectPosition;
-import classes.Tile;
+import classes.*;
+import javafx.application.Application;
 import org.junit.jupiter.api.Test;
+import sun.applet.Main;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -14,9 +15,8 @@ class GameControllerTest {
 
 
     @Test
-    void main()
-    {
-
+    void main()throws IOException {
+        Application.launch(GUI.class);
     }
 
     @Test

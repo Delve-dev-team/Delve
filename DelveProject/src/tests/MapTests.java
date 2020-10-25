@@ -1,9 +1,16 @@
 package tests;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import classes.ObjectPosition;
+import classes.Player;
 import org.junit.jupiter.api.Test;
 import classes.Map;
 import classes.Tile;
+
+import javax.swing.text.Position;
+import java.util.ArrayList;
 
 class MapTests {
 
@@ -55,6 +62,45 @@ class MapTests {
 		Map map2 = new Map(15);
 		map2.printRoomArray();
 		map2.printTileGrid();
+	}
+
+	@Test
+	void getPlayerPosition()
+	{
+		Map map = new Map(1);
+		ObjectPosition playerPosition = null;
+		for (int row = 0; row < map.getTileArray().length; row++) {
+			for (int col = 0; col < map.getTileArray()[0].length; col++) {
+				if ((map.getTileArray()[row][col].isPlayerHere()))
+					playerPosition = ObjectPosition.of(row, col, map);
+			}
+		}
+		assertEquals(playerPosition, map.getPlayerPosition());
+	}
+
+	@Test
+	void getEnemiesPositions()
+	{
+		Map map = new Map(1);
+		ArrayList<ObjectPosition> enemiesPosition = new ArrayList<>();
+		for (int row = 0; row < map.getTileArray().length; row++) {
+			for (int col = 0; col < map.getTileArray()[0].length; col++) {
+				if ((map.getTileArray()[row][col].isEnemyHere()))
+					enemiesPosition.add(ObjectPosition.of(row, col, map));
+			}
+		}
+
+		assertEquals(map.getEnemiesPositions(),enemiesPosition);;
+	}
+
+	@Test
+	void shortestPath()
+	{
+		Map map = new Map(1);
+		for (ObjectPosition position: map.getEnemiesPositions())
+		{
+			assertEquals(map.shortestPath(map.getTileArray(),position,map.getPlayerPosition()),map.shortestPath(map.getTileArray(),position,map.getPlayerPosition()));
+		}
 	}
 	
 }
