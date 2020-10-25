@@ -45,18 +45,19 @@ public class GUI extends Application
         startLayout.getChildren().addAll(startLabel, startButton);
         startScreen = new Scene(startLayout, 300, 250);
 
-
+        //GameScreen
         //abilityScreen scene
         //elements of AbilityScreen:
-        Label abilityLabel = new Label("this is abilityScreen");
+       
+        Label abilityLabel = new Label("Abilities");
         Button abilityToMapButton = new Button("back to mapScreen");
 
         HBox abilityMenu = new HBox(5);
-        Button abilityOne = new Button();
-        Button abilityTwo = new Button();
-        Button abilityThree = new Button();
-        Button abilityFour = new Button();
-        Button abilityFive = new Button();
+        Button abilityOne = new Button("Ability 1");
+        Button abilityTwo = new Button("Ability 2");
+        Button abilityThree = new Button("Ability 3");
+        Button abilityFour = new Button("Ability 4");
+        Button abilityFive = new Button("Ability 5");
         abilityMenu.getChildren().addAll(abilityOne, abilityTwo, abilityThree, abilityFour, abilityFive);
 
         abilityToMapButton.setOnAction(e -> primaryStage.setScene(mapScreen));
