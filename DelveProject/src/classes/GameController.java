@@ -1,5 +1,7 @@
 package classes;
 
+import javafx.application.Application;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -7,16 +9,17 @@ import java.util.List;
 public class GameController {
     //private fields:
     private static int currentLevel;
-    private Map map;
+    private static Map map;
 
     public GameController()
     {
         currentLevel = 1;
-        this.map = new Map(currentLevel);
+        map = new Map(currentLevel);
         //Create and Assign enemyClasses
     }
     public static void main(String[] args)
     {
+        Application.launch(GUI.class);
 
     }
     //boolean method(methods that returns a boolean value)
@@ -79,7 +82,7 @@ public class GameController {
         return currentLevel;
     }
 
-    public Map getMap() {
+    public static Map getMap() {
         return map;
     }
 }

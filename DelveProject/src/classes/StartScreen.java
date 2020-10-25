@@ -17,6 +17,7 @@ public class StartScreen extends Application implements EventHandler<ActionEvent
 
     @Override
     public void start(Stage primaryStage) throws Exception {
+
         primaryStage.setTitle("Delve");
 
         startButton.setText("Start");

@@ -17,11 +17,11 @@ public class GameScreen extends Application implements EventHandler<ActionEvent>
     Button back;
     Stage window;
     Scene scene1, scene2;
-    // Player player = GameController.getPlayer();
-    int healthValue = 100; // player.getHP();
-    int manaValue = 100; // player.getMP();
-    int goldValue = 100; //player.getGold();
-    //Map map = GameController.getMap();
+    Map map = GameController.getMap();
+    Player player = GameController.getMap().getPlayer();
+    int healthValue = player.getHP();
+    int manaValue =  player.getMP();
+    int goldValue = player.getGold();
 
     @Override
     public void start(Stage primaryStage) throws Exception {
