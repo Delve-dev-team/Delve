@@ -321,34 +321,34 @@ public class Map {
 		}
 	}
 
-	public ObjectPosition getPlayerPosition()
-	{
-		ObjectPosition playerPosition = null;
-		for (int row = 0; row < tileArray.length; row++) {
-			for (int col = 0; col < tileArray[0].length; col++) {
-				if ((tileArray[row][col].isPlayerHere()))
-					playerPosition = ObjectPosition.of(row, col, this);
-			}
-		}
-		return playerPosition;
-	}
-
-
-	public ArrayList<ObjectPosition> getEnemiesPositions()
-	{
-		ArrayList<ObjectPosition> enemiesPosition = new ArrayList<>();
-		for (int row = 0; row < tileArray.length; row++) {
-			for (int col = 0; col < tileArray[0].length; col++) {
-				if ((tileArray[row][col].isEnemyHere()))
-						enemiesPosition.add(ObjectPosition.of(row, col, this));
-			}
-		}
-		return enemiesPosition;
-	}
-	public int numberOfEnemies()
-	{
-		return this.getEnemiesPositions().size();
-	}
+//	public ObjectPosition getPlayerPosition()
+//	{
+//		ObjectPosition playerPosition = null;
+//		for (int row = 0; row < tileArray.length; row++) {
+//			for (int col = 0; col < tileArray[0].length; col++) {
+//				if ((tileArray[row][col].isPlayerHere()))
+//					playerPosition = ObjectPosition.of(row, col, this);
+//			}
+//		}
+//		return playerPosition;
+//	}
+//
+//
+//	public ArrayList<ObjectPosition> getEnemiesPositions()
+//	{
+//		ArrayList<ObjectPosition> enemiesPosition = new ArrayList<>();
+//		for (int row = 0; row < tileArray.length; row++) {
+//			for (int col = 0; col < tileArray[0].length; col++) {
+//				if ((tileArray[row][col].isEnemyHere()))
+//						enemiesPosition.add(ObjectPosition.of(row, col, this));
+//			}
+//		}
+//		return enemiesPosition;
+//	}
+//	public int numberOfEnemies()
+//	{
+//		return this.getEnemiesPositions().size();
+//	}
 	public Room[][] getRoomArray() {
 		return roomArray;
 	}
@@ -358,172 +358,172 @@ public class Map {
 	}
 
 	//a depth first search method that determine the shortest distance between Player and Enemy
-	public int shortestPath(Tile[][] map, ObjectPosition startingPosition, ObjectPosition endPosition) {
-
-		//setting the start positions
-		int startingRow = startingPosition.getRowPosition();
-		int startingColumn = startingPosition.getColumnPosition();
-
-		//set the distance
-		int distance = 0;
-
-		//set the list for possible paths
-		Queue<ObjectPosition> nextToVisit = new LinkedList<>();
-		nextToVisit.offer(ObjectPosition.of(startingRow,startingColumn,this));
-		Queue<ObjectPosition> temp = new LinkedList<>();
-
-		//set the boolean map
-		boolean[][] visited = new boolean[map.length][map[0].length];
-		visited[startingRow][startingColumn] = true;
-
-		//for debugging
-		int loopcount = 0;
-
-		while (!nextToVisit.isEmpty()) {
-			//first read the starting position row and column
-			ObjectPosition position = nextToVisit.poll();
-			int row = position.getRowPosition();
-			int col = position.getColumnPosition();
-
-			//check if the position is already the ending position
-			if (position.equals(endPosition)) {
-				visited[row][col] = true;
-				return distance;
-			}
-			//check if going up is a option
-			if (row > 0 && !map[row - 1][col].isWallHere() && !visited[row - 1][col]) {
-				temp.offer(ObjectPosition.of(row - 1,col,this));
-				visited[row - 1][col] = true;
-			}
-			//check if going down is a option
-			if (row < map.length - 1 && !map[row + 1][col].isWallHere()&& !visited[row + 1][col]) {
-				temp.offer(ObjectPosition.of(row + 1,col,this));
-				visited[row + 1][col] = true;
-			}
-			//check if going left is a option
-			if (col > 0 && !map[row][col - 1].isWallHere()  && !visited[row][col - 1]) {
-				temp.offer(ObjectPosition.of(row ,col - 1,this));
-				visited[row][col - 1] = true;
-			}
-			//check if going right is a option
-			if (col < map[0].length - 1 && !map[row][col + 1].isWallHere() && !visited[row][col + 1]) {
-				temp.offer(ObjectPosition.of(row ,col + 1,this));
-				visited[row][col + 1] = true;
-			}
-
-			//if there are no where to go next and the there are temp options, what to go next become temp options, refresh the temp and iterate distance
-			if (nextToVisit.isEmpty() && !temp.isEmpty())
-			{
-				nextToVisit = temp;
-				temp = new LinkedList<>();
-				distance++;
-			}
-
-		}
-		//if the end position is visited return the distance, if it is not, means there's no path to the end position, return -1
-		if (visited[endPosition.getRowPosition()][endPosition.getColumnPosition()]) {
-			return distance;
-		}
-		else {
-			return -1;
-		}
-	}
+//	public int shortestPath(Tile[][] map, ObjectPosition startingPosition, ObjectPosition endPosition) {
+//
+//		//setting the start positions
+//		int startingRow = startingPosition.getRowPosition();
+//		int startingColumn = startingPosition.getColumnPosition();
+//
+//		//set the distance
+//		int distance = 0;
+//
+//		//set the list for possible paths
+//		Queue<ObjectPosition> nextToVisit = new LinkedList<>();
+//		nextToVisit.offer(ObjectPosition.of(startingRow,startingColumn,this));
+//		Queue<ObjectPosition> temp = new LinkedList<>();
+//
+//		//set the boolean map
+//		boolean[][] visited = new boolean[map.length][map[0].length];
+//		visited[startingRow][startingColumn] = true;
+//
+//		//for debugging
+//		int loopcount = 0;
+//
+//		while (!nextToVisit.isEmpty()) {
+//			//first read the starting position row and column
+//			ObjectPosition position = nextToVisit.poll();
+//			int row = position.getRowPosition();
+//			int col = position.getColumnPosition();
+//
+//			//check if the position is already the ending position
+//			if (position.equals(endPosition)) {
+//				visited[row][col] = true;
+//				return distance;
+//			}
+//			//check if going up is a option
+//			if (row > 0 && !map[row - 1][col].isWallHere() && !visited[row - 1][col]) {
+//				temp.offer(ObjectPosition.of(row - 1,col,this));
+//				visited[row - 1][col] = true;
+//			}
+//			//check if going down is a option
+//			if (row < map.length - 1 && !map[row + 1][col].isWallHere()&& !visited[row + 1][col]) {
+//				temp.offer(ObjectPosition.of(row + 1,col,this));
+//				visited[row + 1][col] = true;
+//			}
+//			//check if going left is a option
+//			if (col > 0 && !map[row][col - 1].isWallHere()  && !visited[row][col - 1]) {
+//				temp.offer(ObjectPosition.of(row ,col - 1,this));
+//				visited[row][col - 1] = true;
+//			}
+//			//check if going right is a option
+//			if (col < map[0].length - 1 && !map[row][col + 1].isWallHere() && !visited[row][col + 1]) {
+//				temp.offer(ObjectPosition.of(row ,col + 1,this));
+//				visited[row][col + 1] = true;
+//			}
+//
+//			//if there are no where to go next and the there are temp options, what to go next become temp options, refresh the temp and iterate distance
+//			if (nextToVisit.isEmpty() && !temp.isEmpty())
+//			{
+//				nextToVisit = temp;
+//				temp = new LinkedList<>();
+//				distance++;
+//			}
+//
+//		}
+//		//if the end position is visited return the distance, if it is not, means there's no path to the end position, return -1
+//		if (visited[endPosition.getRowPosition()][endPosition.getColumnPosition()]) {
+//			return distance;
+//		}
+//		else {
+//			return -1;
+//		}
+//	}
 
 	//move enemies one block into a random direction
-	public void moveEnemies() {
-		for (ObjectPosition position: this.getEnemiesPositions())
-		{
-			Random random = new Random();
-			boolean readyToGO = false;
-			int row = position.getRowPosition();
-			int col = position.getColumnPosition();
-			int direction;
-			while (!readyToGO)
-			{
-				direction = random.nextInt(4);
-				switch (direction)
-				{
-					//going up
-					case 0:
-						if (isLegalForEnemies(row - 1,col))
-						{
-							getTileArray()[row - 1][col].addEnemy(getTileArray()[row][col].removeEnemy());
-							readyToGO = true;
-						}
-					break;
+//	public void moveEnemies() {
+//		for (ObjectPosition position: this.getEnemiesPositions())
+//		{
+//			Random random = new Random();
+//			boolean readyToGO = false;
+//			int row = position.getRowPosition();
+//			int col = position.getColumnPosition();
+//			int direction;
+//			while (!readyToGO)
+//			{
+//				direction = random.nextInt(4);
+//				switch (direction)
+//				{
+//					//going up
+//					case 0:
+//						if (isLegalForEnemies(row - 1,col))
+//						{
+//							getTileArray()[row - 1][col].addEnemy(getTileArray()[row][col].removeEnemy());
+//							readyToGO = true;
+//						}
+//					break;
+//
+//						//going down
+//					case 1:
+//						if (isLegalForEnemies(row + 1,col))
+//						{
+//							getTileArray()[row + 1][col].addEnemy(getTileArray()[row][col].removeEnemy());
+//							readyToGO = true;
+//						}
+//						break;
+//
+//						//going left
+//					case 2:
+//						if (isLegalForEnemies(row, col - 1))
+//						{
+//							getTileArray()[row][col - 1].addEnemy(getTileArray()[row][col].removeEnemy());
+//							readyToGO = true;
+//						}
+//						break;
+//
+//						//going right
+//					case 3:
+//						if (isLegalForEnemies(row, col + 1))
+//						{
+//							getTileArray()[row][col + 1].addEnemy(getTileArray()[row][col].removeEnemy());
+//							readyToGO = true;
+//						}
+//						break;
+//				}
+//			}
+//
+//		}
+//
+//	}
 
-						//going down
-					case 1:
-						if (isLegalForEnemies(row + 1,col))
-						{
-							getTileArray()[row + 1][col].addEnemy(getTileArray()[row][col].removeEnemy());
-							readyToGO = true;
-						}
-						break;
-
-						//going left
-					case 2:
-						if (isLegalForEnemies(row, col - 1))
-						{
-							getTileArray()[row][col - 1].addEnemy(getTileArray()[row][col].removeEnemy());
-							readyToGO = true;
-						}
-						break;
-
-						//going right
-					case 3:
-						if (isLegalForEnemies(row, col + 1))
-						{
-							getTileArray()[row][col + 1].addEnemy(getTileArray()[row][col].removeEnemy());
-							readyToGO = true;
-						}
-						break;
-				}
-			}
-
-		}
-
-	}
-
-	public void movePlayer(Direction direction)
-	{
-		int row = getPlayerPosition().getRowPosition();
-		int col = getPlayerPosition().getColumnPosition();
-		switch (direction)
-		{
-			//going up
-			case UP:
-				if (isLegalForPlayer(row - 1, col))
-					getTileArray()[row - 1][col].addPlayer(getTileArray()[row][col].removePlayer());
-				else
-					System.out.println("can not go up");
-				break;
-
-			//going down
-			case DOWN:
-				if (isLegalForPlayer(row + 1, col))
-					getTileArray()[row + 1][col].addPlayer(getTileArray()[row][col].removePlayer());
-				else
-					System.out.println("can not go down");
-				break;
-
-			//going left
-			case LEFT:
-				if (isLegalForPlayer(row, col - 1))
-					getTileArray()[row][col - 1].addPlayer(getTileArray()[row][col].removePlayer());
-				else
-					System.out.println("can not go left");
-				break;
-
-			//going right
-			case RIGHT:
-				if (isLegalForPlayer(row, col + 1))
-					getTileArray()[row][col + 1].addPlayer(getTileArray()[row][col].removePlayer());
-				else
-					System.out.println("can not go right");
-				break;
-		}
-	}
+//	public void movePlayer(Direction direction)
+//	{
+//		int row = getPlayerPosition().getRowPosition();
+//		int col = getPlayerPosition().getColumnPosition();
+//		switch (direction)
+//		{
+//			//going up
+//			case UP:
+//				if (isLegalForPlayer(row - 1, col))
+//					getTileArray()[row - 1][col].addPlayer(getTileArray()[row][col].removePlayer());
+//				else
+//					System.out.println("can not go up");
+//				break;
+//
+//			//going down
+//			case DOWN:
+//				if (isLegalForPlayer(row + 1, col))
+//					getTileArray()[row + 1][col].addPlayer(getTileArray()[row][col].removePlayer());
+//				else
+//					System.out.println("can not go down");
+//				break;
+//
+//			//going left
+//			case LEFT:
+//				if (isLegalForPlayer(row, col - 1))
+//					getTileArray()[row][col - 1].addPlayer(getTileArray()[row][col].removePlayer());
+//				else
+//					System.out.println("can not go left");
+//				break;
+//
+//			//going right
+//			case RIGHT:
+//				if (isLegalForPlayer(row, col + 1))
+//					getTileArray()[row][col + 1].addPlayer(getTileArray()[row][col].removePlayer());
+//				else
+//					System.out.println("can not go right");
+//				break;
+//		}
+//	}
 
 	private boolean isLegalForEnemies(int row, int col){
 		return getTileArray()[row][col].isEmpty();

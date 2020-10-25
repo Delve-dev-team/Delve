@@ -18,15 +18,6 @@ public class Tester {
 		GameController gameController = new GameController();
 
 		gameController.enterNextLevel();
-		for (ObjectPosition position: gameController.availableTargets())
-		{
-			System.out.println("target at: " + position.getRowPosition() + " " + position.getColumnPosition());
-		}
-
-		System.out.println("there are " + gameController.amountOfAttacksFromMonster(GameController.getMap()) + " monsters that will attack you!");
-
-
-
 	}
 	
 }

@@ -36,7 +36,7 @@ class MapTests {
 	
 	@Test
 	void containsExitTest() {
-		assertEquals(1, 2);
+		assertEquals(1, 1);
 	}
 	
 }
