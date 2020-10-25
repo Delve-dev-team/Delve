@@ -14,7 +14,7 @@ class Playertests {
 		Player a = new Player();
 		Enemy b = new Enemy(1);
 		a.attack(b);
-		assertEquals(40, a.getHP());
+		assertEquals(40, b.getHP());
 	}
 
     @Test
