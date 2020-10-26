@@ -8,24 +8,33 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.Font;
+
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 
-import static javafx.application.Application.launch;
+import java.awt.*;
+
 
 public class GUI extends Application
 {
-    Scene startScreen, inventoryScreen, gameScreen, endScreen;
+    Scene startScreen, inventoryScreen, gameScreen;
     GameController gameController = new GameController();
     Map map;
     Player player;
     int healthValue;
     int manaValue;
     int goldValue;
+
+    //constant value:
+
+    //screen size
+    GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
+    final int SCREEN_WIDTH = gd.getDisplayMode().getWidth();
+    final int SCREEN_HEIGHT = gd.getDisplayMode().getHeight();
     @Override
     public void start(Stage primaryStage)
     {
+
         //overall stats:
         map = GameController.getMap();
         player = map.getPlayer();
@@ -40,12 +49,19 @@ public class GUI extends Application
         //elements of startScreen:
         Label startLabel = new Label("Welcome to Delve");
         Button startButton = new Button("Start Game!");
-
         startButton.setOnAction(e -> primaryStage.setScene(gameScreen));
+
+        startLabel.setTextAlignment(TextAlignment.CENTER);
+        startLabel.setAlignment(Pos.CENTER);
+
+        startButton.setTextAlignment(TextAlignment.CENTER);
+        startButton.setAlignment(Pos.CENTER);
+
         VBox startLayout = new VBox(20);
+        startLayout.setAlignment(Pos.CENTER);
 
         startLayout.getChildren().addAll(startLabel, startButton);
-        startScreen = new Scene(startLayout, 300, 250);
+        startScreen = new Scene(startLayout, SCREEN_WIDTH, SCREEN_HEIGHT);
         
         //GameScreen
         //button going to Inventory Screen
@@ -63,26 +79,25 @@ public class GUI extends Application
         Label abilityLabel = new Label("Abilities");
 
         HBox abilityMenu = new HBox(5);
-        Label health = new Label("Health: " + String.valueOf(healthValue));
+        Label health = new Label("Health: " + healthValue);
         Button abilityOne = new Button("Ability 1");
         Button abilityTwo = new Button("Ability 2");
         Button abilityThree = new Button("Ability 3");
         Button abilityFour = new Button("Ability 4");
         Button abilityFive = new Button("Ability 5");
-        Label mana = new Label("Mana: " + String.valueOf(manaValue));
+        Label mana = new Label("Mana: " + manaValue);
         abilityMenu.getChildren().addAll(health, abilityOne, abilityTwo, abilityThree, abilityFour, abilityFive, mana);
         abilityMenu.setAlignment(Pos.BOTTOM_CENTER);
 
         //VBOX that holds everything on this scene
         VBox gameScreenLayout = new VBox(20);
         gameScreenLayout.getChildren().addAll(mapLabel, toInventory, guiMap, abilityLabel, abilityMenu);
-        gameScreen = new Scene(gameScreenLayout, guiMap.getWidth() * 10, guiMap.getHeight() * 10);
+        gameScreen = new Scene(gameScreenLayout, SCREEN_WIDTH, SCREEN_HEIGHT);
 
         //Inventory Screen:
         VBox inventoryMenu = new VBox(10);
         Label inventoryLabel = new Label("Inventory");
-        Label blankLabel = new Label();
-        Label inventory_gold = new Label("Gold: " + String.valueOf(goldValue));
+        Label inventory_gold = new Label("Gold: " + goldValue);
 
         HBox head = new HBox();
         Label headLabel = new Label("Head:");
@@ -128,9 +143,9 @@ public class GUI extends Application
         inventoryMenu.setAlignment(Pos.CENTER);
         //VBOX that holds everything on this scene
         //VBOX that holds everything on this scene
-        VBox inventoryScreenLayout = new VBox(20);
+        VBox inventoryScreenLayout = new VBox(10);
         inventoryScreenLayout.getChildren().addAll(inventoryMenu);
-        inventoryScreen = new Scene(inventoryScreenLayout, map.getTileArray().length * 10, map.getTileArray().length * 10);
+        inventoryScreen = new Scene(inventoryScreenLayout, SCREEN_WIDTH, SCREEN_HEIGHT);
 
         primaryStage.setScene(startScreen);
         primaryStage.show();
