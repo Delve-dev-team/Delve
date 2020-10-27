@@ -140,7 +140,6 @@ public class GUI extends Application
                     map.movePlayer(Direction.UP);
                     //update the grid
                     gameScreenLayout.getChildren().set(2,generateGuiMap(map));
-                    primaryStage.setScene(gameScreen);
 
                 }
                 if (goDown) {
@@ -148,7 +147,6 @@ public class GUI extends Application
                     map.movePlayer(Direction.DOWN);
                     //update the grid
                     gameScreenLayout.getChildren().set(2,generateGuiMap(map));
-                    primaryStage.setScene(gameScreen);
 
                 }
                 if (goLeft) {
@@ -156,17 +154,12 @@ public class GUI extends Application
                     map.movePlayer(Direction.LEFT);
                     //update the grid
                     gameScreenLayout.getChildren().set(2,generateGuiMap(map));
-                    primaryStage.setScene(gameScreen);
-
-
                 }
                 if (goRight) {
                     //update the map
                     map.movePlayer(Direction.RIGHT);
                     //update the grid
                     gameScreenLayout.getChildren().set(2,generateGuiMap(map));
-                    primaryStage.setScene(gameScreen);
-
                 }
             }
         };
@@ -250,6 +243,8 @@ public class GUI extends Application
                     result.add(new Label(" "), row, col);
             }
         }
+        result.setAlignment(Pos.CENTER);
+        result.setPrefSize(SCREEN_WIDTH * 0.75,SCREEN_HEIGHT * 0.75);
         return result;
     }
 
