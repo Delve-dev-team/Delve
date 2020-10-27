@@ -82,8 +82,6 @@ public class GUI extends Application
 
         //Map of the Game and resizing the map
         GridPane guiMap = generateGuiMap(map);
-        guiMap.setAlignment(Pos.CENTER);
-        guiMap.setPrefSize(SCREEN_WIDTH * 0.75,SCREEN_HEIGHT * 0.75);
 
         //Abilities Bar:
         Label abilityLabel = new Label("Abilities");
