@@ -494,7 +494,7 @@ public class Map {
 				if (isLegalForPlayer(row - 1, col))
 					getTileArray()[row - 1][col].addPlayer(getTileArray()[row][col].removePlayer());
 				else
-					System.out.println("can not go up");
+					System.out.println("can not go left");
 				break;
 
 			//going down
@@ -502,7 +502,7 @@ public class Map {
 				if (isLegalForPlayer(row + 1, col))
 					getTileArray()[row + 1][col].addPlayer(getTileArray()[row][col].removePlayer());
 				else
-					System.out.println("can not go down");
+					System.out.println("can not go right");
 				break;
 
 			//going left
@@ -510,7 +510,7 @@ public class Map {
 				if (isLegalForPlayer(row, col - 1))
 					getTileArray()[row][col - 1].addPlayer(getTileArray()[row][col].removePlayer());
 				else
-					System.out.println("can not go left");
+					System.out.println("can not go up");
 				break;
 
 			//going right
@@ -518,7 +518,7 @@ public class Map {
 				if (isLegalForPlayer(row, col + 1))
 					getTileArray()[row][col + 1].addPlayer(getTileArray()[row][col].removePlayer());
 				else
-					System.out.println("can not go right");
+					System.out.println("can not go down");
 				break;
 		}
 	}
