@@ -429,7 +429,7 @@ public class Map {
 		}
 	}
 
-	/*public void moveEnemies() {
+	public void moveEnemies() {
 		for (ObjectPosition position: this.getEnemiesPositions())
 		{
 			Random random = new Random();
@@ -490,7 +490,7 @@ public class Map {
 		switch (direction)
 		{
 			//going up
-			case UP:
+			case LEFT:
 				if (isLegalForPlayer(row - 1, col))
 					getTileArray()[row - 1][col].addPlayer(getTileArray()[row][col].removePlayer());
 				else
@@ -498,7 +498,7 @@ public class Map {
 				break;
 
 			//going down
-			case DOWN:
+			case RIGHT:
 				if (isLegalForPlayer(row + 1, col))
 					getTileArray()[row + 1][col].addPlayer(getTileArray()[row][col].removePlayer());
 				else
@@ -506,7 +506,7 @@ public class Map {
 				break;
 
 			//going left
-			case LEFT:
+			case UP:
 				if (isLegalForPlayer(row, col - 1))
 					getTileArray()[row][col - 1].addPlayer(getTileArray()[row][col].removePlayer());
 				else
@@ -514,17 +514,17 @@ public class Map {
 				break;
 
 			//going right
-			case RIGHT:
+			case DOWN:
 				if (isLegalForPlayer(row, col + 1))
 					getTileArray()[row][col + 1].addPlayer(getTileArray()[row][col].removePlayer());
 				else
 					System.out.println("can not go right");
 				break;
 		}
-	}*/
+	}
 
 
-		private boolean isLegalForEnemies(int row, int col){
+	private boolean isLegalForEnemies(int row, int col){
 		return getTileArray()[row][col].isEmpty();
 	}
 

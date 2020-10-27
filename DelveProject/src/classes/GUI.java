@@ -1,12 +1,17 @@
 package classes;
 
+import javafx.animation.AnimationTimer;
 import javafx.application.Application;
+import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 
 import javafx.scene.text.TextAlignment;
@@ -31,6 +36,9 @@ public class GUI extends Application
     GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
     final int SCREEN_WIDTH = gd.getDisplayMode().getWidth();
     final int SCREEN_HEIGHT = gd.getDisplayMode().getHeight();
+
+    //determine the direction character is going
+    boolean  goUp, goDown, goLeft, goRight;
     @Override
     public void start(Stage primaryStage)
     {
@@ -92,9 +100,77 @@ public class GUI extends Application
         abilityMenu.setAlignment(Pos.BOTTOM_CENTER);
 
         //VBOX that holds everything on this scene
+
         VBox gameScreenLayout = new VBox(20);
         gameScreenLayout.getChildren().addAll(mapLabel, toInventory, guiMap, abilityLabel, abilityMenu);
         gameScreen = new Scene(gameScreenLayout, SCREEN_WIDTH, SCREEN_HEIGHT);
+
+        //handle the player movement
+        gameScreen.setOnKeyPressed(new EventHandler<KeyEvent>() {
+            @Override
+            public void handle(KeyEvent event) {
+                switch (event.getCode())
+                {
+                    case W:    goUp = true; break;
+                    case S:  goDown = true; break;
+                    case A:  goLeft  = true; break;
+                    case D: goRight  = true; break;
+                }
+            }
+        });
+
+        gameScreen.setOnKeyReleased(new EventHandler<KeyEvent>() {
+            @Override
+            public void handle(KeyEvent event) {
+                switch (event.getCode())
+                {
+                    case W:    goUp = false; break;
+                    case S:  goDown = false; break;
+                    case A:  goLeft  = false; break;
+                    case D: goRight  = false; break;
+                }
+            }
+        });
+
+        AnimationTimer timer = new AnimationTimer() {
+            @Override
+            public void handle(long now) {
+                if (goUp) {
+                    //update the map
+                    map.movePlayer(Direction.UP);
+                    //update the grid
+                    gameScreenLayout.getChildren().set(2,generateGuiMap(map));
+                    primaryStage.setScene(gameScreen);
+
+                }
+                if (goDown) {
+                    //update the map
+                    map.movePlayer(Direction.DOWN);
+                    //update the grid
+                    gameScreenLayout.getChildren().set(2,generateGuiMap(map));
+                    primaryStage.setScene(gameScreen);
+
+                }
+                if (goLeft) {
+                    //update the map
+                    map.movePlayer(Direction.LEFT);
+                    //update the grid
+                    gameScreenLayout.getChildren().set(2,generateGuiMap(map));
+                    primaryStage.setScene(gameScreen);
+
+
+                }
+                if (goRight) {
+                    //update the map
+                    map.movePlayer(Direction.RIGHT);
+                    //update the grid
+                    gameScreenLayout.getChildren().set(2,generateGuiMap(map));
+                    primaryStage.setScene(gameScreen);
+
+                }
+            }
+        };
+        timer.start();
 
         //Inventory Screen:
         VBox inventoryMenu = new VBox(10);
@@ -130,7 +206,7 @@ public class GUI extends Application
         Label feetEquiped = new Label(player.getFeetSlot());
         feet.getChildren().addAll(feetLabel, feetEquiped);
         feet.setAlignment(Pos.CENTER);
-        
+
         HBox hands = new HBox();
         Label handLabel = new Label("Hands:");
         Label handEquiped = new Label(player.getHandSlot());
@@ -153,6 +229,7 @@ public class GUI extends Application
         primaryStage.show();
     }
 
+    //method that generate map
     private GridPane generateGuiMap(Map map)
     {
         GridPane result = new GridPane();
