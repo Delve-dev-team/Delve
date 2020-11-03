@@ -50,7 +50,7 @@ public class GameController {
         {
             System.out.println("Player position: " + "row " + map.getPlayerPosition().getRowPosition() + "column " + map.getPlayerPosition().getColumnPosition());
             System.out.println("enemy positions: " + "row " + position.getRowPosition() + "column " + position.getColumnPosition());
-            int distance = map.shortestPath(map.getTileArray(),map.getPlayerPosition(),position);
+            int distance = map.shortestPath(map.getTileArray(),map.getPlayerPosition(), position);
             System.out.println("distance from player: " + distance);
             if (getMap().getPlayer().getAttackRange() >= distance && distance != -1)
                 validTargets.add(position);
@@ -80,6 +80,37 @@ public class GameController {
         return currentLevel;
     }
 
+    // This thing is some vector math that java isn't really built to do, but w/e :P
+    public static boolean canXAttackY(int row1, int col1, int row2, int col2, double attackRange) {
+    	//if not within range just return false immediately
+    	if (Math.sqrt((row2 - row1) * (row2 - row1) + (col2 - col1) * (col2 - col1)) > attackRange) {
+    		return false;
+    	} 
+    	
+    	//interpolate linearly between source and destination to look for obstacles (walls)
+    	int iterations = 2 * (Math.abs(row1 - row2) + Math.abs(col1 - col2));
+    	double stepSize = 1 / iterations;
+    	int t = 0;
+    	
+    	for (int i = 0; i < iterations; i++) {
+    		
+    		double nextRow = row1 + t * (row2 - row1);
+    		double nextCol = col1 + t * (col2 - col1);
+    		
+    		int adjustedRow = (int)(nextRow + .5f);
+    		int adjustedCol = (int)(nextCol + .5f);
+    		
+    		if (map.getTileArray()[adjustedRow][adjustedCol].isWallHere()) {
+    			return false;
+    		}
+    		
+    		//raise t by a proportionate amount
+    		t += stepSize;
+    		
+    	}
+    	return true;
+    }
+    
     public static Map getMap() {
         return map;
     }
