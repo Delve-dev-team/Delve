@@ -3,7 +3,6 @@ package tests;
 import classes.*;
 import javafx.application.Application;
 import org.junit.jupiter.api.Test;
-import sun.applet.Main;
 
 import java.io.IOException;
 import java.io.InputStream;
