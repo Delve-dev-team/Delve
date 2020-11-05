@@ -58,17 +58,7 @@ public class GameController {
 
         return validTargets;
     }
-    public int amountOfAttacksFromMonster(Map map)
-    {
-        int count = 0;
-        for (ObjectPosition position: map.getEnemiesPositions())
-        {
-            int distance = map.shortestPath(map.getTileArray(),position,map.getPlayerPosition());
-            if (10 >= distance && distance != -1)
-                count ++;
-        }
-        return count;
-    }
+
     public void enterNextLevel()
     {
         currentLevel ++;
