@@ -16,19 +16,18 @@ import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 
 import java.awt.*;
+import java.util.List;
 
 
 public class GUI extends Application
 {
-    private Scene startScreen, inventoryScreen, gameScreen;
+    private Scene inventoryScreen;
+    private Scene gameScreen;
     private GameController gameController = new GameController();
     private Map map;
     private Player player;
-    private int healthValue;
-    private int manaValue;
     private int goldValue;
-    private int ap;
-    private static int Round;
+    private static int round;
 
     //constant value:
 
@@ -38,11 +37,11 @@ public class GUI extends Application
     final int SCREEN_HEIGHT = gd.getDisplayMode().getHeight();
 
     //determine the direction character is going
-    boolean  goUp, goDown, goLeft, goRight, nextRound;
+    boolean  goUp, goDown, goLeft, goRight, nextRoundPressed;
 
     @Override
     public void init() throws Exception {
-        Round = 1;
+        round = 1;
     }
 
     @Override
@@ -70,7 +69,7 @@ public class GUI extends Application
         startLayout.setAlignment(Pos.CENTER);
 
         startLayout.getChildren().addAll(startLabel, startButton);
-        startScreen = new Scene(startLayout, SCREEN_WIDTH, SCREEN_HEIGHT);
+        Scene startScreen = new Scene(startLayout, SCREEN_WIDTH, SCREEN_HEIGHT);
         
         //GameScreen
         //button going to Inventory Screen
@@ -99,38 +98,6 @@ public class GUI extends Application
         gameScreenLayout.getChildren().addAll(mapLabel, toInventory, round, guiMap, abilityLabel, abilityMenu, nextRound);
         gameScreen = new Scene(gameScreenLayout, SCREEN_WIDTH, SCREEN_HEIGHT);
 
-        nextRound.setOnAction(event ->
-                {
-                    if (map.getPlayer().getAp() <= 0) {
-                        while (!isEnemiesFinished())
-                        {
-                            for (ObjectPosition enemyPosition: map.getEnemiesPositions())
-                            {
-                                Enemy enemy = map.getTileArray()[enemyPosition.getRowPosition()][enemyPosition.getColumnPosition()].getEnemy();
-                                if (enemy.getAp() > 0) {
-                                    if (map.canEnemyAttack(enemyPosition) && !enemy.hasAttacked()) {
-                                        enemy.attack(map);
-                                        enemy.consumeAP(1);
-                                        gameScreenLayout.getChildren().set(5, updateAbilityMenu());
-                                    }
-                                    else {
-                                        map.moveEnemies(enemyPosition);
-                                        enemy.consumeAP(1);
-                                        gameScreenLayout.getChildren().set(3, updateGuiMap(map));
-                                    }
-                                }
-                            }
-                        }
-                        // all enemies are finished
-                        for (ObjectPosition enemyPosition: map.getEnemiesPositions())
-                        {
-                            Enemy enemy = map.getTileArray()[enemyPosition.getRowPosition()][enemyPosition.getColumnPosition()].getEnemy();
-                            enemy.newTurn();
-                        }
-                    }
-                }
-        );
-
         //handle the player movement
         gameScreen.setOnKeyPressed(new EventHandler<KeyEvent>() {
             @Override
@@ -158,7 +125,15 @@ public class GUI extends Application
             }
         });
 
+
+        //handle next round button
+        nextRound.setOnAction(event -> {
+            nextRoundPressed = true;
+            nextRound.setDisable(true);
+        });
         AnimationTimer timer = new AnimationTimer() {
+            int enemyindex = 0;
+            List<ObjectPosition> enemyPositions = map.getEnemiesPositions();
             @Override
             public void handle(long now) {
                 if (goUp && player.getAp() > 0) {
@@ -197,6 +172,41 @@ public class GUI extends Application
                     map.getPlayer().consumeAP(1);
                     gameScreenLayout.getChildren().set(5, updateAbilityMenu());
                 }
+
+                // this part I used a very stupid way of updating enemies on the gui, when I used for loop, the enemies will all update at once,
+                // I coded this part like this to update enemy one enemy at a time.
+                if (nextRoundPressed) {
+                    if (enemyindex == enemyPositions.size()) {
+                        nextRoundPressed = false;
+                        nextRound.setDisable(false);
+                        //refresh Player's AP
+                        player.refreshAp();
+                        gameScreenLayout.getChildren().set(5, updateAbilityMenu());
+                        //after all enemies have finished, enters next round
+                        incrementRoundNumber();
+                        gameScreenLayout.getChildren().set(2, updateRound());
+                        //makes next round accesible again
+                        nextRoundPressed = false;
+                        nextRound.setDisable(false);
+                        enemyindex = 0;
+                    }
+                    else{
+                        ObjectPosition enemyPosition = enemyPositions.get(enemyindex);
+                        System.out.println("operating an enemy...");
+                        //enemies starts moving
+                        Enemy enemy = map.getTileArray()[enemyPosition.getRowPosition()][enemyPosition.getColumnPosition()].getEnemy();
+                        if (GameController.canXAttackY(enemyPosition, map.getPlayerPosition(), enemy.getAttackRange()))
+                            enemy.attack(map);
+                        else
+                            map.moveEnemies(enemyPosition);
+                        //enemies finished their moves, updating gui
+                        //update map
+                        gameScreenLayout.getChildren().set(3, updateGuiMap(map));
+                        //update player stats
+                        gameScreenLayout.getChildren().set(5, updateAbilityMenu());
+                        enemyindex ++;
+                    }
+                }
             }
         };
         timer.start();
@@ -214,21 +224,23 @@ public class GUI extends Application
         primaryStage.show();
     }
 
+    //update the round (enemies' turns)
+    //right now I just make the enemy to move if the enemy cannot attack, and attack if enemy can attack, the enemy only moves once
     private HBox updateAbilityMenu()
     {
-        healthValue = player.getHP();
-        manaValue = player.getMP();
+        int healthValue = player.getHP();
+        int manaValue = player.getMP();
         goldValue = player.getGold();
-        ap = player.getAp();
+        int playerAp = player.getAp();
         HBox abilityMenu = new HBox(5);
-        Label health = new Label("Health: " + healthValue);
+        Label health = new Label("Health: " +healthValue);
         Button abilityOne = new Button("Ability 1");
         Button abilityTwo = new Button("Ability 2");
         Button abilityThree = new Button("Ability 3");
         Button abilityFour = new Button("Ability 4");
         Button abilityFive = new Button("Ability 5");
-        Label mana = new Label("Mana: " + manaValue);
-        Label ap = new Label("AP: " + this.ap);
+        Label mana = new Label("Mana: " +manaValue);
+        Label ap = new Label("AP: " +playerAp);
         abilityMenu.getChildren().addAll(health, abilityOne, abilityTwo, abilityThree, abilityFour, abilityFive, mana, ap);
         abilityMenu.setAlignment(Pos.BOTTOM_CENTER);
         return abilityMenu;
@@ -261,19 +273,12 @@ public class GUI extends Application
 
     private Label updateRound()
     {
-        Label round = new Label("Round: " +Round);
+        Label round = new Label("Round: " +GUI.round);
         return round;
     }
 
-    private boolean isEnemiesFinished()
-    {
-        boolean result = true;
-        for (Enemy enemy:map.getEnemies())
-        {
-            if (enemy.getAp() > 0)
-                result = false;
-        }
-        return result;
+    private void incrementRoundNumber(){
+        round ++;
     }
 
     private VBox updateInventory(Stage primaryStage)
