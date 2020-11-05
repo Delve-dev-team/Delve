@@ -10,7 +10,6 @@ class MapTests {
 	@Test
 	void test() {
 		
-		
 	}
 
 	@Test
@@ -28,15 +27,27 @@ class MapTests {
 			assertEquals(true, containsPlayer);
 		}
 	}
-
+	
 	@Test
-	void containsPlayerTest() {
-		assertEquals(1, 1);
+	void testIfMapContainsExit() {
+		for (int i = 1; i < 10; i++) {
+			Map map = new Map(i);
+			Tile[][] mapTiles = map.getTileArray();
+			boolean containsExit = false;
+			for (int row = 0; row < mapTiles.length; row++) {
+				for (int col = 0; col < mapTiles[0].length; col++) {
+					if (mapTiles[row][col].isExitHere())
+						containsExit = true;
+				}
+			}
+			assertEquals(true, containsExit);
+		}	
 	}
 	
 	@Test
-	void containsExitTest() {
-		assertEquals(1, 1);
+	void testIfMapIsConnected() {
+		
+		
 	}
 	
 }

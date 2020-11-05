@@ -7,7 +7,7 @@ import classes.Enemy;
 import classes.Item;
 import classes.Player;
 
-class Playertests {
+class PlayerTests {
 
     @Test
 	void playerAttackTest() {
@@ -31,14 +31,6 @@ class Playertests {
         a.equipItem(a, new Item("hat", "headSlot", 1, "ordinary hat", 1));
         assertEquals("hat", a.getHeadSlot());
 	}
-
-	@Test
-	void playerUnequipTest(){
-    	Player a = new Player();
-		a.equipItem(a, new Item("hat", "headSlot", 1, "ordinary hat", 1));
-		assertEquals("None has been unequipped.", a.unequipItem("headSlot"));
-	}
-
 
 	
 }
