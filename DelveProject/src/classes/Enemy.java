@@ -8,6 +8,8 @@ public class Enemy {
     private int movementSpeed;
     private int attackRange;
     private int level;
+    private int ap;
+    private boolean hasAttacked;
 
     public Enemy(int level) {
         this.level = level;
@@ -16,15 +18,30 @@ public class Enemy {
         attackDamage = 5 * level;
         movementSpeed = 10;
         attackRange = 10;
+        ap = movementSpeed;
+        hasAttacked = false;
     }
 
     public void attack(Map map) {
-        map.getPlayer().setHP(map.getPlayer().getHP() - (this.getAttackRange()));
+        if (!hasAttacked) {
+            map.getPlayer().setHP(map.getPlayer().getHP()-(this.getAttackDamage()));
+            hasAttacked = true;
+        }
     }
 
     public void die(Player player) {
         this.HP = 0;
         player.setGold(player.getGold() + 5 * level);
+    }
+
+    public void consumeAP(int ap)
+    {
+        if (this.ap >= ap)
+            this.ap -= ap;
+    }
+
+    public void refreshAp() {
+        this.ap = this.movementSpeed;
     }
 
     //public getters
@@ -48,6 +65,10 @@ public class Enemy {
         return MP;
     }
 
+    public int getAp() {
+        return ap;
+    }
+
     //public setters
     public void setHP(int hp) {
         this.HP = hp;
@@ -67,5 +88,14 @@ public class Enemy {
 
     public void setAttackDamage(int attackDamage) {
         this.attackDamage = attackDamage;
+    }
+
+    public boolean hasAttacked()
+    {
+        return hasAttacked;
+    }
+
+    public void newTurn(){
+        hasAttacked = false;
     }
 }

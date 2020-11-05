@@ -14,6 +14,8 @@ public class Player {
 
     private int gold;
 
+    private int ap;
+
     private Item headSlot;
 
     private Item chestSlot;
@@ -33,6 +35,7 @@ public class Player {
         movementSpeed = 10;
         attackRange = 10;
         gold = 0;
+        ap = movementSpeed;
         headSlot = null;
         chestSlot = null;
         armSlot = null;
@@ -118,10 +121,19 @@ public class Player {
 //       return "error";
 //   }
 
+    public void consumeAP(int ap)
+    {
+        if (this.ap >= ap)
+            this.ap -= ap;
+    }
+
+    public void refreshAp() {
+        this.ap = this.movementSpeed;
+    }
+
    public void attack(Enemy enemy) {
        enemy.setHP(enemy.getHP() - (this.attackDamage));
    }
-
 
     //public setters
     public void setHP(int hp) {
@@ -211,4 +223,7 @@ public class Player {
         return handSlot.getName();
    }
 
+    public int getAp() {
+        return ap;
+    }
 }

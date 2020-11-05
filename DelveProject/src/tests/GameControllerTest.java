@@ -110,20 +110,6 @@ class GameControllerTest {
     }
 
     @Test
-    void amountOfAttacksFromMonster() {
-        GameController gameController = new GameController();
-        Map map = GameController.getMap();
-        int count = 0;
-        for (ObjectPosition positon: map.getEnemiesPositions())
-        {
-            if (map.shortestPath(map.getTileArray(),positon,map.getPlayerPosition()) <= map.getPlayer().getAttackRange())
-                count ++;
-        }
-
-        assertEquals(gameController.amountOfAttacksFromMonster(map), count);
-    }
-
-    @Test
     void enterNextLevel() {
         GameController gameController = new GameController();
         gameController.enterNextLevel();
