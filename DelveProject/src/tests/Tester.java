@@ -15,9 +15,9 @@ public class Tester {
 		map.printTileGrid();
 		map.printRoomArray();*/
 
-		GameController gameController = new GameController();
+		//GameController gameController = new GameController();
 
-		gameController.enterNextLevel();
+		//gameController.enterNextLevel();
 	}
 	
 }

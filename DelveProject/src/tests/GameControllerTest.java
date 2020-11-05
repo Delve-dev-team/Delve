@@ -1,11 +1,11 @@
 package tests;
 
-import classes.GameController;
-import classes.Map;
-import classes.ObjectPosition;
-import classes.Tile;
+import classes.*;
+import javafx.application.Application;
 import org.junit.jupiter.api.Test;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -14,9 +14,8 @@ class GameControllerTest {
 
 
     @Test
-    void main()
-    {
-
+    void main()throws IOException {
+        Application.launch(GUI.class);
     }
 
     @Test
@@ -107,20 +106,6 @@ class GameControllerTest {
             if (map.shortestPath(map.getTileArray(),positon,map.getPlayerPosition()) <= map.getPlayer().getAttackRange())
                 assertTrue(gameController.availableTargets().contains(positon));
         }
-    }
-
-    @Test
-    void amountOfAttacksFromMonster() {
-        GameController gameController = new GameController();
-        Map map = GameController.getMap();
-        int count = 0;
-        for (ObjectPosition positon: map.getEnemiesPositions())
-        {
-            if (map.shortestPath(map.getTileArray(),positon,map.getPlayerPosition()) <= map.getPlayer().getAttackRange())
-                count ++;
-        }
-
-        assertEquals(gameController.amountOfAttacksFromMonster(map), count);
     }
 
     @Test

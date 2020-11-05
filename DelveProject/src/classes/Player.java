@@ -14,6 +14,8 @@ public class Player {
 
     private int gold;
 
+    private int ap;
+
     private Item headSlot;
 
     private Item chestSlot;
@@ -33,6 +35,7 @@ public class Player {
         movementSpeed = 10;
         attackRange = 10;
         gold = 0;
+        ap = movementSpeed;
         headSlot = null;
         chestSlot = null;
         armSlot = null;
@@ -79,48 +82,58 @@ public class Player {
        return "error";
    }
 
-   public String unequipItem (String slot) {
+//   public String unequipItem (String slot) {
+//
+//       if (slot == "headSlot") {
+//           if (this.headSlot != null) {
+//        	   String message = this.headSlot.getName() + " has been unequipped.";
+//               this.headSlot = null;
+//               return this.headSlot.getName() + " has been unequipped.";
+//           }
+//       } else if (slot == "chestSlot") {
+//           if (this.chestSlot != null) {
+//               this.chestSlot = null;
+//               return this.chestSlot.getName() + " has been unequipped.";
+//           }
+//       } else if (slot.equals("armSlot")) {
+//           if (this.armSlot != null) {
+//               this.armSlot = null;
+//               return this.armSlot.getName() + " has been unequipped.";
+//           }
+//       } else if (slot.equals("legSlot")) {
+//           if (this.legSlot != null) {
+//               this.legSlot = null;
+//               return this.legSlot.getName() + " has been unequipped.";
+//           }
+//       } else if (slot.equals("feetSlot")) {
+//           if (this.feetSlot != null) {
+//               this.feetSlot = null;
+//               return this.feetSlot.getName() + " has been unequipped.";
+//           }
+//       } else if (slot.equals("handSlot")) {
+//           if (this.handSlot != null) {
+//               this.handSlot = null;
+//               return this.handSlot.getName() + " has been unequipped.";
+//           }
+//       } else {
+//           return "There was no item in that slot";
+//       }
+//       return "error";
+//   }
 
-       if (slot == "headSlot") {
-           if (this.headSlot != null) {
-               this.headSlot = null;
-               return this.headSlot.getName() + " has been unequipped.";
-           }
-       } else if (slot == "chestSlot") {
-           if (this.chestSlot != null) {
-               this.chestSlot = null;
-               return this.chestSlot.getName() + " has been unequipped.";
-           }
-       } else if (slot.equals("armSlot")) {
-           if (this.armSlot != null) {
-               this.armSlot = null;
-               return this.armSlot.getName() + " has been unequipped.";
-           }
-       } else if (slot.equals("legSlot")) {
-           if (this.legSlot != null) {
-               this.legSlot = null;
-               return this.legSlot.getName() + " has been unequipped.";
-           }
-       } else if (slot.equals("feetSlot")) {
-           if (this.feetSlot != null) {
-               this.feetSlot = null;
-               return this.feetSlot.getName() + " has been unequipped.";
-           }
-       } else if (slot.equals("handSlot")) {
-           if (this.handSlot != null) {
-               this.handSlot = null;
-               return this.handSlot.getName() + " has been unequipped.";
-           }
-       } else {
-           return "There was no item in that slot";
-       }
-       return "error";
-   }
+    public void consumeAP(int ap)
+    {
+        if (this.ap >= ap)
+            this.ap -= ap;
+    }
+
+    public void refreshAp() {
+        this.ap = this.movementSpeed;
+    }
 
    public void attack(Enemy enemy) {
        enemy.setHP(enemy.getHP() - (this.attackDamage));
    }
-
 
     //public setters
     public void setHP(int hp) {
@@ -210,4 +223,7 @@ public class Player {
         return handSlot.getName();
    }
 
+    public int getAp() {
+        return ap;
+    }
 }
