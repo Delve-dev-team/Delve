@@ -3,6 +3,7 @@ package classes;
 import javafx.application.Application;
 
 import java.util.ArrayList;
+import java.util.List;
 
 //this class provides the basic logic for the main method in GUI class to properly function
 public class GameController {
@@ -48,7 +49,9 @@ public class GameController {
         ArrayList<ObjectPosition> validTargets = new ArrayList<>();
         for (ObjectPosition position: map.getEnemiesPositions())
         {
-
+            int distance = map.shortestPath(map.getTileArray(),map.getPlayerPosition(), position);
+            if (getMap().getPlayer().getAttackRange() >= distance && distance != -1)
+                validTargets.add(position);
         }
 
         return validTargets;
@@ -68,26 +71,25 @@ public class GameController {
     // This thing is some vector math that java isn't really built to do, but w/e :P
     public static boolean canXAttackY(ObjectPosition xPosition, ObjectPosition yPosition, double attackRange) {
 
-        int xRowPosition = xPosition.getRowPosition();
-        int yRowPosition = yPosition.getRowPosition();
+        int row1 = xPosition.getRowPosition();
+        int row2 = yPosition.getRowPosition();
 
-        int xColPosition = xPosition.getColumnPosition();
-        int yColPosition = yPosition.getColumnPosition();
-
+        int col1 = xPosition.getColumnPosition();
+        int col2 = yPosition.getColumnPosition();
     	//if not within range just return false immediately
-    	if (Math.sqrt((yRowPosition - xRowPosition) * (yRowPosition - xRowPosition) + (yColPosition - xColPosition) * (yColPosition - xColPosition)) > attackRange) {
+    	if (Math.sqrt((row2 - row1) * (row2 - row1) + (col2 - col1) * (col2 - col1)) > attackRange) {
     		return false;
     	} 
     	
     	//interpolate linearly between source and destination to look for obstacles (walls)
-    	int iterations = 2 * (Math.abs(xRowPosition - yRowPosition) + Math.abs(xColPosition - yColPosition));
+    	int iterations = 2 * (Math.abs(row1 - row2) + Math.abs(col1 - col2));
     	double stepSize = 1 / iterations;
     	int t = 0;
     	
     	for (int i = 0; i < iterations; i++) {
     		
-    		double nextRow = xRowPosition + t * (yRowPosition - xRowPosition);
-    		double nextCol = xColPosition + t * (yColPosition - xColPosition);
+    		double nextRow = row1 + t * (row2 - row1);
+    		double nextCol = col1 + t * (col2 - col1);
     		
     		int adjustedRow = (int)(nextRow + .5f);
     		int adjustedCol = (int)(nextCol + .5f);
@@ -105,6 +107,24 @@ public class GameController {
     
     public static Map getMap() {
         return map;
+    }
+
+    public void enemiesMoveIfNotAttack(Map map) {
+        ArrayList<ObjectPosition> enemyPositions = map.getEnemiesPositions();
+        List<Enemy> enemies = map.getEnemies();
+        for (int i = 0; i < enemyPositions.size(); i++) {
+            if (canXAttackY(enemyPositions.get(i), map.getPlayerPosition(), 10)) {
+                enemies.get(i).attack(map);
+            } else {
+                map.moveEnemies(enemyPositions.get(i));
+            }
+        }
+    }
+
+    public void exitReachedNextLevel() {
+        if (isExitReach()) {
+            enterNextLevel();
+        }
     }
 }
 

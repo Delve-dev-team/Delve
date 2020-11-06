@@ -126,4 +126,14 @@ class GameControllerTest {
         GameController gameController = new GameController();
         assertEquals(GameController.getMap(),GameController.getMap());
     }
+
+    @Test
+    void enemiesMoveIfNotAttack() {
+        
+    }
+
+    @Test
+    void exitReachedNextLevel() {
+
+    }
 }
