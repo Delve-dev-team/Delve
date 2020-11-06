@@ -120,5 +120,11 @@ public class GameController {
             }
         }
     }
+
+    public void exitReachedNextLevel() {
+        if (isExitReach()) {
+            enterNextLevel();
+        }
+    }
 }
 
