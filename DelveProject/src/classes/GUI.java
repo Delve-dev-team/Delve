@@ -2,8 +2,12 @@ package classes;
 
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
@@ -18,6 +22,9 @@ import javafx.stage.Stage;
 
 import java.awt.*;
 import java.util.List;
+
+import static javafx.scene.layout.GridPane.getColumnIndex;
+import static javafx.scene.layout.GridPane.getRowIndex;
 
 
 public class GUI extends Application
@@ -34,8 +41,8 @@ public class GUI extends Application
 
     //screen size
     GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
-    final int SCREEN_WIDTH = gd.getDisplayMode().getWidth();
-    final int SCREEN_HEIGHT = gd.getDisplayMode().getHeight();
+    final double SCREEN_WIDTH = gd.getDisplayMode().getWidth() * 0.95;
+    final double SCREEN_HEIGHT = gd.getDisplayMode().getHeight() * 0.95;
     //final index value
     final int ROUND_NUM_INDEX = 2;
     final int MAPGUI_INDEX = 3;
@@ -102,8 +109,29 @@ public class GUI extends Application
         Button nextRound = new Button("end round");
 
         //available targets window.
-        ChoiceBox availableTargets = updateAvailableTargets();
+        ChoiceBox<ObjectPosition> availableTargets = new ChoiceBox<>(FXCollections.observableList(gameController.availableTargets()));
 
+        availableTargets.getSelectionModel().selectedIndexProperty().addListener(new ChangeListener<Number>() {
+            // if the item of the list is changed
+            public void changed(ObservableValue ov, Number value, Number new_value)
+            {
+                Label selected = new Label("Ⓔ");
+                Label unselected = new Label("E");
+                System.out.println(value.intValue() + " " + new_value.intValue());
+                int newRow = gameController.availableTargets().get(new_value.intValue()).getRowPosition();
+                int newCol = gameController.availableTargets().get(new_value.intValue()).getColumnPosition();
+                guiMap.add(selected,newRow,newCol);
+
+                if (value.intValue() != -1) {
+                    int oldRow = gameController.availableTargets().get(value.intValue()).getRowPosition();
+                    int oldCol = gameController.availableTargets().get(value.intValue()).getColumnPosition();
+                    guiMap.getChildren().removeIf(node -> node instanceof Label && getColumnIndex(node) == oldRow && getRowIndex(node) == oldCol);
+                    guiMap.add(unselected, oldRow, oldCol);
+                }
+
+            }
+        });
+        //layout
         gameScreenLayout.getChildren().addAll(mapLabel, toInventory, round, guiMap, abilityLabel, abilityMenu, availableTargets, nextRound);
         gameScreen = new Scene(gameScreenLayout, SCREEN_WIDTH, SCREEN_HEIGHT);
 
@@ -133,7 +161,6 @@ public class GUI extends Application
                 }
             }
         });
-
 
         //handle next round button
         nextRound.setOnAction(event -> {
@@ -199,7 +226,6 @@ public class GUI extends Application
                         //enemies starts moving
                         Enemy enemy = map.getTileArray()[enemyPosition.getRowPosition()][enemyPosition.getColumnPosition()].getEnemy();
                         if (GameController.canXAttackY(enemyPosition, map.getPlayerPosition(), enemy.getAttackRange())){
-
                             enemy.attack(map);
                         }
                         else
@@ -227,15 +253,6 @@ public class GUI extends Application
 
         primaryStage.setScene(startScreen);
         primaryStage.show();
-    }
-
-    private ChoiceBox updateAvailableTargets()
-    {
-        ChoiceBox<Enemy> availableTargets= new ChoiceBox<>();
-        for (ObjectPosition enemyPosition: gameController.availableTargets()){
-            availableTargets.getItems().add(map.getTileArray()[enemyPosition.getRowPosition()][enemyPosition.getColumnPosition()].getEnemy());
-        }
-        return availableTargets;
     }
 
     //update the round (enemies' turns)
@@ -283,7 +300,8 @@ public class GUI extends Application
             }
         }
         result.setAlignment(Pos.CENTER);
-        result.setPrefSize(SCREEN_WIDTH * 0.6,SCREEN_HEIGHT * 0.6);
+        result.setScaleX(0.85);
+        result.setScaleY(0.85);
         return result;
     }
 

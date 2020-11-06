@@ -46,4 +46,12 @@ public class ObjectPosition
     {
         return rowPosition;
     }
+
+    @Override
+    public String toString() {
+        return "ObjectPosition{"+
+                "rowPosition="+rowPosition+
+                ", columnPosition="+columnPosition+
+                '}';
+    }
 }
