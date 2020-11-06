@@ -81,7 +81,7 @@ public class GameController {
     	} 
     	
     	//interpolate linearly between source and destination to look for obstacles (walls)
-    	int iterations = 2 * (Math.abs(row1 - row2) + Math.abs(col1 - col2));
+    	int iterations = 6 * (Math.abs(row1 - row2) + Math.abs(col1 - col2));
     	double stepSize = 1 / iterations;
     	int t = 0;
     	
