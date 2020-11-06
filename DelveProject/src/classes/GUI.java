@@ -7,7 +7,6 @@ import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
-import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
@@ -36,6 +35,7 @@ public class GUI extends Application
     private Player player;
     private int goldValue;
     private static int round;
+    private int selectedTargetIndex = -1;
 
     //constant value:
 
@@ -43,7 +43,9 @@ public class GUI extends Application
     GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
     final double SCREEN_WIDTH = gd.getDisplayMode().getWidth() * 0.95;
     final double SCREEN_HEIGHT = gd.getDisplayMode().getHeight() * 0.95;
-    //final index value
+    //final index value for ability menu
+    final int ATTACK_INDEX = 1;
+    //final index value for gamescreenlayout
     final int ROUND_NUM_INDEX = 2;
     final int MAPGUI_INDEX = 3;
     final int ABILITY_MENU_INDEX = 5;
@@ -98,8 +100,7 @@ public class GUI extends Application
         Button nextRound = new Button("end round");
 
         //available targets window.
-        ChoiceBox<ObjectPosition> availableTargets = new ChoiceBox<>(FXCollections.observableList(gameController.availableTargets()));
-
+        ChoiceBox<ObjectPosition> availableTargets = updateAvailableTargets();
         availableTargets.getSelectionModel().selectedIndexProperty().addListener(new ChangeListener<Number>() {
             // if the item of the list is changed
             public void changed(ObservableValue ov, Number value, Number new_value)
@@ -117,7 +118,7 @@ public class GUI extends Application
                     guiMap.getChildren().removeIf(node -> node instanceof Label && getColumnIndex(node) == oldRow && getRowIndex(node) == oldCol);
                     guiMap.add(unselected, oldRow, oldCol);
                 }
-
+                selectedTargetIndex = new_value.intValue();
             }
         });
         //layout
@@ -161,6 +162,15 @@ public class GUI extends Application
             int enemyindex = 0;
             @Override
             public void handle(long now) {
+                if (attackPressed){
+                    if (selectedTargetIndex != -1) {
+                        player.attack(selectedEnemy(selectedTargetIndex));
+                        System.out.println("enemy health:" + selectedEnemy(selectedTargetIndex).getHP());
+                        abilityMenu.getChildren().get(ATTACK_INDEX).setDisable(true);
+                        selectedTargetIndex = -1;
+                        attackPressed = false;
+                    }
+                }
                 if (isGameOver) {
                     primaryStage.setScene(deathScreen(primaryStage));
                     gameController = new GameController();
@@ -181,6 +191,8 @@ public class GUI extends Application
                     //update the grid
                     gameScreenLayout.getChildren().set(MAPGUI_INDEX, updateGuiMap(map));
                     gameScreenLayout.getChildren().set(ABILITY_MENU_INDEX, updateAbilityMenu());
+                    //update available targets
+                    gameScreenLayout.getChildren().set(AVAILABLE_TARGETS, updateAvailableTargets());
                 }
                 if (goDown && player.getAp() > 0) {
                     //update the map
@@ -189,6 +201,8 @@ public class GUI extends Application
                     gameScreenLayout.getChildren().set(MAPGUI_INDEX, updateGuiMap(map));
                     //consume players ap and update ability menu
                     gameScreenLayout.getChildren().set(ABILITY_MENU_INDEX, updateAbilityMenu());
+                    //update available targets
+                    gameScreenLayout.getChildren().set(AVAILABLE_TARGETS, updateAvailableTargets());
                 }
                 if (goLeft && player.getAp() > 0) {
                     //update the map
@@ -196,6 +210,8 @@ public class GUI extends Application
                     //update the grid
                     gameScreenLayout.getChildren().set(MAPGUI_INDEX, updateGuiMap(map));
                     gameScreenLayout.getChildren().set(ABILITY_MENU_INDEX, updateAbilityMenu());
+                    //update available targets
+                    gameScreenLayout.getChildren().set(AVAILABLE_TARGETS, updateAvailableTargets());
                 }
                 if (goRight && player.getAp() > 0) {
                     //update the map
@@ -203,6 +219,8 @@ public class GUI extends Application
                     //update the grid
                     gameScreenLayout.getChildren().set(MAPGUI_INDEX, updateGuiMap(map));
                     gameScreenLayout.getChildren().set(ABILITY_MENU_INDEX, updateAbilityMenu());
+                    //update available targets
+                    gameScreenLayout.getChildren().set(AVAILABLE_TARGETS, updateAvailableTargets());
                 }
 
                 // this part I used a very stupid way of updating enemies on the gui, when I used for loop, the enemies will all update at once,
@@ -214,6 +232,7 @@ public class GUI extends Application
                         nextRound.setDisable(false);
                         //refresh Player's AP
                         player.refreshAp();
+                        abilityMenu.getChildren().get(ATTACK_INDEX).setDisable(false);
                         gameScreenLayout.getChildren().set(ABILITY_MENU_INDEX, updateAbilityMenu());
                         //after all enemies have finished, enters next round
                         incrementRoundNumber();
@@ -309,6 +328,7 @@ public class GUI extends Application
         result.setAlignment(Pos.CENTER);
         result.setScaleX(0.85);
         result.setScaleY(0.85);
+        result.setMaxSize(SCREEN_WIDTH * 0.6, SCREEN_HEIGHT * 0.6);
         return result;
     }
 
@@ -408,8 +428,18 @@ public class GUI extends Application
 
             deathOptions.getChildren().addAll(startNewGame, endGame);
             deathOptions.setAlignment(Pos.CENTER);
-            Scene deathScene = new Scene(deathOptions, SCREEN_WIDTH, SCREEN_HEIGHT);
-            return deathScene;
+        return new Scene(deathOptions, SCREEN_WIDTH, SCREEN_HEIGHT);
+    }
+
+    private Enemy selectedEnemy(int selectedTargetIndex)
+    {
+        int row = gameController.availableTargets().get(selectedTargetIndex).getRowPosition();
+        int col = gameController.availableTargets().get(selectedTargetIndex).getColumnPosition();
+        return map.getTileArray()[row][col].getEnemy();
+    }
+
+    private ChoiceBox<ObjectPosition> updateAvailableTargets(){
+        return new ChoiceBox<>(FXCollections.observableList(gameController.availableTargets()));
     }
 
     public static void main(String[] args) {
