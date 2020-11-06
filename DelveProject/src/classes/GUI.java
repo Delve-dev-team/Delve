@@ -294,13 +294,16 @@ public class GUI extends Application
         Button attack = new Button("Attack!");
         attack.setOnAction(event -> attackPressed = true);
         Button abilityOne = new Button("Ability 1");
+        abilityOne.setOnAction(event -> player.abilityOne());
         Button abilityTwo = new Button("Ability 2");
+        abilityTwo.setOnAction(event -> player.abilityTwo());
         Button abilityThree = new Button("Ability 3");
+        abilityThree.setOnAction(e -> player.abilityThree());
         Button abilityFour = new Button("Ability 4");
-        Button abilityFive = new Button("Ability 5");
+        abilityFour.setOnAction(event -> player.abilityFour());
         Label mana = new Label("Mana: " +manaValue);
         Label ap = new Label("AP: " +playerAp);
-        abilityMenu.getChildren().addAll(health, attack, abilityOne, abilityTwo, abilityThree, abilityFour, abilityFive, mana, ap);
+        abilityMenu.getChildren().addAll(health, attack, abilityOne, abilityTwo, abilityThree, abilityFour,  mana, ap);
         abilityMenu.setAlignment(Pos.BOTTOM_CENTER);
         return abilityMenu;
     }

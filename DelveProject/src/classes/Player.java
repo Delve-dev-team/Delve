@@ -82,16 +82,14 @@ public class Player {
        return "error";
    }
 
-   public void abilityOne(Enemy enemy){
-        enemy.setStatus("Fire");
+   public void abilityOne(){
         System.out.println("Enemy:I'm on fire!");
-        enemy.setStatusTimer(enemy.getStatusTimer() + 3);
+        this.setMP(this.getMP() - 100);
    }
 
-    public void abilityTwo(Enemy enemy){
-        enemy.setStatus("Freeze");
+    public void abilityTwo(){
         System.out.println("Enemy: I'm frozen!");
-        enemy.setStatusTimer(enemy.getStatusTimer() + 3);
+        this.setMP(this.getMP() - 100);
     }
 
     public void abilityThree(){
@@ -104,10 +102,9 @@ public class Player {
            System.out.println("Out of Mana!");
     }
 
-    public void abilityFour(Enemy enemy){
-        enemy.setStatus("Unconscious");
+    public void abilityFour(){
         System.out.println("Enemy: Huh?");
-        enemy.setStatusTimer(enemy.getStatusTimer() + 3);
+        this.setMP(this.getMP() - 100);
     }
 
 //   public String unequipItem (String slot) {
