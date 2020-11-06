@@ -3,6 +3,7 @@ package classes;
 import javafx.application.Application;
 
 import java.util.ArrayList;
+import java.util.List;
 
 //this class provides the basic logic for the main method in GUI class to properly function
 public class GameController {
@@ -106,6 +107,18 @@ public class GameController {
     
     public static Map getMap() {
         return map;
+    }
+
+    public void enemiesMoveIfNotAttack(Map map) {
+        ArrayList<ObjectPosition> enemyPositions = map.getEnemiesPositions();
+        List<Enemy> enemies = map.getEnemies();
+        for (int i = 0; i < enemyPositions.size(); i++) {
+            if (canXAttackY(enemyPositions.get(i), map.getPlayerPosition(), 10)) {
+                enemies.get(i).attack(map);
+            } else {
+                map.moveEnemies(enemyPositions.get(i));
+            }
+        }
     }
 }
 
