@@ -17,7 +17,7 @@ public class Enemy {
         this.level = level;
         HP = 50 * level;
         MP = 50 * level;
-        attackDamage = 200 * 1;
+        attackDamage = 50 * level;
         //movementSpeed = 10;
         attackRange = 10;
         //ap = movementSpeed;
