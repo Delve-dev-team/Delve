@@ -49,7 +49,7 @@ public class GUI extends Application
     final int ABILITY_MENU_INDEX = 5;
     final int AVAILABLE_TARGETS = 6;
     //determine the direction character is going
-    boolean  goUp, goDown, goLeft, goRight, nextRoundPressed, attackPressed;
+    boolean  goUp, goDown, goLeft, goRight, nextRoundPressed, attackPressed, isGameOver;
 
     @Override
     public void init() throws Exception {
@@ -59,11 +59,9 @@ public class GUI extends Application
     @Override
     public void start(Stage primaryStage)
     {
-
         //overall stats:
         map = GameController.getMap();
         player = map.getPlayer();
-
         //setting the title
         primaryStage.setTitle("Delve");
 
@@ -163,8 +161,20 @@ public class GUI extends Application
             int enemyindex = 0;
             @Override
             public void handle(long now) {
-                if(player.getHP() <= 0)
-                    deathScreen(primaryStage); //I'm not sure if this goes here
+                if (isGameOver) {
+                    primaryStage.setScene(deathScreen(primaryStage));
+                    gameController = new GameController();
+                    map = GameController.getMap();
+                    player = map.getPlayer();
+                    clearRound();
+                    //update gui
+                    gameScreenLayout.getChildren().set(MAPGUI_INDEX, updateGuiMap(map));
+                    //update player stats
+                    gameScreenLayout.getChildren().set(ABILITY_MENU_INDEX, updateAbilityMenu());
+                    //update round num
+                    gameScreenLayout.getChildren().set(ROUND_NUM_INDEX, updateRound());
+                    isGameOver = false;
+                }
                 if (goUp && player.getAp() > 0) {
                     //update the map
                     map.movePlayer(Direction.UP);
@@ -220,6 +230,10 @@ public class GUI extends Application
                         Enemy enemy = map.getTileArray()[enemyPosition.getRowPosition()][enemyPosition.getColumnPosition()].getEnemy();
                         if (GameController.canXAttackY(enemyPosition, map.getPlayerPosition(), enemy.getAttackRange())){
                             enemy.attack(map);
+                            //if enemy killed player
+                            if (gameController.isGameOver()) {
+                                isGameOver = true;
+                            }
                         }
                         else
                             map.moveEnemies(enemyPosition);
@@ -307,6 +321,10 @@ public class GUI extends Application
         round ++;
     }
 
+    private void clearRound(){
+        round = 0;
+    }
+
     private VBox updateInventory(Stage primaryStage)
     {
         VBox inventoryMenu = new VBox(10);
@@ -376,19 +394,12 @@ public class GUI extends Application
         return startLayout;
     }
 
-    private void deathScreen (Stage primaryStage){
-        if (player.getHP() == 0 || player.getHP() < 0) {
+    private Scene deathScreen (Stage primaryStage){
             HBox deathOptions = new HBox(10);
 
             Button startNewGame = new Button("Start New Game");
             startNewGame.setOnAction(e -> {
-                        primaryStage.close();
-
-                        Stage stage = new Stage();
-                        VBox startGame = startScreen(stage);
-                        Scene newGameScene = new Scene(startGame);
-                        stage.setScene(newGameScene);
-                        stage.show();
+                        primaryStage.setScene(new Scene(startScreen(primaryStage),SCREEN_WIDTH, SCREEN_HEIGHT));
                     }
             );
 
@@ -396,9 +407,9 @@ public class GUI extends Application
             endGame.setOnAction(e -> System.exit(0));
 
             deathOptions.getChildren().addAll(startNewGame, endGame);
-            Scene deathScene = new Scene(deathOptions);
-            primaryStage.setScene(deathScene);
-        }
+            deathOptions.setAlignment(Pos.CENTER);
+            Scene deathScene = new Scene(deathOptions, SCREEN_WIDTH, SCREEN_HEIGHT);
+            return deathScene;
     }
 
     public static void main(String[] args) {

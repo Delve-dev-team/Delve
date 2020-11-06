@@ -15,7 +15,6 @@ public class GameController {
     {
         currentLevel = 1;
         map = new Map(currentLevel);
-        //Create and Assign enemyClasses
     }
     public static void main(String[] args)
     {
