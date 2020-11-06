@@ -57,18 +57,9 @@ public class GUI extends Application
 
         //StartScreen scene
         //elements of startScreen:
-        Label startLabel = new Label("Welcome to Delve");
-        Button startButton = new Button("Start Game!");
-        startButton.setOnAction(e -> primaryStage.setScene(gameScreen));
 
-        startLabel.setTextAlignment(TextAlignment.CENTER);
+        VBox startLayout = startScreen(primaryStage);
 
-        startButton.setTextAlignment(TextAlignment.CENTER);
-
-        VBox startLayout = new VBox(20);
-        startLayout.setAlignment(Pos.CENTER);
-
-        startLayout.getChildren().addAll(startLabel, startButton);
         Scene startScreen = new Scene(startLayout, SCREEN_WIDTH, SCREEN_HEIGHT);
         
         //GameScreen
@@ -125,7 +116,6 @@ public class GUI extends Application
             }
         });
 
-
         //handle next round button
         nextRound.setOnAction(event -> {
             nextRoundPressed = true;
@@ -136,6 +126,8 @@ public class GUI extends Application
             List<ObjectPosition> enemyPositions = map.getEnemiesPositions();
             @Override
             public void handle(long now) {
+                if(player.getHP() <= 0)
+                    deathScreen(primaryStage); //I'm not sure if this goes here
                 if (goUp && player.getAp() > 0) {
                     //update the map
                     map.movePlayer(Direction.UP);
@@ -331,6 +323,48 @@ public class GUI extends Application
         inventoryMenu.setAlignment(Pos.CENTER);
 
         return inventoryMenu;
+    }
+
+    private VBox startScreen (Stage primaryStage){
+        Label startLabel = new Label("Welcome to Delve");
+        Button startButton = new Button("Start Game!");
+        startButton.setOnAction(e -> primaryStage.setScene(gameScreen));
+
+        startLabel.setTextAlignment(TextAlignment.CENTER);
+
+        startButton.setTextAlignment(TextAlignment.CENTER);
+
+        VBox startLayout = new VBox(20);
+        startLayout.setAlignment(Pos.CENTER);
+
+        startLayout.getChildren().addAll(startLabel, startButton);
+
+        return startLayout;
+    }
+
+    private void deathScreen (Stage primaryStage){
+        if (player.getHP() == 0 || player.getHP() < 0) {
+            HBox deathOptions = new HBox(10);
+
+            Button startNewGame = new Button("Start New Game");
+            startNewGame.setOnAction(e -> {
+                        primaryStage.close();
+
+                        Stage stage = new Stage();
+                        VBox startGame = startScreen(stage);
+                        Scene newGameScene = new Scene(startGame);
+                        stage.setScene(newGameScene);
+                        stage.show();
+                    }
+            );
+
+            Button endGame = new Button("End Game");
+            endGame.setOnAction(e -> System.exit(0));
+
+            deathOptions.getChildren().addAll(startNewGame, endGame);
+            Scene deathScene = new Scene(deathOptions);
+            primaryStage.setScene(deathScene);
+        }
     }
 
     public static void main(String[] args) {
