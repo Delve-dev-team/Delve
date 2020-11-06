@@ -8,6 +8,8 @@ public class Enemy {
     //private int movementSpeed;
     private int attackRange;
     private int level;
+    private String status;
+    private int statusTimer;
     //private int ap;
 
 
@@ -15,10 +17,12 @@ public class Enemy {
         this.level = level;
         HP = 50 * level;
         MP = 50 * level;
-        attackDamage = 500 * level;
+        attackDamage = 200 * 1;
         //movementSpeed = 10;
         attackRange = 10;
         //ap = movementSpeed;
+        status = "None";
+        statusTimer = 0;
     }
 
     public void attack(Map map) {
@@ -45,6 +49,14 @@ public class Enemy {
     //public getters
     public int getHP() {
         return this.HP;
+    }
+
+    public String getStatus(){
+        return this.status;
+    }
+
+    public int getStatusTimer(){
+        return this.statusTimer;
     }
 
     /*public int getMovementSpeed() {
@@ -78,6 +90,14 @@ public class Enemy {
 
     public void setAttackRange(int attackRange) {
         this.attackRange = attackRange;
+    }
+
+    public void setStatus(String status){
+        this.status = status;
+    }
+
+    public void setStatusTimer(int timer){
+        this.statusTimer = statusTimer + timer;
     }
 
     /*public void setMovementSpeed(int movementSpeed) {
