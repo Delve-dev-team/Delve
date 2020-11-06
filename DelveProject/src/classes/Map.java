@@ -435,7 +435,6 @@ public class Map {
 		int row = enemyPosition.getRowPosition();
 		int col = enemyPosition.getColumnPosition();
 		int direction;
-		Enemy enemy = getTileArray()[row][col].getEnemy();
 		while (!readyToGO)
 		{
 			direction = random.nextInt(4);
@@ -443,9 +442,8 @@ public class Map {
 			{
 					//going up
 				case 0:
-					if (isLegalForEnemies(row - 1,col) && enemy.getAp() > 0)
+					if (isLegalForEnemies(row - 1,col))
 					{
-						enemy.consumeAP(1);
 						getTileArray()[row - 1][col].addEnemy(getTileArray()[row][col].removeEnemy());
 						readyToGO = true;
 					}
@@ -453,9 +451,8 @@ public class Map {
 
 					//going down
 				case 1:
-					if (isLegalForEnemies(row + 1,col) && enemy.getAp() > 0)
+					if (isLegalForEnemies(row + 1,col))
 					{
-						enemy.consumeAP(1);
 						getTileArray()[row + 1][col].addEnemy(getTileArray()[row][col].removeEnemy());
 						readyToGO = true;
 					}
@@ -463,9 +460,8 @@ public class Map {
 
 					//going left
 				case 2:
-					if (isLegalForEnemies(row, col - 1) && enemy.getAp() > 0)
+					if (isLegalForEnemies(row, col - 1))
 					{
-						enemy.consumeAP(1);
 						getTileArray()[row][col - 1].addEnemy(getTileArray()[row][col].removeEnemy());
 						readyToGO = true;
 					}
@@ -473,9 +469,8 @@ public class Map {
 
 					//going right
 				case 3:
-					if (isLegalForEnemies(row, col + 1) && enemy.getAp() > 0)
+					if (isLegalForEnemies(row, col + 1))
 					{
-						enemy.consumeAP(1);
 						getTileArray()[row][col + 1].addEnemy(getTileArray()[row][col].removeEnemy());
 						readyToGO = true;
 					}
