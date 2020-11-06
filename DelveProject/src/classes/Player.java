@@ -84,11 +84,13 @@ public class Player {
 
    public void abilityOne(Enemy enemy){
         enemy.setStatus("Fire");
+        System.out.println("Enemy:I'm on fire!");
         enemy.setStatusTimer(enemy.getStatusTimer() + 3);
    }
 
     public void abilityTwo(Enemy enemy){
         enemy.setStatus("Freeze");
+        System.out.println("Enemy: I'm frozen!");
         enemy.setStatusTimer(enemy.getStatusTimer() + 3);
     }
 
@@ -96,13 +98,15 @@ public class Player {
         if (this.getMP() >= 100) {
             this.setHP(this.getHP() + 100);
             this.setMP(this.getMP() - 100);
+            System.out.println("Healed!");
         }
         else
-           return;
+           System.out.println("Out of Mana!");
     }
 
     public void abilityFour(Enemy enemy){
         enemy.setStatus("Unconscious");
+        System.out.println("Enemy: Huh?");
         enemy.setStatusTimer(enemy.getStatusTimer() + 3);
     }
 

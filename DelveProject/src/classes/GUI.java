@@ -36,6 +36,7 @@ public class GUI extends Application
     private Player player;
     private int goldValue;
     private static int round;
+    private Enemy enemyTarget;
 
     //constant value:
 
@@ -413,8 +414,9 @@ public class GUI extends Application
 
             Button startNewGame = new Button("Start New Game");
             startNewGame.setOnAction(e -> {
-                        primaryStage.setScene(new Scene(startScreen(primaryStage),SCREEN_WIDTH, SCREEN_HEIGHT));
-                    }
+
+                primaryStage.setScene(new Scene(startScreen(primaryStage),SCREEN_WIDTH, SCREEN_HEIGHT));
+            }
             );
 
             Button endGame = new Button("End Game");
