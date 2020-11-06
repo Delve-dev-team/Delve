@@ -82,6 +82,30 @@ public class Player {
        return "error";
    }
 
+   public void abilityOne(Enemy enemy){
+        enemy.setStatus("Fire");
+        enemy.setStatusTimer(enemy.getStatusTimer() + 3);
+   }
+
+    public void abilityTwo(Enemy enemy){
+        enemy.setStatus("Freeze");
+        enemy.setStatusTimer(enemy.getStatusTimer() + 3);
+    }
+
+    public void abilityThree(){
+        if (this.getMP() >= 100) {
+            this.setHP(this.getHP() + 100);
+            this.setMP(this.getMP() - 100);
+        }
+        else
+           return;
+    }
+
+    public void abilityFour(Enemy enemy){
+        enemy.setStatus("Unconscious");
+        enemy.setStatusTimer(enemy.getStatusTimer() + 3);
+    }
+
 //   public String unequipItem (String slot) {
 //
 //       if (slot == "headSlot") {

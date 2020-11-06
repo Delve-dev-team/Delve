@@ -95,7 +95,7 @@ public class GUI extends Application
         VBox gameScreenLayout = new VBox(20);
 
         //next round button
-        Button nextRound = new Button("end round");
+        Button nextRound = new Button("End Round");
 
         //available targets window.
         ChoiceBox<ObjectPosition> availableTargets = new ChoiceBox<>(FXCollections.observableList(gameController.availableTargets()));
@@ -225,7 +225,7 @@ public class GUI extends Application
                     }
                     else{
                         ObjectPosition enemyPosition = enemyPositions.get(enemyindex);
-                        System.out.println("operating an enemy " + enemyindex);
+                        System.out.println("Operating an enemy " + enemyindex);
                         //enemies starts moving
                         Enemy enemy = map.getTileArray()[enemyPosition.getRowPosition()][enemyPosition.getColumnPosition()].getEnemy();
                         if (GameController.canXAttackY(enemyPosition, map.getPlayerPosition(), enemy.getAttackRange())){
@@ -272,16 +272,30 @@ public class GUI extends Application
         int playerAp = player.getAp();
         HBox abilityMenu = new HBox(5);
         Label health = new Label("Health: " +healthValue);
+
+        //Attack Button
         Button attack = new Button("Attack!");
         attack.setOnAction(event -> attackPressed = true);
+
+        //Ability One Button
         Button abilityOne = new Button("Ability 1");
+
+        //Ability Two Button
         Button abilityTwo = new Button("Ability 2");
+
+        //Ability Three Button
         Button abilityThree = new Button("Ability 3");
+        abilityThree.setOnAction(event ->
+        {
+            player.abilityThree();
+        });
+
+        //Ability Four Button
         Button abilityFour = new Button("Ability 4");
-        Button abilityFive = new Button("Ability 5");
+
         Label mana = new Label("Mana: " +manaValue);
         Label ap = new Label("AP: " +playerAp);
-        abilityMenu.getChildren().addAll(health, attack, abilityOne, abilityTwo, abilityThree, abilityFour, abilityFive, mana, ap);
+        abilityMenu.getChildren().addAll(health, attack, abilityOne, abilityTwo, abilityThree, abilityFour, mana, ap);
         abilityMenu.setAlignment(Pos.BOTTOM_CENTER);
         return abilityMenu;
     }
