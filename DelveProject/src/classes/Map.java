@@ -487,32 +487,40 @@ public class Map {
 		{
 			//going up
 			case LEFT:
-				if (isLegalForPlayer(row - 1, col))
-					getTileArray()[row - 1][col].addPlayer(getTileArray()[row][col].removePlayer());
+				if (isLegalForPlayer(row - 1, col)) {
+					getTileArray()[row-1][col].addPlayer(getTileArray()[row][col].removePlayer());
+					getPlayer().consumeAP(1);
+				}
 				else
 					System.out.println("can not go left");
 				break;
 
 			//going down
 			case RIGHT:
-				if (isLegalForPlayer(row + 1, col))
-					getTileArray()[row + 1][col].addPlayer(getTileArray()[row][col].removePlayer());
+				if (isLegalForPlayer(row + 1, col)) {
+					getTileArray()[row+1][col].addPlayer(getTileArray()[row][col].removePlayer());
+					getPlayer().consumeAP(1);
+				}
 				else
 					System.out.println("can not go right");
 				break;
 
 			//going left
 			case UP:
-				if (isLegalForPlayer(row, col - 1))
-					getTileArray()[row][col - 1].addPlayer(getTileArray()[row][col].removePlayer());
+				if (isLegalForPlayer(row, col - 1)) {
+					getTileArray()[row][col-1].addPlayer(getTileArray()[row][col].removePlayer());
+					getPlayer().consumeAP(1);
+				}
 				else
 					System.out.println("can not go up");
 				break;
 
 			//going right
 			case DOWN:
-				if (isLegalForPlayer(row, col + 1))
-					getTileArray()[row][col + 1].addPlayer(getTileArray()[row][col].removePlayer());
+				if (isLegalForPlayer(row, col + 1)) {
+					getTileArray()[row][col+1].addPlayer(getTileArray()[row][col].removePlayer());
+					getPlayer().consumeAP(1);
+				}
 				else
 					System.out.println("can not go down");
 				break;
@@ -549,11 +557,4 @@ public class Map {
 		}
 		return enemies;
 	}
-
-	public boolean canEnemyAttack(ObjectPosition enemyPosition)
-	{
-		Enemy enemy = this.getTileArray()[enemyPosition.getRowPosition()][enemyPosition.getColumnPosition()].getEnemy();
-		return this.shortestPath(this.getTileArray(),enemyPosition,getPlayerPosition()) <= enemy.getAttackRange();
-	}
-
 }
