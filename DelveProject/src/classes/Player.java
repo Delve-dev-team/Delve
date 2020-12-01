@@ -28,7 +28,11 @@ public class Player {
 
     private Item handSlot;
 
-    public Player() {
+    private int rowPosition;
+
+    private int colPosition;
+
+    public Player(int row, int col) {
         HP = 1000;
         MP = 1000;
         attackDamage = 10;
@@ -250,5 +254,21 @@ public class Player {
 
     public int getAp() {
         return ap;
+    }
+
+    public int getColPosition() {
+        return colPosition;
+    }
+
+    public int getRowPosition() {
+        return rowPosition;
+    }
+
+    public void setRowPosition(int rowPosition) {
+        this.rowPosition = rowPosition;
+    }
+
+    public void setColPosition(int colPosition) {
+        this.colPosition = colPosition;
     }
 }

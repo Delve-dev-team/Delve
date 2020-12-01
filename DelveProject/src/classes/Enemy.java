@@ -12,8 +12,11 @@ public class Enemy {
     private int statusTimer;
     //private int ap;
 
+    private int rowPosition;
+    private int colPosition;
 
-    public Enemy(int level) {
+
+    public Enemy(int level, int row, int col) {
         this.level = level;
         HP = 50 * level;
         MP = 50 * level;
@@ -23,6 +26,7 @@ public class Enemy {
         //ap = movementSpeed;
         status = "None";
         statusTimer = 0;
+
     }
 
     public void attack(Map map) {
@@ -106,5 +110,21 @@ public class Enemy {
 
     public void setAttackDamage(int attackDamage) {
         this.attackDamage = attackDamage;
+    }
+
+    public int getColPosition() {
+        return colPosition;
+    }
+
+    public int getRowPosition() {
+        return rowPosition;
+    }
+
+    public void setRowPosition(int rowPosition) {
+        this.rowPosition = rowPosition;
+    }
+
+    public void setColPosition(int colPosition) {
+        this.colPosition = colPosition;
     }
 }

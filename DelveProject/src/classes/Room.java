@@ -7,10 +7,10 @@ import java.util.Arrays;
 
 public class Room {
 
-	
+	private Player player;
 	public Tile[][] tileGrid = new Tile[10][10];
 	ArrayList<ExitDir> exitDirections; 
-	
+
 	
 	public Room(ExitDir[] exitsToGenerate, int numEnemies, boolean includeShop) {
 		exitDirections = new ArrayList<ExitDir>();
@@ -269,7 +269,7 @@ public class Room {
 				if (tileGrid[row][col].isEmpty()) {
 					if (random == numTilesAccessed) {
 						//TODO change this to make the enemy scale somehow. 
-						tileGrid[row][col].addEnemy(new Enemy(GameController.getCurrentLevel()));
+						tileGrid[row][col].addEnemy(new Enemy(GameController.getCurrentLevel(), row, col));
 					}
 					numTilesAccessed++;			
 				}
@@ -324,7 +324,7 @@ public class Room {
 
 				if (tileGrid[row][col].isEmpty()) {
 					if (random == numTilesAccessed) {
-						tileGrid[row][col].addPlayer(new Player());
+						tileGrid[row][col].addPlayer(new Player(row, col));
 					}
 					numTilesAccessed++;
 				}

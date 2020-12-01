@@ -142,27 +142,6 @@ public class GUI extends Application
             int enemyindex = 0;
             @Override
             public void handle(long now) {
-                availableTargets.getSelectionModel().selectedIndexProperty().addListener(new ChangeListener<Number>() {
-                    // if the item of the list is changed
-                    public void changed(ObservableValue ov, Number value, Number new_value)
-                    {
-                        Label selected = new Label("A");
-                        Label unselected = new Label("E");
-                        System.out.println(value.intValue() + " " + new_value.intValue());
-                        int newRow = gameController.availableTargets().get(new_value.intValue()).getRowPosition();
-                        int newCol = gameController.availableTargets().get(new_value.intValue()).getColumnPosition();
-                        guiMap.add(selected,newRow,newCol);
-
-                        if (value.intValue() != -1) {
-                            int oldRow = gameController.availableTargets().get(value.intValue()).getRowPosition();
-                            int oldCol = gameController.availableTargets().get(value.intValue()).getColumnPosition();
-                            guiMap.getChildren().removeIf(node -> node instanceof Label && getColumnIndex(node) == oldRow && getRowIndex(node) == oldCol);
-                            guiMap.add(unselected, oldRow, oldCol);
-                        }
-                        selectedTargetIndex = new_value.intValue();
-                        selected.autosize();
-                    }
-                });
                 if (attackPressed){
                     if (selectedTargetIndex!= -1) {
                         player.attack(selectedEnemy(selectedTargetIndex));
@@ -283,6 +262,7 @@ public class GUI extends Application
         inventoryScreen = new Scene(inventoryScreenLayout, SCREEN_WIDTH, SCREEN_HEIGHT);
 
         primaryStage.setScene(startScreen);
+        primaryStage.setFullScreen(true);
         primaryStage.show();
     }
 
@@ -449,6 +429,31 @@ public class GUI extends Application
 
     private ChoiceBox<ObjectPosition> updateAvailableTargets(GridPane guiMap){
         ChoiceBox<ObjectPosition> availableTargets =  new ChoiceBox<>(FXCollections.observableList(gameController.availableTargets()));
+        availableTargets.getSelectionModel().selectedIndexProperty().addListener(new ChangeListener<Number>() {
+            // if the item of the list is changed
+            public void changed(ObservableValue ov, Number value, Number new_value)
+            {
+                Label selected = new Label("A");
+                Label unselected = new Label("E");
+                System.out.println(value.intValue() + " " + new_value.intValue());
+                int newRow = gameController.availableTargets().get(new_value.intValue()).getRowPosition();
+                int newCol = gameController.availableTargets().get(new_value.intValue()).getColumnPosition();
+                guiMap.getChildren().removeIf(node -> node instanceof Label && getColumnIndex(node) == newRow && getRowIndex(node) == newCol);
+                guiMap.add(selected,newRow,newCol);
+
+                if (value.intValue() != -1) {
+                    int oldRow = gameController.availableTargets().get(value.intValue()).getRowPosition();
+                    int oldCol = gameController.availableTargets().get(value.intValue()).getColumnPosition();
+                    guiMap.getChildren().removeIf(node -> node instanceof Label && getColumnIndex(node) == oldRow && getRowIndex(node) == oldCol);
+                    guiMap.add(unselected, oldRow, oldCol);
+                }
+                else {
+
+                }
+                selectedTargetIndex = new_value.intValue();
+                selected.autosize();
+            }
+        });
         return availableTargets;
     }
 

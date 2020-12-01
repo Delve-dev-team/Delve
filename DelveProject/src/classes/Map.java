@@ -7,6 +7,8 @@ public class Map {
 
 	private Room[][] roomArray;
 	private Tile[][] tileArray;
+	private ArrayList<Enemy> enemies = new ArrayList<>();
+	private Player player;
 	public Map(int currentLevel) {
 
 		//this is only a vague guide for the number of rooms to generated
@@ -111,8 +113,21 @@ public class Map {
 		}
 		
 		constructTileArray();
-		
-		
+
+		for (int row = 0; row < tileArray[0].length; row++) {
+			for (int col = 0; col < tileArray[0].length; col++) {
+				if (tileArray[row][col].isEnemyHere()) {
+					enemies.add(tileArray[row][col].getEnemy());
+					tileArray[row][col].getEnemy().setRowPosition(row);
+					tileArray[row][col].getEnemy().setColPosition(col);
+				}
+				if (tileArray[row][col].isPlayerHere()) {
+					player = tileArray[row][col].getPlayer();
+					tileArray[row][col].getPlayer().setRowPosition(row);
+					tileArray[row][col].getPlayer().setColPosition(col);
+				}
+			}
+		}
 	}
 	
 	public void constructTileArray() {
@@ -322,25 +337,16 @@ public class Map {
 	}
 
 	public ObjectPosition getPlayerPosition() {
-		ObjectPosition playerPosition = null;
-		for (int row = 0; row < tileArray.length; row++) {
-			for (int col = 0; col < tileArray[0].length; col++) {
-				if ((tileArray[row][col].isPlayerHere()))
-					playerPosition = ObjectPosition.of(row, col, this);
-			}
-		}
-		return playerPosition;
+		return ObjectPosition.of(getPlayer().getRowPosition(), getPlayer().getColPosition(), this);
 	}
 
 
 	public ArrayList<ObjectPosition> getEnemiesPositions()
 	{
 		ArrayList<ObjectPosition> enemiesPosition = new ArrayList<>();
-		for (int row = 0; row < tileArray.length; row++) {
-			for (int col = 0; col < tileArray[0].length; col++) {
-				if ((tileArray[row][col].isEnemyHere()))
-						enemiesPosition.add(ObjectPosition.of(row, col, this));
-			}
+		for (Enemy enemy: enemies)
+		{
+			enemiesPosition.add(ObjectPosition.of(enemy.getRowPosition(), enemy.getColPosition(), this));
 		}
 		return enemiesPosition;
 	}
@@ -444,6 +450,7 @@ public class Map {
 				case 0:
 					if (isLegalForEnemies(row - 1,col))
 					{
+						getTileArray()[row][col].getEnemy().setRowPosition(getTileArray()[row][col].getEnemy().getRowPosition() - 1);
 						getTileArray()[row - 1][col].addEnemy(getTileArray()[row][col].removeEnemy());
 						readyToGO = true;
 					}
@@ -453,6 +460,7 @@ public class Map {
 				case 1:
 					if (isLegalForEnemies(row + 1,col))
 					{
+						getTileArray()[row][col].getEnemy().setRowPosition(getTileArray()[row][col].getEnemy().getRowPosition() + 1);
 						getTileArray()[row + 1][col].addEnemy(getTileArray()[row][col].removeEnemy());
 						readyToGO = true;
 					}
@@ -462,6 +470,7 @@ public class Map {
 				case 2:
 					if (isLegalForEnemies(row, col - 1))
 					{
+						getTileArray()[row][col].getEnemy().setColPosition(getTileArray()[row][col].getEnemy().getColPosition() - 1);
 						getTileArray()[row][col - 1].addEnemy(getTileArray()[row][col].removeEnemy());
 						readyToGO = true;
 					}
@@ -471,6 +480,7 @@ public class Map {
 				case 3:
 					if (isLegalForEnemies(row, col + 1))
 					{
+						getTileArray()[row][col].getEnemy().setColPosition(getTileArray()[row][col].getEnemy().getColPosition() + 1);
 						getTileArray()[row][col + 1].addEnemy(getTileArray()[row][col].removeEnemy());
 						readyToGO = true;
 					}
@@ -488,6 +498,7 @@ public class Map {
 			//going up
 			case LEFT:
 				if (isLegalForPlayer(row - 1, col)) {
+					player.setRowPosition(player.getRowPosition() - 1);
 					getTileArray()[row-1][col].addPlayer(getTileArray()[row][col].removePlayer());
 					getPlayer().consumeAP(1);
 				}
@@ -498,6 +509,7 @@ public class Map {
 			//going down
 			case RIGHT:
 				if (isLegalForPlayer(row + 1, col)) {
+					player.setRowPosition(player.getRowPosition() + 1);
 					getTileArray()[row+1][col].addPlayer(getTileArray()[row][col].removePlayer());
 					getPlayer().consumeAP(1);
 				}
@@ -508,6 +520,7 @@ public class Map {
 			//going left
 			case UP:
 				if (isLegalForPlayer(row, col - 1)) {
+					player.setColPosition(player.getColPosition() - 1);
 					getTileArray()[row][col-1].addPlayer(getTileArray()[row][col].removePlayer());
 					getPlayer().consumeAP(1);
 				}
@@ -518,6 +531,7 @@ public class Map {
 			//going right
 			case DOWN:
 				if (isLegalForPlayer(row, col + 1)) {
+					player.setColPosition(player.getColPosition() + 1);
 					getTileArray()[row][col+1].addPlayer(getTileArray()[row][col].removePlayer());
 					getPlayer().consumeAP(1);
 				}
@@ -538,23 +552,10 @@ public class Map {
 
 	public Player getPlayer()
 	{
-		for (Tile[] tiles : tileArray) {
-			for (int col = 0; col < tileArray[0].length; col++) {
-				if ((tiles[col].isPlayerHere()))
-					return tiles[col].getPlayer();
-			}
-		}
-		return null;
+		return player;
 	}
 
 	public List<Enemy> getEnemies(){
-		List<Enemy> enemies = new ArrayList<>();
-		for (Tile[] tiles : tileArray) {
-			for (int col = 0; col < tileArray[0].length; col++) {
-				if ((tiles[col].isEnemyHere()))
-						enemies.add(tiles[col].getEnemy());
-			}
-		}
 		return enemies;
 	}
 }
