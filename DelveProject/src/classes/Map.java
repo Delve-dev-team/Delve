@@ -47,7 +47,7 @@ public class Map {
 			if (roomsCompleted == 1) {
 				roomArray[currentPoint.x][currentPoint.y] = new Room(exits, enemiesToPlace, shouldGenerateShop, true);
 			}
-			else if (roomsCompleted >= numRooms && roomsToGenerate.isEmpty()) {
+			else if (roomsCompleted >= numRooms && roomsToGenerate.size() <= 1) {
 				roomArray[currentPoint.x][currentPoint.y] = new Room(exits, enemiesToPlace, shouldGenerateShop, false, true);
 			}
 			else {
