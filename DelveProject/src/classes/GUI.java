@@ -36,7 +36,7 @@ public class GUI extends Application
     private int goldValue;
     private static int round;
     private int selectedTargetIndex = -1;
-
+    private GridPane guiMap = new GridPane();
     //constant value:
 
     //screen size
@@ -84,7 +84,7 @@ public class GUI extends Application
         Label mapLabel = new Label("Map:");
 
         //Map of the Game and resizing the map
-        GridPane guiMap = updateGuiMap(map);
+        updateGuiMap(map);
 
         //Abilities Bar:
         Label abilityLabel = new Label("Abilities");
@@ -158,7 +158,7 @@ public class GUI extends Application
                     player = map.getPlayer();
                     clearRound();
                     //update gui
-                    gameScreenLayout.getChildren().set(MAPGUI_INDEX, updateGuiMap(map));
+                    updateGuiMap(map);
                     //update player stats
                     gameScreenLayout.getChildren().set(ABILITY_MENU_INDEX, updateAbilityMenu());
                     //update round num
@@ -168,7 +168,7 @@ public class GUI extends Application
                 if (goUp && player.getAp() > 0) {
                     //update the map
                     map.movePlayer(Direction.UP);
-                    gameScreenLayout.getChildren().set(MAPGUI_INDEX, updateGuiMap(map));
+                    updateGuiMap(map);
                     gameScreenLayout.getChildren().set(ABILITY_MENU_INDEX, updateAbilityMenu());
                     abilityMenu.getChildren().get(ATTACK_INDEX).setDisable(attackButtonDisabled);
                     gameScreenLayout.getChildren().set(AVAILABLE_TARGETS, updateAvailableTargets(guiMap));
@@ -176,16 +176,17 @@ public class GUI extends Application
                 if (goDown && player.getAp() > 0) {
                     //update the map
                     map.movePlayer(Direction.DOWN);
-                    gameScreenLayout.getChildren().set(MAPGUI_INDEX, updateGuiMap(map));
+                    updateGuiMap(map);
                     gameScreenLayout.getChildren().set(ABILITY_MENU_INDEX, updateAbilityMenu());
                     abilityMenu.getChildren().get(ATTACK_INDEX).setDisable(attackButtonDisabled);
                     gameScreenLayout.getChildren().set(AVAILABLE_TARGETS, updateAvailableTargets(guiMap));
+
                 }
                 if (goLeft && player.getAp() > 0) {
                     //update the map
                     map.movePlayer(Direction.LEFT);
                     //update the grid
-                    gameScreenLayout.getChildren().set(MAPGUI_INDEX, updateGuiMap(map));
+                    updateGuiMap(map);
                     gameScreenLayout.getChildren().set(ABILITY_MENU_INDEX, updateAbilityMenu());
                     abilityMenu.getChildren().get(ATTACK_INDEX).setDisable(attackButtonDisabled);
                     gameScreenLayout.getChildren().set(AVAILABLE_TARGETS, updateAvailableTargets(guiMap));
@@ -195,7 +196,7 @@ public class GUI extends Application
                     map.movePlayer(Direction.RIGHT);
                     //update the grid
                     //update available targets
-                    gameScreenLayout.getChildren().set(MAPGUI_INDEX, updateGuiMap(map));
+                    updateGuiMap(map);
                     gameScreenLayout.getChildren().set(ABILITY_MENU_INDEX, updateAbilityMenu());
                     abilityMenu.getChildren().get(ATTACK_INDEX).setDisable(attackButtonDisabled);
                     gameScreenLayout.getChildren().set(AVAILABLE_TARGETS, updateAvailableTargets(guiMap));
@@ -215,7 +216,7 @@ public class GUI extends Application
                         abilityMenu.getChildren().get(ATTACK_INDEX).setDisable(attackButtonDisabled);
                         gameScreenLayout.getChildren().set(AVAILABLE_TARGETS, updateAvailableTargets(guiMap));
                         abilityMenu.getChildren().get(ATTACK_INDEX).setDisable(attackButtonDisabled);
-                        gameScreenLayout.getChildren().set(MAPGUI_INDEX, updateGuiMap(map));
+                        updateGuiMap(map);
                         gameScreenLayout.getChildren().set(ABILITY_MENU_INDEX, updateAbilityMenu());
                         //after all enemies have finished, enters next round
                         incrementRoundNumber();
@@ -242,7 +243,7 @@ public class GUI extends Application
                             map.moveEnemies(enemyPosition);
                         //enemies finished their moves, updating gui
                         //update map
-                        gameScreenLayout.getChildren().set(MAPGUI_INDEX, updateGuiMap(map));
+                        updateGuiMap(map);
                         //update player stats
                         gameScreenLayout.getChildren().set(ABILITY_MENU_INDEX, updateAbilityMenu());
                         enemyindex ++;
@@ -294,31 +295,33 @@ public class GUI extends Application
         return abilityMenu;
     }
     //method that generate map
-    private GridPane updateGuiMap(Map map)
+    private void updateGuiMap(Map map)
     {
-        GridPane result = new GridPane();
-        result.setHgap(10);
+
+        guiMap.setHgap(10);
         for (int row = map.guiMapBoundaries().get(0); row < map.guiMapBoundaries().get(2); row ++) {
             for (int col = map.guiMapBoundaries().get(1); col < map.guiMapBoundaries().get(3); col++) {
+                int finalRow = row;
+                int finalCol = col;
+                guiMap.getChildren().removeIf(node -> getColumnIndex(node) == finalRow && getRowIndex(node) == finalCol);
                 if (map.getTileArray()[row][col].isWallHere())
-                    result.add(new Label("W"), row, col);
+                    guiMap.add(new Label("W"), row, col);
                 else if (map.getTileArray()[row][col].isShopHere())
-                    result.add(new Label("S"), row, col);
+                    guiMap.add(new Label("S"), row, col);
                 else if (map.getTileArray()[row][col].isEnemyHere())
-                    result.add(new Label("E"), row, col);
+                    guiMap.add(new Label("E"), row, col);
                 else if (map.getTileArray()[row][col].isPlayerHere())
-                    result.add(new Label("P"), row, col);
+                    guiMap.add(new Label("P"), row, col);
                 else if (map.getTileArray()[row][col].isExitHere())
-                    result.add(new Label("X"), row, col);
+                    guiMap.add(new Label("X"), row, col);
                 else
-                    result.add(new Label(" "), row, col);
+                    guiMap.add(new Label(" "), row, col);
             }
         }
-        result.setAlignment(Pos.CENTER);
-        result.setScaleX(0.85);
-        result.setScaleY(0.85);
-        result.setMaxSize(SCREEN_WIDTH * 0.6, SCREEN_HEIGHT * 0.6);
-        return result;
+        guiMap.setAlignment(Pos.CENTER);
+        guiMap.setScaleX(0.85);
+        guiMap.setScaleY(0.85);
+        guiMap.setMaxSize(SCREEN_WIDTH * 0.6, SCREEN_HEIGHT * 0.6);
     }
 
     private Label updateRound()
