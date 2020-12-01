@@ -47,7 +47,7 @@ public class Map {
 			if (roomsCompleted == 1) {
 				roomArray[currentPoint.x][currentPoint.y] = new Room(exits, enemiesToPlace, shouldGenerateShop, true);
 			}
-			else if (roomsCompleted >= numRooms && roomsToGenerate.isEmpty()) {
+			else if (roomsCompleted >= numRooms && roomsToGenerate.size() <= 1) {
 				roomArray[currentPoint.x][currentPoint.y] = new Room(exits, enemiesToPlace, shouldGenerateShop, false, true);
 			}
 			else {
@@ -198,24 +198,14 @@ public class Map {
 
 	public ArrayList<Integer> guiMapBoundaries() {
 		//get the location we want to show on the map
-		int startingRow = Integer.MAX_VALUE;
-		int startingColumn = Integer.MAX_VALUE;
-		int endingRow = Integer.MIN_VALUE;
-		int endingColumn = Integer.MIN_VALUE;
+		int startingRow = player.getRowPosition();
+		int startingColumn = player.getColPosition();
+		int endingRow = player.getRowPosition();
+		int endingColumn = player.getColPosition();
 		//this is the expand distance just to give the sense of boundaries
-		final int EXPAND_DISTANCE = 5;
-		for (int row = 0; row < tileArray.length; row++) {
-			for (int col = 0; col < tileArray.length; col++) {
-				if (tileArray[row][col].isInDoor() && row <= startingRow)
-					startingRow = row;
-				if (tileArray[row][col].isInDoor() && col <= startingColumn)
-					startingColumn = col;
-				if (tileArray[row][col].isInDoor() && row >= endingRow)
-					endingRow = row;
-				if (tileArray[row][col].isInDoor() && col >= endingColumn)
-					endingColumn = col;
-			}
-		}
+		final int EXPAND_DISTANCE = 10;
+		
+		
 
 		startingRow -= EXPAND_DISTANCE;
 		startingColumn -= EXPAND_DISTANCE;
