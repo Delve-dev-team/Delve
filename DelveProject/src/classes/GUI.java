@@ -57,14 +57,13 @@ public class GUI extends Application
     @Override
     public void init() throws Exception {
         round = 1;
+        map = GameController.getMap();
+        player = map.getPlayer();
     }
 
     @Override
     public void start(Stage primaryStage)
     {
-        //overall stats:
-        map = GameController.getMap();
-        player = map.getPlayer();
         //setting the title
         primaryStage.setTitle("Delve");
 
@@ -160,6 +159,37 @@ public class GUI extends Application
                     }
                     attackPressed = false;
                 }
+                if (gameController.isExitReach())
+                {
+                    Player temp_player = player;
+                    gameController.enterNextLevel();
+                    map = GameController.getMap();
+                    int newRow = map.getPlayer().getRowPosition();
+                    int newCol = map.getPlayer().getColPosition();
+                    map.getTileArray()[newRow][newCol].removePlayer();
+                    temp_player.setRowPosition(newRow);
+                    temp_player.setColPosition(newCol);
+                    map.getTileArray()[newRow][newCol].addPlayer(temp_player);
+                    map.setPlayer(temp_player);
+                    player = map.getPlayer();
+                    guiMap.getChildren().clear();
+                    updateGuiMap(map);
+                    updateAvailableTargets(guiMap);
+                    player.refreshAp();
+                    attackButtonDisabled = false;
+                    abilityMenu.getChildren().get(ATTACK_INDEX).setDisable(attackButtonDisabled);
+                    updateAvailableTargets(guiMap);
+                    availableTargets.setDisable(attackButtonDisabled);
+                    updateGuiMap(map);
+                    gameScreenLayout.getChildren().set(ABILITY_MENU_INDEX, updateAbilityMenu());
+                    //after all enemies have finished, enters next round
+                    incrementRoundNumber();
+                    gameScreenLayout.getChildren().set(ROUND_NUM_INDEX, updateRound());
+                    //makes next round accesible again
+                    nextRoundPressed = false;
+                    nextRound.setDisable(false);
+                    enemyindex = 0;
+                }
                 if (isGameOver) {
                     primaryStage.setScene(deathScreen(primaryStage));
                     gameController = new GameController();
@@ -218,8 +248,6 @@ public class GUI extends Application
                         //refresh Player's AP
                         player.refreshAp();
                         attackButtonDisabled = false;
-                        abilityMenu.getChildren().get(ATTACK_INDEX).setDisable(attackButtonDisabled);
-                        updateAvailableTargets(guiMap);
                         abilityMenu.getChildren().get(ATTACK_INDEX).setDisable(attackButtonDisabled);
                         availableTargets.setDisable(attackButtonDisabled);
                         updateGuiMap(map);
@@ -437,7 +465,8 @@ public class GUI extends Application
     }
 
     private void updateAvailableTargets(GridPane guiMap){
-        availableTargets.getItems().clear();
+        if (!availableTargets.getItems().isEmpty())
+            availableTargets.getItems().clear();
         availableTargets.getItems().addAll(gameController.availableTargets());
         availableTargets.getSelectionModel().selectedIndexProperty().addListener(new ChangeListener<Number>() {
             // if the item of the list is changed

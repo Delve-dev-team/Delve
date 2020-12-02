@@ -36,7 +36,7 @@ public class Player {
         HP = 1000;
         MP = 1000;
         attackDamage = 100;
-        movementSpeed = 10;
+        movementSpeed = 1000;
         attackRange = 10;
         gold = 0;
         ap = movementSpeed;

@@ -552,4 +552,8 @@ public class Map {
 	public void removeDeadEnemy(){
 			enemies.removeIf(node -> node.getHP() <= 0);
 	}
+
+	public void setPlayer(Player player) {
+		this.player = player;
+	}
 }
