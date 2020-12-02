@@ -37,6 +37,7 @@ public class GUI extends Application
     private static int round;
     private int selectedTargetIndex = -1;
     private GridPane guiMap = new GridPane();
+    private ChoiceBox<ObjectPosition> availableTargets = new ChoiceBox<>();
     //constant value:
 
     //screen size
@@ -100,7 +101,7 @@ public class GUI extends Application
         Button nextRound = new Button("end round");
 
         //available targets window.
-        ChoiceBox<ObjectPosition> availableTargets = updateAvailableTargets(guiMap);
+        updateAvailableTargets(guiMap);
         //layout
         gameScreenLayout.getChildren().addAll(mapLabel, toInventory, round, guiMap, abilityLabel, abilityMenu, availableTargets, nextRound);
         gameScreen = new Scene(gameScreenLayout, SCREEN_WIDTH, SCREEN_HEIGHT);
@@ -148,6 +149,14 @@ public class GUI extends Application
                         System.out.println("enemy health:"+selectedEnemy(selectedTargetIndex).getHP());
                         attackButtonDisabled = true;
                         abilityMenu.getChildren().get(ATTACK_INDEX).setDisable(attackButtonDisabled);
+                        availableTargets.setDisable(attackButtonDisabled);
+                        Mark:
+                        if (selectedEnemy(selectedTargetIndex).getHP() <= 0)
+                        {
+                            map.getTileArray()[selectedEnemy(selectedTargetIndex).getRowPosition()][selectedEnemy(selectedTargetIndex).getColPosition()].removeEnemy();
+                            map.removeDeadEnemy();
+                            updateGuiMap(map);
+                        }
                     }
                     attackPressed = false;
                 }
@@ -170,16 +179,14 @@ public class GUI extends Application
                     map.movePlayer(Direction.UP);
                     updateGuiMap(map);
                     gameScreenLayout.getChildren().set(ABILITY_MENU_INDEX, updateAbilityMenu());
-                    abilityMenu.getChildren().get(ATTACK_INDEX).setDisable(attackButtonDisabled);
-                    gameScreenLayout.getChildren().set(AVAILABLE_TARGETS, updateAvailableTargets(guiMap));
+                    updateAvailableTargets(guiMap);
                 }
                 if (goDown && player.getAp() > 0) {
                     //update the map
                     map.movePlayer(Direction.DOWN);
                     updateGuiMap(map);
                     gameScreenLayout.getChildren().set(ABILITY_MENU_INDEX, updateAbilityMenu());
-                    abilityMenu.getChildren().get(ATTACK_INDEX).setDisable(attackButtonDisabled);
-                    gameScreenLayout.getChildren().set(AVAILABLE_TARGETS, updateAvailableTargets(guiMap));
+                    updateAvailableTargets(guiMap);
 
                 }
                 if (goLeft && player.getAp() > 0) {
@@ -188,8 +195,7 @@ public class GUI extends Application
                     //update the grid
                     updateGuiMap(map);
                     gameScreenLayout.getChildren().set(ABILITY_MENU_INDEX, updateAbilityMenu());
-                    abilityMenu.getChildren().get(ATTACK_INDEX).setDisable(attackButtonDisabled);
-                    gameScreenLayout.getChildren().set(AVAILABLE_TARGETS, updateAvailableTargets(guiMap));
+                    updateAvailableTargets(guiMap);
                 }
                 if (goRight && player.getAp() > 0) {
                     //update the map
@@ -198,8 +204,7 @@ public class GUI extends Application
                     //update available targets
                     updateGuiMap(map);
                     gameScreenLayout.getChildren().set(ABILITY_MENU_INDEX, updateAbilityMenu());
-                    abilityMenu.getChildren().get(ATTACK_INDEX).setDisable(attackButtonDisabled);
-                    gameScreenLayout.getChildren().set(AVAILABLE_TARGETS, updateAvailableTargets(guiMap));
+                    updateAvailableTargets(guiMap);
                 }
 
                 // this part I used a very stupid way of updating enemies on the gui, when I used for loop, the enemies will all update at once,
@@ -214,8 +219,9 @@ public class GUI extends Application
                         player.refreshAp();
                         attackButtonDisabled = false;
                         abilityMenu.getChildren().get(ATTACK_INDEX).setDisable(attackButtonDisabled);
-                        gameScreenLayout.getChildren().set(AVAILABLE_TARGETS, updateAvailableTargets(guiMap));
+                        updateAvailableTargets(guiMap);
                         abilityMenu.getChildren().get(ATTACK_INDEX).setDisable(attackButtonDisabled);
+                        availableTargets.setDisable(attackButtonDisabled);
                         updateGuiMap(map);
                         gameScreenLayout.getChildren().set(ABILITY_MENU_INDEX, updateAbilityMenu());
                         //after all enemies have finished, enters next round
@@ -430,8 +436,9 @@ public class GUI extends Application
         return map.getTileArray()[row][col].getEnemy();
     }
 
-    private ChoiceBox<ObjectPosition> updateAvailableTargets(GridPane guiMap){
-        ChoiceBox<ObjectPosition> availableTargets =  new ChoiceBox<>(FXCollections.observableList(gameController.availableTargets()));
+    private void updateAvailableTargets(GridPane guiMap){
+        availableTargets.getItems().clear();
+        availableTargets.getItems().addAll(gameController.availableTargets());
         availableTargets.getSelectionModel().selectedIndexProperty().addListener(new ChangeListener<Number>() {
             // if the item of the list is changed
             public void changed(ObservableValue ov, Number value, Number new_value)
@@ -450,22 +457,14 @@ public class GUI extends Application
                     guiMap.getChildren().removeIf(node -> node instanceof Label && getColumnIndex(node) == oldRow && getRowIndex(node) == oldCol);
                     guiMap.add(unselected, oldRow, oldCol);
                 }
-                else {
-
-                }
                 selectedTargetIndex = new_value.intValue();
                 selected.autosize();
             }
         });
-        return availableTargets;
     }
 
     public static void main(String[] args) {
         launch(args);
     }
 
-    public void enemySelection(ChoiceBox node)
-    {
-
-    }
 }

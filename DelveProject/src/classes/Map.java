@@ -548,4 +548,8 @@ public class Map {
 	public List<Enemy> getEnemies(){
 		return enemies;
 	}
+
+	public void removeDeadEnemy(){
+			enemies.removeIf(node -> node.getHP() <= 0);
+	}
 }

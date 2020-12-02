@@ -35,7 +35,7 @@ public class Player {
     public Player(int row, int col) {
         HP = 1000;
         MP = 1000;
-        attackDamage = 10;
+        attackDamage = 100;
         movementSpeed = 10;
         attackRange = 10;
         gold = 0;
