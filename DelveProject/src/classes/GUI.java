@@ -149,7 +149,6 @@ public class GUI extends Application
                         attackButtonDisabled = true;
                         abilityMenu.getChildren().get(ATTACK_INDEX).setDisable(attackButtonDisabled);
                         availableTargets.setDisable(attackButtonDisabled);
-                        Mark:
                         if (selectedEnemy(selectedTargetIndex).getHP() <= 0)
                         {
                             map.getTileArray()[selectedEnemy(selectedTargetIndex).getRowPosition()][selectedEnemy(selectedTargetIndex).getColPosition()].removeEnemy();
@@ -445,7 +444,21 @@ public class GUI extends Application
 
             Button startNewGame = new Button("Start New Game");
             startNewGame.setOnAction(e -> {
+                        round = 1;
+                        gameController = new GameController();
+                        map = GameController.getMap();
+                        player = map.getPlayer();
+                        nextRoundPressed = false;
+                            //refresh Player's AP
+                        player.refreshAp();
+                        attackButtonDisabled = false;
+                        availableTargets.setDisable(attackButtonDisabled);
+                        guiMap.getChildren().clear();
+                        updateGuiMap(map);
+                        //makes next round accesible again
+                        nextRoundPressed = false;
                         primaryStage.setScene(new Scene(startScreen(primaryStage),SCREEN_WIDTH, SCREEN_HEIGHT));
+                        selectedTargetIndex = 0;
                     }
             );
 
@@ -465,8 +478,9 @@ public class GUI extends Application
     }
 
     private void updateAvailableTargets(GridPane guiMap){
-        if (!availableTargets.getItems().isEmpty())
+        if (!availableTargets.getItems().isEmpty()) {
             availableTargets.getItems().clear();
+        }
         availableTargets.getItems().addAll(gameController.availableTargets());
         availableTargets.getSelectionModel().selectedIndexProperty().addListener(new ChangeListener<Number>() {
             // if the item of the list is changed
