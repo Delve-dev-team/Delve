@@ -37,7 +37,7 @@ public class Map {
 			
 			//we'll put between one and three enemies in any given room
 			int enemiesToPlace = (int)(Math.random() * 3) + 1; //between 1 and 3 enemies
-			int shopFactor = 1;
+			int shopFactor = 1; 
 			boolean shouldGenerateShop = false;
 			if (shopFactor == 0) {
 				shouldGenerateShop = true;
@@ -50,9 +50,11 @@ public class Map {
 			else if (roomsCompleted >= numRooms && roomsToGenerate.size() <= 1) {
 				roomArray[currentPoint.x][currentPoint.y] = new Room(exits, enemiesToPlace, shouldGenerateShop, false, true);
 			}
-			else {
+			else if (exits.length != 0){
 				roomArray[currentPoint.x][currentPoint.y] = new Room(exits, enemiesToPlace, shouldGenerateShop);
-					
+			}
+			else {
+				roomArray[currentPoint.x][currentPoint.y] = new Room(exits, 0, shouldGenerateShop);
 			}
 			
 			//generate exit in last room generated
