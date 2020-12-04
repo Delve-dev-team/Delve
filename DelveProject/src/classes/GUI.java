@@ -314,9 +314,9 @@ public class GUI extends Application
         Button attack = new Button("Attack!");
         attack.setOnAction(event -> attackPressed = true);
         Button abilityOne = new Button("Ability 1");
-        abilityOne.setOnAction(event -> player.abilityOne());
+        //abilityOne.setOnAction(event -> player.abilityOne();
         Button abilityTwo = new Button("Ability 2");
-        abilityTwo.setOnAction(event -> player.abilityTwo());
+        //abilityTwo.setOnAction(event -> player.abilityTwo());
         Button abilityThree = new Button("Ability 3");
         abilityThree.setOnAction(e -> player.abilityThree());
         Button abilityFour = new Button("Ability 4");
@@ -330,6 +330,8 @@ public class GUI extends Application
     //method that generate map
     private void updateGuiMap(Map map)
     {
+        if (!guiMap.getChildren().isEmpty())
+            guiMap.getChildren().clear();
 
         guiMap.setHgap(10);
         for (int row = map.guiMapBoundaries().get(0); row < map.guiMapBoundaries().get(2); row ++) {
