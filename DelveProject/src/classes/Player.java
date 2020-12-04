@@ -104,7 +104,7 @@ public class Player {
             if (this.getMP() >= 100) {
                 System.out.println("Enemy: I'm frozen!");
                 this.setMP(this.getMP() - 100);
-                enemy.setMP(0);
+                enemy.setDisarmed(true);
             } else
                 System.out.println("Out of Mana!");
         }

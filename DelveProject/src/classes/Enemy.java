@@ -15,7 +15,7 @@ public class Enemy {
     private int rowPosition;
     private int colPosition;
 
-
+    private boolean isDisarmed = false;
     public Enemy(int level, int row, int col) {
         this.level = level;
         HP = 50 * level;
@@ -31,7 +31,8 @@ public class Enemy {
 
     public void attack(Map map) {
         {
-            map.getPlayer().setHP(map.getPlayer().getHP()-(this.getAttackDamage()));
+            if (!isDisarmed)
+                map.getPlayer().setHP(map.getPlayer().getHP()-(this.getAttackDamage()));
         }
     }
 
@@ -126,5 +127,13 @@ public class Enemy {
 
     public void setColPosition(int colPosition) {
         this.colPosition = colPosition;
+    }
+
+    public boolean isDisarmed(){
+        return this.isDisarmed;
+    }
+
+    public void setDisarmed(boolean disarmed) {
+        isDisarmed = disarmed;
     }
 }

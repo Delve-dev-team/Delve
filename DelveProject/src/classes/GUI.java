@@ -53,7 +53,7 @@ public class GUI extends Application
     final int ABILITY_MENU_INDEX = 5;
     final int AVAILABLE_TARGETS = 6;
     //determine the direction character is going
-    boolean  goUp, goDown, goLeft, goRight, nextRoundPressed, attackPressed, isGameOver, attackButtonDisabled;
+    boolean  goUp, goDown, goLeft, goRight, nextRoundPressed, attackPressed,abilityOnePressed,abilityTwoPressed,abilityThreePressed,abilityFourPressed,isGameOver, attackButtonDisabled;
 
     @Override
     public void init() throws Exception {
@@ -143,21 +143,43 @@ public class GUI extends Application
             int enemyindex = 0;
             @Override
             public void handle(long now) {
-                if (attackPressed){
+                if (attackPressed || abilityOnePressed || abilityTwoPressed){
                     if (selectedTargetIndex!= -1) {
-                        player.attack(selectedEnemy(selectedTargetIndex));
-                        System.out.println("enemy health:"+selectedEnemy(selectedTargetIndex).getHP());
-                        attackButtonDisabled = true;
-                        abilityMenu.getChildren().get(ATTACK_INDEX).setDisable(attackButtonDisabled);
-                        availableTargets.setDisable(attackButtonDisabled);
+                        if (attackPressed) {
+                            player.attack(selectedEnemy(selectedTargetIndex));
+                            System.out.println("enemy health:"+selectedEnemy(selectedTargetIndex).getHP());
+                            attackPressed = false;
+                        }
+                        if (abilityOnePressed) {
+                            player.abilityOne(selectedEnemy(selectedTargetIndex));
+                            System.out.println("enemy health:"+selectedEnemy(selectedTargetIndex).getHP());
+                            abilityOnePressed = false;
+                        }
+                        if (abilityTwoPressed) {
+                            player.abilityTwo(selectedEnemy(selectedTargetIndex));
+                            System.out.println("enemy health:"+selectedEnemy(selectedTargetIndex).getHP());
+                            abilityTwoPressed = false;
+                        }
                         if (selectedEnemy(selectedTargetIndex).getHP() <= 0)
                         {
                             map.getTileArray()[selectedEnemy(selectedTargetIndex).getRowPosition()][selectedEnemy(selectedTargetIndex).getColPosition()].removeEnemy();
                             map.removeDeadEnemy();
                             updateGuiMap(map);
                         }
+
+                        attackButtonDisabled = true;
+                        availableTargets.setDisable(attackButtonDisabled);
                     }
-                    attackPressed = false;
+                }
+                if (abilityThreePressed){
+                    player.abilityThree();
+                    gameScreenLayout.getChildren().set(ABILITY_MENU_INDEX, updateAbilityMenu());
+                    abilityThreePressed = false;
+                }
+                if (abilityFourPressed && player.getHP() > 100){
+                    player.abilityFour();
+                    gameScreenLayout.getChildren().set(ABILITY_MENU_INDEX, updateAbilityMenu());
+                    abilityFourPressed = false;
                 }
                 if (gameController.isExitReach())
                 {
@@ -315,13 +337,13 @@ public class GUI extends Application
         Button attack = new Button("Attack!");
         attack.setOnAction(event -> attackPressed = true);
         Button abilityOne = new Button("Ability 1");
-        //abilityOne.setOnAction(event -> player.abilityOne();
+        abilityOne.setOnAction(event -> abilityOnePressed = true);
         Button abilityTwo = new Button("Ability 2");
-        //abilityTwo.setOnAction(event -> player.abilityTwo());
+        abilityTwo.setOnAction(event -> abilityTwoPressed = true);
         Button abilityThree = new Button("Ability 3");
-        abilityThree.setOnAction(e -> player.abilityThree());
+        abilityThree.setOnAction(e -> abilityThreePressed = true);
         Button abilityFour = new Button("Ability 4");
-        abilityFour.setOnAction(event -> player.abilityFour());
+        abilityFour.setOnAction(event -> abilityFourPressed = true);
         Label mana = new Label("Mana: " +manaValue);
         Label ap = new Label("AP: " +playerAp);
         abilityMenu.getChildren().addAll(health, attack, abilityOne, abilityTwo, abilityThree, abilityFour,  mana, ap);
@@ -351,8 +373,12 @@ public class GUI extends Application
                     guiMap.add(new Label("W"), row, col);
                 else if (map.getTileArray()[row][col].isShopHere())
                     guiMap.add(new Label("S"), row, col);
-                else if (map.getTileArray()[row][col].isEnemyHere())
-                    guiMap.add(new Label("E"), row, col);
+                else if (map.getTileArray()[row][col].isEnemyHere()) {
+                    if (map.getTileArray()[row][col].getEnemy().isDisarmed())
+                        guiMap.add(new Label("F"), row, col);
+                    else
+                        guiMap.add(new Label("E"), row, col);
+                }
                 else if (map.getTileArray()[row][col].isPlayerHere())
                     guiMap.add(new Label("P"), row, col);
                 else if (map.getTileArray()[row][col].isExitHere())
