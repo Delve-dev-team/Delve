@@ -330,8 +330,10 @@ public class GUI extends Application
     //method that generate map
     private void updateGuiMap(Map map)
     {
-        if (!guiMap.getChildren().isEmpty())
-            guiMap.getChildren().clear();
+        guiMap.getChildren().removeIf(node ->
+            getRowIndex(node) > map.getPlayer().getRowPosition() + 10 || getRowIndex(node) < map.getPlayer().getRowPosition() - 10
+                    || getColumnIndex(node) < map.getPlayer().getColPosition() - 10 || getColumnIndex(node) > map.getPlayer().getColPosition() + 10
+        );
 
         guiMap.setHgap(10);
         for (int row = map.guiMapBoundaries().get(0); row < map.guiMapBoundaries().get(2); row ++) {
