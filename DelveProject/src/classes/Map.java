@@ -37,7 +37,7 @@ public class Map {
 			
 			//we'll put between one and three enemies in any given room
 			int enemiesToPlace = (int)(Math.random() * 3) + 1; //between 1 and 3 enemies
-			int shopFactor = (int)(Math.random() * 2 * numRooms);
+			int shopFactor = 1;
 			boolean shouldGenerateShop = false;
 			if (shopFactor == 0) {
 				shouldGenerateShop = true;
