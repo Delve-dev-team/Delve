@@ -7,6 +7,7 @@ import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
@@ -330,11 +331,16 @@ public class GUI extends Application
     //method that generate map
     private void updateGuiMap(Map map)
     {
-        guiMap.getChildren().removeIf(node ->
-            getRowIndex(node) > map.getPlayer().getRowPosition() + 10 || getRowIndex(node) < map.getPlayer().getRowPosition() - 10
-                    || getColumnIndex(node) < map.getPlayer().getColPosition() - 10 || getColumnIndex(node) > map.getPlayer().getColPosition() + 10
-        );
-
+        for (int row = 0; row < map.getTileArray().length; row ++){
+            for (int col = 0; col < map.getTileArray()[0].length; col ++){
+                if (!(row <= map.getPlayer().getRowPosition() + 9 && row >= map.getPlayer().getRowPosition() - 9
+                        && col <= map.getPlayer().getColPosition() + 9 && col >= map.getPlayer().getColPosition() - 9)) {
+                    int finalRow = row;
+                    int finalCol = col;
+                    guiMap.getChildren().removeIf(node -> getColumnIndex(node) == finalRow && getRowIndex(node) == finalCol);
+                }
+            }
+        }
         guiMap.setHgap(10);
         for (int row = map.guiMapBoundaries().get(0); row < map.guiMapBoundaries().get(2); row ++) {
             for (int col = map.guiMapBoundaries().get(1); col < map.guiMapBoundaries().get(3); col++) {
