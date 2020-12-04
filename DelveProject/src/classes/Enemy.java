@@ -22,7 +22,7 @@ public class Enemy {
         MP = 50 * level;
         attackDamage = 50 * level;
         //movementSpeed = 10;
-        attackRange = 10;
+        attackRange = 5;
         //ap = movementSpeed;
         status = "None";
         statusTimer = 0;

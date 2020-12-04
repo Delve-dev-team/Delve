@@ -198,6 +198,8 @@ public class GUI extends Application
                     updateGuiMap(map);
                     updateAvailableTargets(guiMap);
                     player.refreshAp();
+                    player.setHP(player.getHP() + 50 * GameController.getCurrentLevel());
+                    player.setMP(player.getMP() + 50 * GameController.getCurrentLevel());
                     attackButtonDisabled = false;
                     abilityMenu.getChildren().get(ATTACK_INDEX).setDisable(attackButtonDisabled);
                     updateAvailableTargets(guiMap);
