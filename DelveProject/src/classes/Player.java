@@ -87,23 +87,27 @@ public class Player {
    }
 
    public void abilityOne(Enemy enemy){ //Fix this ability
-       if (this.getMP() >= 100) {
-           System.out.println("Enemy:I'm on fire!");
-           this.setMP(this.getMP() - 100);
-           enemy.die(this);
-       }
-       else
-           System.out.println("Out of Mana!");
+        if (enemy  != null) {
+            if (this.getMP() >= 100) {
+                System.out.println("Enemy:I'm on fire!");
+                this.setMP(this.getMP() - 100);
+                enemy.die(this);
+            } else
+                System.out.println("Out of Mana!");
+        }
+
+        System.out.println("No enemey selected");
    }
 
-    public void abilityTwo(Enemy enemy){ //Fix this ability
-        if (this.getMP() >= 100) {
-            System.out.println("Enemy: I'm frozen!");
-            this.setMP(this.getMP() - 100);
-            enemy.setMP(0);
+    public void abilityTwo(Enemy enemy) { //Fix this ability
+        if (enemy != null) {
+            if (this.getMP() >= 100) {
+                System.out.println("Enemy: I'm frozen!");
+                this.setMP(this.getMP() - 100);
+                enemy.setMP(0);
+            } else
+                System.out.println("Out of Mana!");
         }
-        else
-            System.out.println("Out of Mana!");
     }
 
     public void abilityThree(){
