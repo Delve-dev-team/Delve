@@ -86,14 +86,24 @@ public class Player {
        return "error";
    }
 
-   public void abilityOne(){
-        System.out.println("Enemy:I'm on fire!");
-        this.setMP(this.getMP() - 100);
+   public void abilityOne(Enemy enemy){ //Fix this ability
+       if (this.getMP() >= 100) {
+           System.out.println("Enemy:I'm on fire!");
+           this.setMP(this.getMP() - 100);
+           enemy.die(this);
+       }
+       else
+           System.out.println("Out of Mana!");
    }
 
-    public void abilityTwo(){
-        System.out.println("Enemy: I'm frozen!");
-        this.setMP(this.getMP() - 100);
+    public void abilityTwo(Enemy enemy){ //Fix this ability
+        if (this.getMP() >= 100) {
+            System.out.println("Enemy: I'm frozen!");
+            this.setMP(this.getMP() - 100);
+            enemy.setMP(0);
+        }
+        else
+            System.out.println("Out of Mana!");
     }
 
     public void abilityThree(){
@@ -107,8 +117,14 @@ public class Player {
     }
 
     public void abilityFour(){
-        System.out.println("Enemy: Huh?");
-        this.setMP(this.getMP() - 100);
+        if(this.getMP() >= 100) {
+            this.setMP(this.getMP() + 100);
+            this.setHP(this.getHP() - 100);
+            System.out.println("Mana Points restored");
+        }
+        else
+            System.out.println("Out of Mana!");
+
     }
 
 //   public String unequipItem (String slot) {
